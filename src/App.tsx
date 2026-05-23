@@ -22,11 +22,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerHeight, setFooterHeight] = useState(0)
-  const [isMobileDevice, setIsMobileDevice] = useState(false)
-
-  useEffect(() => {
-    setIsMobileDevice(window.innerWidth < 768)
-  }, [])
 
   useEffect(() => {
     if (!footerRef.current) return
