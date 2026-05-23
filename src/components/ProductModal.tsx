@@ -115,7 +115,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
             {/* 3D Floating Plate - Increased size */}
             <motion.div 
               layoutId={`image-${item.id}`} 
-              className="w-64 h-64 lg:w-[26rem] lg:h-[26rem] relative z-20 perspective-[1000px] cursor-grab active:cursor-grabbing"
+              className="w-56 h-56 lg:w-[26rem] lg:h-[26rem] relative z-20 perspective-[1000px] cursor-grab active:cursor-grabbing"
               style={{
                 rotateX: rotateX,
                 rotateY: rotateY,
@@ -137,7 +137,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
                 initial={{ scale: 0, rotate: -45, opacity: 0 }}
                 animate={{ scale: 1, rotate: -15, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.2 }}
-                className="absolute -top-6 -left-1 lg:-top-12 lg:left-2 z-50 bg-gradient-to-br from-orange-400 to-shere-red text-white font-black text-3xl lg:text-5xl px-6 py-2.5 lg:px-9 lg:py-4 rounded-3xl shadow-[0_15px_30px_rgba(230,57,70,0.6)] border-2 border-white/20"
+                className="absolute -top-6 -left-1 lg:-top-12 lg:left-2 z-50 bg-gradient-to-br from-orange-400 to-shere-red text-white font-black text-2xl lg:text-5xl px-5 py-2 lg:px-9 lg:py-4 rounded-3xl shadow-[0_15px_30px_rgba(230,57,70,0.6)] border-2 border-white/20"
                 style={{ z: 100 }}
               >
                 {item.price}
