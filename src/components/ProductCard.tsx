@@ -46,8 +46,7 @@ export function ProductCard({ item, onClick, context = "default" }: ProductCardP
   return (
     <>
       {/* 📱 MOBILE VIEW: Native Horizontal Food Row */}
-      <motion.div
-        layoutId={`card-container-${item.id}-mobile-${context}`}
+      <div
         onClick={() => onClick(item)}
         className="block md:hidden w-full relative cursor-pointer"
       >
@@ -100,7 +99,7 @@ export function ProductCard({ item, onClick, context = "default" }: ProductCardP
             <ArrowRight size={16} strokeWidth={3} />
           </div>
         </div>
-      </motion.div>
+      </div>
 
 
       {/* 🖥️ DESKTOP & TABLET VIEW: Luxury Vertical 3D Card */}
