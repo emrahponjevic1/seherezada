@@ -25,7 +25,7 @@ function App() {
   const [isMobileDevice, setIsMobileDevice] = useState(false)
 
   useEffect(() => {
-    setIsMobileDevice(window.innerWidth < 768)
+    setIsMobileDevice(window.innerWidth < 1024)
   }, [])
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="shere-theme">
       <LanguageProvider>
-        <div className="min-h-screen flex flex-col relative w-full overflow-x-hidden selection:bg-shere-red selection:text-white bg-background">
+        <div className="min-h-screen flex flex-col relative w-full selection:bg-shere-red selection:text-white bg-background">
             
             <AnimatePresence mode="wait">
               {isLoading && (
@@ -61,8 +61,17 @@ function App() {
             {/* Layout Content Wrapper (z-20, covers footer and rounds at bottom on desktop) */}
             <div className="relative z-20 flex flex-col w-full bg-background rounded-b-none lg:rounded-b-[4rem] shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_30px_80px_rgba(0,0,0,0.6)] overflow-hidden">
               
-              {/* Global Animated Background Pattern - not rendered on mobile for GPU perf */}
-              {!isMobileDevice && (
+              {/* Global Background: Animated SVG on Desktop / Super-lightweight static repeating image on Mobile */}
+              {isMobileDevice ? (
+                <div 
+                  className="absolute inset-0 z-0 pointer-events-none opacity-10 invert dark:invert-0"
+                  style={{ 
+                    backgroundImage: "url('/fast_food_pattern.png')", 
+                    backgroundRepeat: "repeat",
+                    backgroundSize: "180px 180px"
+                  }}
+                ></div>
+              ) : (
                 <div className="absolute inset-0 z-0 pointer-events-none">
                   <BackgroundPattern />
                 </div>
@@ -81,7 +90,7 @@ function App() {
                 <Reviews />
                 
                 {/* Inline Footer for Mobile/Tablet (Standard scrolling) */}
-                <div className="block lg:hidden w-full">
+                <div className="block lg:hidden w-full pb-5">
                   <Footer />
                 </div>
               </main>

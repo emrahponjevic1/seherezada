@@ -58,6 +58,7 @@ export function Navbar() {
     } else {
       document.body.style.overflow = "unset"
     }
+    window.dispatchEvent(new CustomEvent('mobileNavToggle', { detail: { isOpen: isMobileOpen } }))
     return () => {
       document.body.style.overflow = "unset"
     }

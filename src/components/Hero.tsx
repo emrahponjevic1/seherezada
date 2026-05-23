@@ -9,7 +9,7 @@ export function Hero() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768)
+    setIsMobile(window.innerWidth < 1024)
   }, [])
 
   // Motion values for 3D mouse tilt
@@ -222,48 +222,40 @@ export function Hero() {
             
             {/* 1. Ljubljana #1 [BEHIND -> IN FRONT -> BEHIND] */}
             <motion.div 
-              {...(isMobile ? {} : {
-                style: { transformStyle: "preserve-3d" },
-                animate: { y: [0, 6, 0], z: [-20, 120, -20], scale: [0.95, 1.05, 0.95], filter: ["blur(1px)", "blur(0px)", "blur(1px)"], zIndex: [5, 100, 5] },
-                transition: { repeat: Infinity, duration: 6, ease: "easeInOut" }
-              })}
-              className={`absolute -top-10 left-[20%] sm:left-[25%] ${isMobile ? 'bg-black/40 animate-float-slow' : 'bg-white/10 backdrop-blur-md'} px-4 py-2 rounded-2xl border border-white/10 text-white/80 flex items-center gap-2 shadow-md`}
+              animate={isMobile ? { opacity: [0.35, 1, 0.35], rotate: [-5, 5, -5], y: [0, -15, 0] } : { y: [0, 6, 0], z: [-20, 120, -20], scale: [0.95, 1.05, 0.95], filter: ["blur(1px)", "blur(0px)", "blur(1px)"], zIndex: [5, 100, 5] }}
+              style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+              transition={isMobile ? { repeat: Infinity, duration: 2.0, delay: 0.1, ease: "easeInOut" } : { repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              className={`absolute z-20 -top-10 left-[20%] sm:left-[25%] ${isMobile ? 'bg-black/40' : 'bg-white/10 backdrop-blur-md'} px-4 py-2 rounded-2xl border border-white/10 text-white/80 flex items-center gap-2 shadow-md`}
             >
               <span className="text-xs sm:text-sm font-black tracking-wide">🏆 {t("Ljubljana #1", "Ljubljana #1")}</span>
             </motion.div>
 
             {/* 2. Premium Quality [BEHIND -> IN FRONT -> BEHIND] */}
             <motion.div 
-              {...(isMobile ? {} : {
-                style: { transformStyle: "preserve-3d" },
-                animate: { y: [0, 8, 0], rotate: [0, -5, 0], z: [-60, 110, -60], scale: [0.9, 1.05, 0.9], filter: ["blur(2px)", "blur(0px)", "blur(2px)"], zIndex: [2, 100, 2] },
-                transition: { repeat: Infinity, duration: 7.5, ease: "easeInOut", delay: 0.3 }
-              })}
-              className={`absolute -top-8 right-[10%] sm:right-[15%] ${isMobile ? 'bg-black/40 animate-float-slow' : 'bg-white/10 backdrop-blur-md'} px-3 sm:px-4 py-2 rounded-2xl border border-white/5 text-white/55 flex items-center gap-1.5 shadow-md`}
+              animate={isMobile ? { opacity: [0.35, 1, 0.35], rotate: [6, -6, 6], y: [-10, 5, -10] } : { y: [0, 8, 0], rotate: [0, -5, 0], z: [-60, 110, -60], scale: [0.9, 1.05, 0.9], filter: ["blur(2px)", "blur(0px)", "blur(2px)"], zIndex: [2, 100, 2] }}
+              style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+              transition={isMobile ? { repeat: Infinity, duration: 2.5, delay: 0.5, ease: "easeInOut" } : { repeat: Infinity, duration: 7.5, ease: "easeInOut", delay: 0.3 }}
+              className={`absolute z-20 -top-8 right-[10%] sm:right-[15%] ${isMobile ? 'bg-black/40' : 'bg-white/10 backdrop-blur-md'} px-3 sm:px-4 py-2 rounded-2xl border border-white/5 text-white/55 flex items-center gap-1.5 shadow-md`}
             >
               <span className="text-xs sm:text-sm font-black tracking-wide">👑 {t("Premium", "Premium")}</span>
             </motion.div>
 
             {/* 3. Homemade Bread [BEHIND -> IN FRONT -> BEHIND] */}
             <motion.div 
-              {...(isMobile ? {} : {
-                style: { transformStyle: "preserve-3d" },
-                animate: { y: [0, -10, 0], x: [0, 5, 0], z: [-40, 130, -40], scale: [0.93, 1.06, 0.93], filter: ["blur(1.5px)", "blur(0px)", "blur(1.5px)"], zIndex: [5, 100, 5] },
-                transition: { repeat: Infinity, duration: 6.8, ease: "easeInOut", delay: 0.7 }
-              })}
-              className={`absolute bottom-1/4 -left-12 sm:-left-16 ${isMobile ? 'bg-black/40 animate-float-slow' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/70 flex items-center gap-2 shadow-lg`}
+              animate={isMobile ? { opacity: [0.35, 1, 0.35], rotate: [-5.5, 5.5, -5.5], y: [5, -12, 5] } : { y: [0, -10, 0], x: [0, 5, 0], z: [-40, 130, -40], scale: [0.93, 1.06, 0.93], filter: ["blur(1.5px)", "blur(0px)", "blur(1.5px)"], zIndex: [5, 100, 5] }}
+              style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+              transition={isMobile ? { repeat: Infinity, duration: 2.2, delay: 0.2, ease: "easeInOut" } : { repeat: Infinity, duration: 6.8, ease: "easeInOut", delay: 0.7 }}
+              className={`absolute z-20 bottom-1/4 -left-12 sm:-left-16 ${isMobile ? 'bg-black/40' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/70 flex items-center gap-2 shadow-lg`}
             >
               <span className="text-xs sm:text-sm font-black tracking-wide">🥖 {t("Domač Kruh", "Homemade Bread")}</span>
             </motion.div>
 
             {/* 4. 100% Spicy [IN FRONT -> BEHIND -> IN FRONT] */}
             <motion.div 
-              {...(isMobile ? {} : {
-                style: { transformStyle: "preserve-3d" },
-                animate: { y: [0, 8, 0], rotate: [0, -10, 0], z: [100, -30, 100], scale: [1.05, 0.93, 1.05], filter: ["blur(0px)", "blur(1.5px)", "blur(0px)"], zIndex: [100, 5, 100] },
-                transition: { repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }
-              })}
-              className={`absolute top-4 -left-4 sm:-left-8 ${isMobile ? 'bg-black/40 animate-float-slow' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
+              animate={isMobile ? { opacity: [0.35, 1, 0.35], rotate: [5, -5, 5], y: [-8, 8, -8] } : { y: [0, 8, 0], rotate: [0, -10, 0], z: [100, -30, 100], scale: [1.05, 0.93, 1.05], filter: ["blur(0px)", "blur(1.5px)", "blur(0px)"], zIndex: [100, 5, 100] }}
+              style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+              transition={isMobile ? { repeat: Infinity, duration: 2.8, delay: 0.8, ease: "easeInOut" } : { repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }}
+              className={`absolute z-20 top-4 -left-4 sm:-left-8 ${isMobile ? 'bg-black/40' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
             >
               <Flame size={20} className="text-shere-red fill-current drop-shadow-[0_0_10px_rgba(230,57,70,1)]" />
               <span className="text-sm font-black tracking-wide">{t("100% Pikantno", "100% Spicy")}</span>
@@ -271,12 +263,10 @@ export function Hero() {
 
             {/* 5. Halal Meat [IN FRONT -> BEHIND -> IN FRONT] */}
             <motion.div 
-              {...(isMobile ? {} : {
-                style: { transformStyle: "preserve-3d" },
-                animate: { y: [0, -8, 0], rotate: [0, 10, 0], z: [120, -50, 120], scale: [1.07, 0.9, 1.07], filter: ["blur(0px)", "blur(2px)", "blur(0px)"], zIndex: [100, 2, 100] },
-                transition: { repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1.0 }
-              })}
-              className={`absolute bottom-4 -right-4 sm:-right-8 ${isMobile ? 'bg-black/40 animate-float-slow' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
+              animate={isMobile ? { opacity: [0.35, 1, 0.35], rotate: [5, -5, 5], y: [0, -10, 0] } : { y: [0, -8, 0], rotate: [0, 10, 0], z: [120, -50, 120], scale: [1.07, 0.9, 1.07], filter: ["blur(0px)", "blur(2px)", "blur(0px)"], zIndex: [100, 2, 100] }}
+              style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+              transition={isMobile ? { repeat: Infinity, duration: 2.4, delay: 0.3, ease: "easeInOut" } : { repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1.0 }}
+              className={`absolute z-20 bottom-4 -right-4 sm:-right-8 ${isMobile ? 'bg-black/40' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
             >
               <Star size={20} className="text-shere-gold fill-current drop-shadow-[0_0_10px_rgba(251,191,36,1)]" />
               <span className="text-sm font-black tracking-wide">{t("Halal Meso", "Halal Meat")}</span>
@@ -284,24 +274,20 @@ export function Hero() {
 
             {/* 6. 100% Fresh [IN FRONT -> BEHIND -> IN FRONT] */}
             <motion.div 
-              {...(isMobile ? {} : {
-                style: { transformStyle: "preserve-3d" },
-                animate: { x: [0, 6, 0], y: [0, -6, 0], z: [110, -40, 110], scale: [1.06, 0.92, 1.06], filter: ["blur(0px)", "blur(1.8px)", "blur(0px)"], zIndex: [100, 5, 100] },
-                transition: { repeat: Infinity, duration: 6.2, ease: "easeInOut", delay: 1.5 }
-              })}
-              className={`absolute top-1/3 -right-8 sm:-right-12 ${isMobile ? 'bg-black/40 animate-float-slow' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
+              animate={isMobile ? { opacity: [0.35, 1, 0.35], rotate: [5, -5, 5], y: [-15, 0, -15] } : { x: [0, 6, 0], y: [0, -6, 0], z: [110, -40, 110], scale: [1.06, 0.92, 1.06], filter: ["blur(0px)", "blur(1.8px)", "blur(0px)"], zIndex: [100, 5, 100] }}
+              style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+              transition={isMobile ? { repeat: Infinity, duration: 2.6, delay: 0.9, ease: "easeInOut" } : { repeat: Infinity, duration: 6.2, ease: "easeInOut", delay: 1.5 }}
+              className={`absolute z-20 top-1/3 -right-8 sm:-right-12 ${isMobile ? 'bg-black/40' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
             >
               <span className="text-sm font-black tracking-wide drop-shadow-md">🌯 {t("100% Sveže", "100% Fresh")}</span>
             </motion.div>
 
             {/* 7. Fast Delivery [IN FRONT -> BEHIND -> IN FRONT] */}
             <motion.div 
-              {...(isMobile ? {} : {
-                style: { transformStyle: "preserve-3d" },
-                animate: { y: [0, -12, 0], rotate: [0, 5, 0], z: [130, -20, 130], scale: [1.08, 0.95, 1.08], filter: ["blur(0px)", "blur(1.2px)", "blur(0px)"], zIndex: [100, 5, 100] },
-                transition: { repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 0.2 }
-              })}
-              className={`absolute -bottom-5 left-[10%] sm:left-[15%] ${isMobile ? 'bg-black/40 animate-float-slow' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
+              animate={isMobile ? { opacity: [0.35, 1, 0.35], rotate: [5, -5, 5], y: [8, -8, 8] } : { y: [0, -12, 0], rotate: [0, 5, 0], z: [130, -20, 130], scale: [1.08, 0.95, 1.08], filter: ["blur(0px)", "blur(1.2px)", "blur(0px)"], zIndex: [100, 5, 100] }}
+              style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+              transition={isMobile ? { repeat: Infinity, duration: 2.1, delay: 0.6, ease: "easeInOut" } : { repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 0.2 }}
+              className={`absolute z-20 -bottom-5 left-[10%] sm:left-[15%] ${isMobile ? 'bg-black/40' : 'bg-white/10 backdrop-blur-md'} px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg`}
             >
               <span className="text-xs sm:text-sm font-black tracking-wide">⚡ {t("Hitra Dostava", "Fast Delivery")}</span>
             </motion.div>

@@ -21,6 +21,16 @@ export function MobileCTA() {
   const { t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [isHeroActionsVisible, setIsHeroActionsVisible] = useState(true)
+  const [isNavOpen, setIsNavOpen] = useState(false)
+
+  useEffect(() => {
+    const handleNavToggle = (e: Event) => {
+      const customEvent = e as CustomEvent
+      setIsNavOpen(customEvent.detail.isOpen)
+    }
+    window.addEventListener('mobileNavToggle', handleNavToggle)
+    return () => window.removeEventListener('mobileNavToggle', handleNavToggle)
+  }, [])
 
   useEffect(() => {
     // Small delay to ensure Hero actions are rendered in DOM
@@ -67,8 +77,8 @@ export function MobileCTA() {
   return (
     <>
       <AnimatePresence>
-        {!isHeroActionsVisible && (
-          <div className="md:hidden fixed top-[100dvh] left-0 w-full z-40 -translate-y-full pointer-events-none">
+        {!isHeroActionsVisible && !isNavOpen && (
+          <div className="md:hidden fixed bottom-0 left-0 w-full z-40 pointer-events-none">
             <motion.div 
               key="mobile-cta-bar"
               initial={{ opacity: 0, y: 50 }}
