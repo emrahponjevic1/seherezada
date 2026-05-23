@@ -22,6 +22,11 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerHeight, setFooterHeight] = useState(0)
+  const [isMobileDevice, setIsMobileDevice] = useState(false)
+
+  useEffect(() => {
+    setIsMobileDevice(window.innerWidth < 768)
+  }, [])
 
   useEffect(() => {
     if (!footerRef.current) return
@@ -56,10 +61,12 @@ function App() {
             {/* Layout Content Wrapper (z-20, covers footer and rounds at bottom on desktop) */}
             <div className="relative z-20 flex flex-col w-full bg-background rounded-b-none lg:rounded-b-[4rem] shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_30px_80px_rgba(0,0,0,0.6)] overflow-hidden">
               
-              {/* Global Animated Background Pattern */}
-              <div className="absolute inset-0 z-0 pointer-events-none">
-                <BackgroundPattern />
-              </div>
+              {/* Global Animated Background Pattern - not rendered on mobile for GPU perf */}
+              {!isMobileDevice && (
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                  <BackgroundPattern />
+                </div>
+              )}
               
               {/* Global Noise Overlay - disabled mix-blend on mobile for GPU perf, kept on desktop */}
               <div className="absolute inset-0 z-0 pointer-events-none bg-noise opacity-[0.03] lg:mix-blend-overlay lg:opacity-50"></div>
