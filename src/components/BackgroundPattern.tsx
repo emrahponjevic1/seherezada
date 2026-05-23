@@ -17,6 +17,7 @@ interface FloatingIcon {
 
 export function BackgroundPattern() {
   const [elements, setElements] = useState<FloatingIcon[]>([])
+  const [isMobile, setIsMobile] = useState(false)
   const { scrollY } = useScroll()
   const ySpring = useSpring(scrollY, { stiffness: 100, damping: 30, restDelta: 0.001 })
   const yOffset = useTransform(ySpring, [0, 2000], [0, -400])
@@ -26,10 +27,11 @@ export function BackgroundPattern() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768
+    const mobileCheck = window.innerWidth < 768
+    setIsMobile(mobileCheck)
     // Generate evenly distributed icons using a Jittered Grid
-    const cols = isMobile ? 4 : 8
-    const rows = isMobile ? 6 : 12
+    const cols = mobileCheck ? 4 : 8
+    const rows = mobileCheck ? 6 : 12
     const newElements: FloatingIcon[] = []
     let idCounter = 0
 
@@ -88,16 +90,18 @@ export function BackgroundPattern() {
                 scale: el.scale,
                 rotate: el.rotation,
               }}
-              animate={{
-                x: mousePosition.x * el.speed,
-                y: mousePosition.y * el.speed,
-                rotate: el.rotation + (mousePosition.x * 0.1),
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 50,
-                damping: 20,
-              }}
+              {...(isMobile ? {} : {
+                animate: {
+                  x: mousePosition.x * el.speed,
+                  y: mousePosition.y * el.speed,
+                  rotate: el.rotation + (mousePosition.x * 0.1),
+                },
+                transition: {
+                  type: "spring",
+                  stiffness: 50,
+                  damping: 20,
+                }
+              })}
             >
               <Icon size={48} strokeWidth={1} />
             </motion.div>

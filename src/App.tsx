@@ -61,8 +61,8 @@ function App() {
                 <BackgroundPattern />
               </div>
               
-              {/* Global Noise Overlay */}
-              <div className="absolute inset-0 z-0 pointer-events-none bg-noise mix-blend-overlay opacity-50"></div>
+              {/* Global Noise Overlay - disabled mix-blend on mobile for GPU perf, kept on desktop */}
+              <div className="absolute inset-0 z-0 pointer-events-none bg-noise opacity-[0.03] lg:mix-blend-overlay lg:opacity-50"></div>
 
               <Navbar />
               

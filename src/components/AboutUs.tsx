@@ -50,6 +50,7 @@ export function AboutUs() {
         trigger: containerRef.current,
         start: "top 85%",
         toggleActions: "play none none none",
+        once: true,
       }
     })
   }, { scope: containerRef })

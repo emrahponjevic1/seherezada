@@ -51,7 +51,7 @@ export function ProductCard({ item, onClick, context = "default" }: ProductCardP
         onClick={() => onClick(item)}
         className="block md:hidden w-full relative cursor-pointer"
       >
-        <div className="flex items-center gap-4 bg-card/30 dark:bg-zinc-900/40 border border-white/5 dark:border-white/10 p-4 rounded-[2.2rem] backdrop-blur-md hover:border-shere-red/30 transition-all active:scale-[0.98] duration-300">
+        <div className="flex items-center gap-4 bg-card dark:bg-zinc-900 border border-white/5 dark:border-white/10 p-4 rounded-[2.2rem] hover:border-shere-red/30 transition-all active:scale-[0.98] duration-300 shadow-md">
           
           {/* Left: Food Image squircle */}
           <div className="w-24 h-24 rounded-[1.75rem] overflow-hidden shrink-0 border border-white/10 bg-zinc-800 flex items-center justify-center relative shadow-lg">
