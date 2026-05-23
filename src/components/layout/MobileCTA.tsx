@@ -68,31 +68,33 @@ export function MobileCTA() {
     <>
       <AnimatePresence>
         {!isHeroActionsVisible && (
-          <motion.div 
-            key="mobile-cta-bar"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="md:hidden fixed bottom-0 left-0 w-full z-40 pb-4 px-4 bg-gradient-to-t from-background via-background/90 to-transparent pt-12 pointer-events-none"
-          >
-            <div className="flex gap-4 pointer-events-auto">
-              <a 
-                href="tel:+38669444812"
-                className="flex-1 bg-zinc-900 dark:bg-zinc-800 text-white py-4 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-lg border border-white/5 active:scale-95 transition-transform"
-              >
-                <Phone size={20} />
-                {t("Pokliči", "Call")}
-              </a>
-              <button 
-                onClick={() => setIsOpen(true)}
-                className="flex-1 bg-shere-red text-white py-4 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-[0_10px_20px_-10px_rgba(230,57,70,0.6)] active:scale-95 transition-transform"
-              >
-                <UtensilsCrossed size={20} />
-                {t("Meni", "Menu")}
-              </button>
-            </div>
-          </motion.div>
+          <div className="md:hidden fixed top-[100dvh] left-0 w-full z-40 -translate-y-full pointer-events-none">
+            <motion.div 
+              key="mobile-cta-bar"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="w-full pb-[calc(1rem+env(safe-area-inset-bottom))] px-4 bg-gradient-to-t from-background via-background/90 to-transparent pt-12"
+            >
+              <div className="flex gap-4 pointer-events-auto">
+                <a 
+                  href="tel:+38669444812"
+                  className="flex-1 bg-zinc-900 dark:bg-zinc-800 text-white py-4 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-lg border border-white/5 active:scale-95 transition-transform"
+                >
+                  <Phone size={20} />
+                  {t("Pokliči", "Call")}
+                </a>
+                <button 
+                  onClick={() => setIsOpen(true)}
+                  className="flex-1 bg-shere-red text-white py-4 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-[0_10px_20px_-10px_rgba(230,57,70,0.6)] active:scale-95 transition-transform"
+                >
+                  <UtensilsCrossed size={20} />
+                  {t("Meni", "Menu")}
+                </button>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 

@@ -277,7 +277,7 @@ export function Hero() {
                 zIndex: [100, 5, 100]
               }}
               transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }}
-              className="absolute top-4 -left-4 sm:-left-8 bg-white/10 backdrop-blur-md px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/30 text-white flex items-center gap-2 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)]"
+              className="absolute top-4 -left-4 sm:-left-8 bg-white/10 backdrop-blur-md px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg"
             >
               <Flame size={20} className="text-shere-red fill-current drop-shadow-[0_0_10px_rgba(230,57,70,1)]" />
               <span className="text-sm font-black tracking-wide">{t("100% Pikantno", "100% Spicy")}</span>
@@ -295,7 +295,7 @@ export function Hero() {
                 zIndex: [100, 2, 100]
               }}
               transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1.0 }}
-              className="absolute bottom-4 -right-4 sm:-right-8 bg-white/10 backdrop-blur-md px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/30 text-white flex items-center gap-2 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)]"
+              className="absolute bottom-4 -right-4 sm:-right-8 bg-white/10 backdrop-blur-md px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg"
             >
               <Star size={20} className="text-shere-gold fill-current drop-shadow-[0_0_10px_rgba(251,191,36,1)]" />
               <span className="text-sm font-black tracking-wide">{t("Halal Meso", "Halal Meat")}</span>
@@ -313,7 +313,7 @@ export function Hero() {
                 zIndex: [100, 5, 100]
               }}
               transition={{ repeat: Infinity, duration: 6.2, ease: "easeInOut", delay: 1.5 }}
-              className="absolute top-1/3 -right-8 sm:-right-12 bg-white/10 backdrop-blur-md px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/30 text-white flex items-center gap-2 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)]"
+              className="absolute top-1/3 -right-8 sm:-right-12 bg-white/10 backdrop-blur-md px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg"
             >
               <span className="text-sm font-black tracking-wide drop-shadow-md">🌯 {t("100% Sveže", "100% Fresh")}</span>
             </motion.div>
@@ -330,7 +330,7 @@ export function Hero() {
                 zIndex: [100, 5, 100]
               }}
               transition={{ repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 0.2 }}
-              className="absolute -bottom-5 left-[10%] sm:left-[15%] bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/30 text-white flex items-center gap-2 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]"
+              className="absolute -bottom-5 left-[10%] sm:left-[15%] bg-white/10 backdrop-blur-md px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-white/10 text-white/90 flex items-center gap-2 shadow-lg"
             >
               <span className="text-xs sm:text-sm font-black tracking-wide">⚡ {t("Hitra Dostava", "Fast Delivery")}</span>
             </motion.div>
