@@ -98,7 +98,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
 
           {/* 🖼️ Left Side: Immersive Image & Ambient Glow */}
           <div 
-            className="w-full flex-shrink-0 lg:h-auto lg:w-1/2 relative flex items-center justify-center pt-20 pb-6 px-6 lg:p-8 bg-zinc-950 overflow-visible lg:overflow-hidden"
+            className="w-full flex-shrink-0 lg:h-auto lg:w-1/2 relative flex items-center justify-center py-12 px-6 lg:p-8 bg-zinc-950 overflow-visible lg:overflow-hidden"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
