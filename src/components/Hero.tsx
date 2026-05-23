@@ -75,7 +75,7 @@ export function Hero() {
         <img 
           src="/rotisserie_hero.png" 
           alt="Šeherezada Kebab Grill Background"
-          className={`w-full h-full object-cover ${isMobile ? 'opacity-20' : 'opacity-35 mix-blend-luminosity animate-pulse-subtle blur-[3px]'}`}
+          className={`w-full h-full object-cover ${isMobile ? 'opacity-20 grayscale' : 'opacity-35 mix-blend-luminosity animate-pulse-subtle blur-[3px]'}`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/25 to-transparent"></div>
         <div className="absolute inset-0 bg-shere-charcoal/20 mix-blend-multiply hidden md:block"></div>
