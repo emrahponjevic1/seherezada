@@ -72,7 +72,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-6 lg:p-12 perspective-[2000px]">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 lg:p-12 perspective-[2000px]">
         
         {/* Backdrop */}
         <motion.div
@@ -83,22 +83,22 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
           className="absolute inset-0 bg-black/80 backdrop-blur-md"
         />
 
-        {/* Modal Main Container (100% width and height on mobile) */}
+        {/* Modal Main Container (100% width and height on mobile/tablet) */}
         <motion.div
           layoutId={`card-container-${item.id}`}
-          className="relative w-full h-full md:h-auto md:max-h-[90vh] md:max-w-5xl rounded-none md:rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-2xl z-10 bg-background/40 border border-white/5"
+          className="relative w-full h-full lg:h-auto lg:max-h-[90vh] lg:max-w-5xl rounded-none lg:rounded-[3rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl z-10 bg-background/40 border border-white/5"
         >
           {/* Mobile Close Button (Massive X) - Moved to right */}
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 z-50 p-3 bg-black/40 backdrop-blur-xl text-white rounded-full md:bg-white/10 md:text-white md:hover:bg-red-500 transition-all hover:scale-110 active:scale-95 border border-white/10"
+            className="absolute top-4 right-4 z-50 p-3 bg-black/40 backdrop-blur-xl text-white rounded-full lg:bg-white/10 lg:text-white lg:hover:bg-red-500 transition-all hover:scale-110 active:scale-95 border border-white/10"
           >
             <X size={24} strokeWidth={3} />
           </button>
 
           {/* 🖼️ Left Side: Immersive Image & Ambient Glow */}
           <div 
-            className="w-full flex-shrink-0 md:h-auto md:w-1/2 relative flex items-center justify-center pt-20 pb-6 px-6 md:p-8 bg-zinc-950 overflow-visible md:overflow-hidden"
+            className="w-full flex-shrink-0 lg:h-auto lg:w-1/2 relative flex items-center justify-center pt-20 pb-6 px-6 lg:p-8 bg-zinc-950 overflow-visible lg:overflow-hidden"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
@@ -109,13 +109,13 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
                 alt=""
                 className="w-full h-full object-cover blur-[80px] opacity-60 scale-150 saturate-200"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background/95 md:bg-gradient-to-r md:from-transparent md:to-background/95 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background/95 lg:bg-gradient-to-r lg:from-transparent lg:to-background/95 z-10"></div>
             </div>
 
             {/* 3D Floating Plate - Increased size */}
             <motion.div 
               layoutId={`image-${item.id}`} 
-              className="w-80 h-80 md:w-[26rem] md:h-[26rem] relative z-20 perspective-[1000px] cursor-grab active:cursor-grabbing"
+              className="w-80 h-80 lg:w-[26rem] lg:h-[26rem] relative z-20 perspective-[1000px] cursor-grab active:cursor-grabbing"
               style={{
                 rotateX: rotateX,
                 rotateY: rotateY,
@@ -137,7 +137,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
                 initial={{ scale: 0, rotate: -45, opacity: 0 }}
                 animate={{ scale: 1, rotate: -15, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.2 }}
-                className="absolute -top-6 -left-6 md:-top-12 md:-left-12 z-50 bg-gradient-to-br from-orange-400 to-shere-red text-white font-black text-4xl md:text-5xl px-9 py-4 rounded-3xl shadow-[0_15px_30px_rgba(230,57,70,0.6)] border-2 border-white/20"
+                className="absolute -top-6 -left-1 lg:-top-12 lg:left-2 z-50 bg-gradient-to-br from-orange-400 to-shere-red text-white font-black text-4xl lg:text-5xl px-9 py-4 rounded-3xl shadow-[0_15px_30px_rgba(230,57,70,0.6)] border-2 border-white/20"
                 style={{ z: 100 }}
               >
                 {item.price}
@@ -148,17 +148,17 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
           </div>
 
           {/* ✨ Right Side: Details & Actions (No Overlap) */}
-          <div className="flex-1 flex flex-col p-6 md:p-12 overflow-y-auto hide-scrollbar bg-background/95 md:bg-background/80 backdrop-blur-2xl relative z-20 mt-0 shadow-none border-t border-white/5">
+          <div className="flex-1 flex flex-col p-6 lg:p-12 overflow-y-auto hide-scrollbar bg-background/95 lg:bg-background/80 backdrop-blur-2xl relative z-20 mt-0 shadow-none border-t border-white/5">
             
             <motion.div 
               variants={staggerContainer}
               initial="hidden"
               animate="show"
-              className="flex-1 flex flex-col max-w-lg mx-auto md:mx-0 w-full"
+              className="flex-1 flex flex-col max-w-lg mx-auto lg:mx-0 w-full"
             >
               {/* Header */}
-              <motion.div variants={staggerItem} className="mb-6 pt-2 md:pt-0">
-                <motion.h2 layoutId={`title-${item.id}`} className="text-4xl md:text-5xl font-black font-poppins mb-4 tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+              <motion.div variants={staggerItem} className="mb-6 pt-2 lg:pt-0">
+                <motion.h2 layoutId={`title-${item.id}`} className="text-4xl lg:text-5xl font-black font-poppins mb-4 tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
                   {t(item.title.sl, item.title.en)}
                 </motion.h2>
                 
@@ -183,14 +183,14 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
               </motion.div>
               
               {/* Description */}
-              <motion.div variants={staggerItem} className="mb-8 bg-muted/30 p-4 md:p-5 rounded-2xl border border-white/5">
+              <motion.div variants={staggerItem} className="mb-8 bg-muted/30 p-4 lg:p-5 rounded-2xl border border-white/5">
                 <div className="flex items-center gap-2 mb-2">
                   <Info size={16} className="text-shere-red" />
                   <h4 className="font-bold uppercase tracking-widest text-xs text-muted-foreground">
                     {t("Opis Jed", "Dish Description")}
                   </h4>
                 </div>
-                <p className="text-lg md:text-xl leading-relaxed text-foreground/90 font-medium">
+                <p className="text-lg lg:text-xl leading-relaxed text-foreground/90 font-medium">
                   {t(item.desc.sl, item.desc.en)}
                 </p>
               </motion.div>
@@ -235,7 +235,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
               <motion.div variants={staggerItem} className="pt-6 mt-4">
                 <a 
                   href="tel:+38669444812"
-                  className="group relative overflow-hidden w-full bg-gradient-to-r from-shere-red to-orange-500 text-white py-4 md:py-5 rounded-2xl font-black text-lg md:text-xl shadow-[0_15px_30px_-5px_rgba(230,57,70,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 border border-shere-red/50"
+                  className="group relative overflow-hidden w-full bg-gradient-to-r from-shere-red to-orange-500 text-white py-4 lg:py-5 rounded-2xl font-black text-lg lg:text-xl shadow-[0_15px_30px_-5px_rgba(230,57,70,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 border border-shere-red/50"
                 >
                   {/* Continuous Shine Effect via Framer Motion */}
                   <motion.div
@@ -257,7 +257,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
                       href="https://wolt.com/sl/svn/ljubljana/restaurant/eherezada" 
                       target="_blank" 
                       rel="noreferrer"
-                      className="text-sm font-black bg-secondary/50 hover:bg-secondary border border-border px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-foreground/80 hover:text-foreground w-full md:w-auto"
+                      className="text-sm font-black bg-secondary/50 hover:bg-secondary border border-border px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-foreground/80 hover:text-foreground w-full lg:w-auto"
                     >
                       Wolt
                     </a>
@@ -265,7 +265,7 @@ export function ProductModal({ item, onClose }: ProductModalProps) {
                       href="https://glovoapp.com/si/sl/ljubljana/seherezada/" 
                       target="_blank" 
                       rel="noreferrer"
-                      className="text-sm font-black bg-secondary/50 hover:bg-secondary border border-border px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-foreground/80 hover:text-foreground w-full md:w-auto"
+                      className="text-sm font-black bg-secondary/50 hover:bg-secondary border border-border px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-foreground/80 hover:text-foreground w-full lg:w-auto"
                     >
                       Glovo
                     </a>
