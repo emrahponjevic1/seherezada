@@ -26,9 +26,10 @@ export function BackgroundPattern() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768
     // Generate evenly distributed icons using a Jittered Grid
-    const cols = 8
-    const rows = 12
+    const cols = isMobile ? 4 : 8
+    const rows = isMobile ? 6 : 12
     const newElements: FloatingIcon[] = []
     let idCounter = 0
 

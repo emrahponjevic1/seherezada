@@ -39,17 +39,17 @@ export function AboutUs() {
       }
     )
 
-    // 3. Staggered Reveal directly tied to scroll (scrubbed)
+    // 3. Staggered Reveal that plays once smoothly
     gsap.from(".reveal-item", {
-      y: 100,
+      y: 40,
       opacity: 0,
-      stagger: 0.1,
+      stagger: 0.15,
+      duration: 0.8,
       ease: "power2.out",
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top 85%", // starts animating when top of section is at 85% of viewport
-        end: "center 55%", // finishes when section is in the middle
-        scrub: 1,
+        start: "top 85%",
+        toggleActions: "play none none none",
       }
     })
   }, { scope: containerRef })

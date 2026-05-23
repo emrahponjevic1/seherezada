@@ -44,18 +44,31 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
       }
     }
 
-    // Preload heavy hero image
-    const img = new Image()
-    img.src = "/rotisserie_hero.png"
-    img.onload = () => {
-      isImageLoaded = true
-      checkCompletion()
+    // Preload heavy hero image and all category images
+    const imagesToPreload = [
+      "/rotisserie_hero.png",
+      "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&q=80",
+      "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80",
+      "https://images.unsplash.com/photo-1593010950930-741fb981f26a?w=800&q=80"
+    ]
+    let loadedCount = 0
+    const totalImages = imagesToPreload.length
+
+    const onImageLoadedOrFailed = () => {
+      loadedCount++
+      if (loadedCount === totalImages) {
+        isImageLoaded = true
+        checkCompletion()
+      }
     }
-    img.onerror = () => {
-      // If it fails, we still want to let them in eventually
-      isImageLoaded = true 
-      checkCompletion()
-    }
+
+    imagesToPreload.forEach(src => {
+      const img = new Image()
+      img.src = src
+      img.onload = onImageLoadedOrFailed
+      img.onerror = onImageLoadedOrFailed
+    })
 
     // Minimum time timer
     const minTimer = setTimeout(() => {

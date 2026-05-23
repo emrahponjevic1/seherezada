@@ -59,7 +59,7 @@ export function ProductCard({ item, onClick, context = "default" }: ProductCardP
               src={item.img} 
               alt={t(item.title.sl, item.title.en)}
               className="w-full h-full object-cover"
-              loading="lazy"
+              loading="eager"
             />
             {item.popular && (
               <div className="absolute top-1 left-1 bg-shere-red text-[8px] font-black uppercase text-white px-2 py-0.5 rounded-lg shadow-md">
@@ -206,7 +206,7 @@ export function ProductCard({ item, onClick, context = "default" }: ProductCardP
                 alt={t(item.title.sl, item.title.en)}
                 className={`w-full h-full object-cover rounded-full border-[6px] transition-all duration-500
                   ${isHovered ? "border-shere-red shadow-[0_0_30px_rgba(230,57,70,0.4)]" : "border-background"}`}
-                loading="lazy"
+                loading="eager"
               />
             
             {/* Glossy shine overlay on hover */}
