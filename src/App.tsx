@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { ThemeProvider } from "./providers/ThemeProvider"
 import { LanguageProvider } from "./providers/LanguageProvider"
-import { AnimatePresence } from "framer-motion"
+
 
 import { BackgroundPattern } from "./components/BackgroundPattern"
 import { Navbar } from "./components/layout/Navbar"
@@ -12,14 +12,14 @@ import { Menu } from "./components/Menu"
 import { Reviews } from "./components/Reviews"
 import { Footer } from "./components/layout/Footer"
 import { MobileCTA } from "./components/layout/MobileCTA"
-import { SplashScreen } from "./components/SplashScreen"
+
 
 import { ProductModal } from "./components/ProductModal"
 import type { MenuItem } from "./data"
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState<MenuItem | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+
   const footerRef = useRef<HTMLDivElement>(null)
   const [footerHeight, setFooterHeight] = useState(0)
   const [isMobileDevice, setIsMobileDevice] = useState(false)
@@ -44,11 +44,7 @@ function App() {
       <LanguageProvider>
         <div className="min-h-screen flex flex-col relative w-full selection:bg-shere-red selection:text-white bg-background">
             
-            <AnimatePresence mode="wait">
-              {isLoading && (
-                <SplashScreen key="splash" onComplete={() => setIsLoading(false)} />
-              )}
-            </AnimatePresence>
+
 
             {/* Fixed Footer (z-10, behind content but above background) - Desktop Only */}
             <div 
