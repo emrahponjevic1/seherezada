@@ -73,7 +73,7 @@ export function Hero() {
       {/* Background Image (Premium Turkish Kebab Grill) */}
       <div className="absolute inset-0 bg-black z-0" style={{ clipPath: "url(#hero-curve)" }}>
         <img 
-          src="/rotisserie_hero_bg.png" 
+          src="/rotisserie_hero_bg.webp" 
           alt="Šeherezada Kebab Grill Background"
           className={`w-full h-full object-cover ${isMobile ? 'opacity-20' : 'opacity-35 mix-blend-luminosity animate-pulse-subtle blur-[3px]'}`}
         />

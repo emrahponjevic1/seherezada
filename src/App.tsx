@@ -62,7 +62,7 @@ function App() {
                 <div 
                   className="absolute inset-0 z-0 pointer-events-none opacity-10 invert dark:invert-0"
                   style={{ 
-                    backgroundImage: "url('/fast_food_pattern.png')", 
+                    backgroundImage: "url('/fast_food_pattern.webp')", 
                     backgroundRepeat: "repeat",
                     backgroundSize: "180px 180px"
                   }}
