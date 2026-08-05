@@ -2,7 +2,9 @@
 export default {
   darkMode: ["class"],
   content: [
-    "./index.html",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./providers/**/*.{js,ts,jsx,tsx}",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
@@ -15,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
-        inter: ["Inter", "sans-serif"],
+        poppins: ["var(--font-poppins)", "Poppins", "sans-serif"],
+        inter: ["var(--font-inter)", "Inter", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
