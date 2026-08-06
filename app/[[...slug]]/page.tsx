@@ -14,7 +14,7 @@ import {
   type RouteKontekst,
 } from "@/lib/route"
 
-import { NaslovnaPrivremeno } from "./NaslovnaPrivremeno"
+import { Naslovna } from "@/components/sekcije/Naslovna"
 
 /** Lokal dodan poslije gradnje mora dobiti stranicu, ne 404 (korak 18). */
 export const dynamicParams = true
@@ -163,8 +163,7 @@ export default async function Stranica({
     case "lokal-home": {
       const lokal = await repo.getLokal(route.lokal)
       if (!lokal || lokal.stanje !== "radi") notFound()
-      // Korak 7 zamjenjuje ovo sekcijama koje čitaju lokal i jezik iz rute.
-      return <NaslovnaPrivremeno />
+      return <Naslovna lokalSlug={route.lokal} lang={route.lang} />
     }
 
     case "lokal-page": {

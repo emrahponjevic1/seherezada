@@ -1,61 +1,60 @@
-"use client"
+import Link from "next/link"
+import { Star, ArrowRight } from "lucide-react"
 
-import { useEffect, useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { reviews } from "@/src/data"
-import { Star } from "lucide-react"
+import { t } from "@/lib/i18n"
+import type { Lang, Lokal } from "@/lib/domain"
+import { href } from "@/lib/route"
 
-export function Reviews() {
-  const [index, setIndex] = useState(0)
+import { ReviewsKarusel } from "./sekcije/ReviewsKarusel"
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % reviews.length)
-    }, 4000)
-    return () => clearInterval(timer)
-  }, [])
+/**
+ * Sekcija 7 — recenzije.
+ *
+ * DODAJE SE <h2> — dosad ga sekcija uopšte nije imala, pa je hijerarhija
+ * naslova preskakala nivo. Karusel ostaje klijentski i nepromijenjen.
+ */
+export function Reviews({
+  lokal,
+  lang,
+  glavniSlug,
+}: {
+  lokal: Lokal
+  lang: Lang
+  glavniSlug: string
+}) {
+  const sveRecenzije = href(
+    { kind: "lokal-page", lang, lokal: lokal.slug, page: "recenzije" },
+    glavniSlug,
+  )
 
   return (
-    <section id="reviews" className="py-24 bg-shere-red text-white overflow-hidden relative">
-      {/* Background Decor */}
+    <section
+      id="reviews"
+      className="py-24 bg-shere-red text-white overflow-hidden relative"
+    >
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent" />
-      
+
       <div className="container mx-auto px-4 text-center relative z-10">
+        <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-8">
+          {t({ sl: "Mnenja gostov", en: "Guest reviews" }, lang)}
+        </h2>
+
         <div className="flex justify-center mb-8 gap-1 text-shere-gold">
-          {[1,2,3,4,5].map(i => (
+          {[1, 2, 3, 4, 5].map((i) => (
             <Star key={i} fill="currentColor" size={32} />
           ))}
         </div>
-        
-        <div className="min-h-[220px] md:min-h-[180px] relative max-w-4xl mx-auto flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.5, type: "spring" }}
-              className="absolute w-full"
-            >
-              <p className="text-3xl md:text-5xl font-bold font-poppins mb-6 leading-tight">
-                "{reviews[index].text}"
-              </p>
-              <p className="text-xl opacity-80 font-medium">
-                — {reviews[index].author}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-        </div>
 
-        {/* Indicators */}
-        <div className="flex justify-center mt-8 gap-3">
-          {reviews.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${i === index ? "bg-white scale-125" : "bg-white/30"}`}
-            />
-          ))}
+        <ReviewsKarusel />
+
+        <div className="mt-10">
+          <Link
+            href={sveRecenzije}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm font-bold hover:scale-105 active:scale-95 transition-transform"
+          >
+            {t({ sl: "Vse recenzije", en: "All reviews" }, lang)}
+            <ArrowRight size={18} />
+          </Link>
         </div>
       </div>
     </section>
