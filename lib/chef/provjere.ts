@@ -10,6 +10,21 @@ import { jeRezervisan } from "../route"
 
 export type Greske = Record<string, string>
 
+/**
+ * Alergeni stoje ovdje, a ne u `jela.ts`, jer je taj modul `"use server"` —
+ * takav smije izvoziti samo async funkcije, ne i konstante.
+ */
+export const ALERGENI = [
+  "gluten",
+  "laktoza",
+  "sezam",
+  "orasasti",
+  "jaja",
+  "riba",
+  "soja",
+  "gorusica",
+] as const
+
 export function jeValjanSlug(slug: string): boolean {
   return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)
 }

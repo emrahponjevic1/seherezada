@@ -376,6 +376,35 @@ njegove adrese vraćaju 200 — **bez ponovne gradnje**.
 
 ---
 
+## Korak 15 — /chef → jela i katalog
+
+**Katalog je odvojen od cijena, i to je cijela poenta koraka.** Jelo postoji jednom: jedan opis,
+jedna slika, jedan spisak alergena, jedan prijevod. Isto jelo se prodaje u više lokala po
+različitim cijenama, a cijena pripada vezi lokal↔jelo. Zato na ovim ekranima **nema nijednog
+polja za cijenu** — da ga ima, isto jelo bi se unosilo onoliko puta koliko ima lokala.
+
+**Oznake se čitaju iz podatka, ne iz kategorije** — `halal` je podrazumijevano uključen jer je
+to podatak, a ne pretpostavka izvedena iz toga u kojoj je kategoriji jelo.
+
+Prevodiva polja imaju karticu po jeziku, sa **sivom tačkom** za jezik bez prijevoda i arapskim
+zdesna nalijevo. Sva polja su **uvijek u dokumentu**, samo skrivena — inače bi se pri snimanju
+slali samo oni jezici koji su bili otvoreni.
+
+**Naišao sam na pravilo koje se lako promaši:** modul sa `"use server"` smije izvoziti **samo
+async funkcije**. Konstanta `ALERGENI` je zbog toga preseljena u `provjere.ts`; dok je bila u
+`jela.ts`, build je padao sa „Failed to collect page data".
+
+**Odstupanje:** povuci-i-pusti za redoslijed kategorija zamijenjen strelicama, isto kao kod lokala.
+
+**Provjera:** 11 tvrdnji kroz stvarne pozive akcija — snimanje bez slovenskog naziva odbijeno,
+postojeći slug odbijen, novo jelo se pojavi u katalogu ali **ni u jednom meniju**, izmjena opisa
+vrijedi u **oba** lokala, kopija dobija „(kopija)" i nije ni u jednom meniju, deaktivirano jelo
+nestaje iz **oba** menija, brisanje kategorije sa jelima odbijeno **uz broj jela**, prazna
+kategorija se briše. Uz to provjereno da na ekranima jela i kategorija **nema nijednog polja za
+cijenu** — jedina tri pogotka na „cijenu" su rečenice koje objašnjavaju zašto ga nema.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.

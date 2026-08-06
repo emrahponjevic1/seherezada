@@ -17,7 +17,8 @@ import { odjaviSe } from "../odjava"
 const STAVKE = [
   { adresa: "/chef", naziv: "Pregled", spremno: true },
   { adresa: "/chef/lokali", naziv: "Lokali", spremno: true },
-  { adresa: "/chef/jela", naziv: "Jedi", spremno: false },
+  { adresa: "/chef/jela", naziv: "Jedi", spremno: true },
+  { adresa: "/chef/kategorije", naziv: "Kategorije", spremno: true },
   { adresa: "/chef/meni", naziv: "Meni in cene", spremno: false },
   { adresa: "/chef/nastavitve", naziv: "Nastavitve", spremno: false },
 ]
