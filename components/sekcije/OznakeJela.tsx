@@ -1,5 +1,5 @@
 import type { Jelo, Lang } from "@/lib/domain"
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 
 /**
  * Oznake jela — čitaju se IZ PODATKA, nikad iz kategorije.
@@ -25,7 +25,7 @@ export function oznakeZaJelo(
   if (jelo.halal) {
     oznake.push({
       kljuc: "halal",
-      tekst: `🕌 ${t({ sl: "HALAL", en: "HALAL" }, lang)}`,
+      tekst: `🕌 ${ui("oznakaVelika.halal", lang)}`,
       klasa:
         "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/10",
     })
@@ -34,14 +34,14 @@ export function oznakeZaJelo(
   if (jelo.vegansko) {
     oznake.push({
       kljuc: "vegansko",
-      tekst: `🌱 ${t({ sl: "VEGANSKO", en: "VEGAN" }, lang)}`,
+      tekst: `🌱 ${ui("oznakaVelika.vegansko", lang)}`,
       klasa:
         "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/10",
     })
   } else if (jelo.vegetarijansko) {
     oznake.push({
       kljuc: "vegetarijansko",
-      tekst: `🥗 ${t({ sl: "VEGETARIJANSKO", en: "VEGETARIAN" }, lang)}`,
+      tekst: `🥗 ${ui("oznakaVelika.vegetarijansko", lang)}`,
       klasa:
         "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/10",
     })
@@ -50,7 +50,7 @@ export function oznakeZaJelo(
   if (jelo.ljuto > 0) {
     oznake.push({
       kljuc: "ljuto",
-      tekst: `${"🌶️".repeat(jelo.ljuto)} ${t({ sl: "PIKANTNO", en: "SPICY" }, lang)}`,
+      tekst: `${"🌶️".repeat(jelo.ljuto)} ${ui("oznakaVelika.pikantno", lang)}`,
       klasa:
         "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/10",
     })

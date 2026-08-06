@@ -1,8 +1,9 @@
 import Link from "next/link"
+import { s2 } from "@/lib/sadrzaj"
 import { ArrowRight, Phone } from "lucide-react"
 
 import type { Lang, Lokal, MenuSekcija } from "@/lib/domain"
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 import { href } from "@/lib/route"
 import { PraznMeni } from "@/components/stanja/PraznoStanje"
 
@@ -50,30 +51,15 @@ export function Menu({
         <div className="max-w-[1440px] mx-auto w-full relative z-10">
           {puna && (
             <h1 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-8">
-              {t(
-                {
-                  sl: `Meni in cene — Šeherezada ${lokal.ulica}`,
-                  en: `Menu and prices — Šeherezada ${lokal.ulica}`,
-                },
-                lang,
-              )}
+              {s2("meni.naslovLokala", lang, { ulica: lokal.ulica })}
             </h1>
           )}
           <PraznMeni
-            poruka={t(
-              {
-                sl: "Meni za ta lokal se pripravlja.",
-                en: "The menu for this location is being prepared.",
-              },
-              lang,
-            )}
+            poruka={ui("meni.praznMeni", lang)}
             drugiLokal={
               drugiLokal
                 ? {
-                    naziv: t(
-                      { sl: "Poglej drug lokal", en: "See another location" },
-                      lang,
-                    ),
+                    naziv: ui("meni.poglejDrugLokal", lang),
                     adresa: href(
                       {
                         kind: "lokal-page",
@@ -105,37 +91,19 @@ export function Menu({
           {puna ? (
             <>
               <h1 className="text-4xl md:text-5xl font-black font-poppins mb-4 tracking-tight">
-                {t(
-                  {
-                    sl: `Meni in cene — Šeherezada ${lokal.ulica}`,
-                    en: `Menu and prices — Šeherezada ${lokal.ulica}`,
-                  },
-                  lang,
-                )}
+                {s2("meni.naslovLokala", lang, { ulica: lokal.ulica })}
               </h1>
               <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed">
-                {t(
-                  {
-                    sl: `Celotna ponudba lokala na naslovu ${lokal.adresa}, z aktualnimi cenami. Vse meso je halal, kruh pečemo vsak dan, pice pa nastajajo iz testa, ki vzhaja štiriindvajset ur. Pri vsaki jedi najdete sestavine in alergene — dovolj je, da kliknete nanjo. Naročite po telefonu ali prek dostave.`,
-                    en: `The full offering at ${lokal.adresa}, with current prices. All meat is halal, we bake our bread every day, and the pizzas come from dough proofed for twenty-four hours. Every dish lists its ingredients and allergens — just click on it. Order by phone or through delivery.`,
-                  },
-                  lang,
-                )}
+                {s2("meni.uvodLokala", lang, { adresa: lokal.adresa })}
               </p>
             </>
           ) : (
             <>
               <h2 className="text-4xl md:text-5xl font-black font-poppins mb-3 tracking-tight">
-                {t({ sl: "Naš meni", en: "Our menu" }, lang)}
+                {ui("meni.nasMeni", lang)}
               </h2>
               <p className="text-muted-foreground text-lg">
-                {t(
-                  {
-                    sl: "Izberi svojo najljubšo jed iz naše ponudbe",
-                    en: "Choose your favourite dish from our offering",
-                  },
-                  lang,
-                )}
+                {ui("meni.izberiNajljubso", lang)}
               </p>
             </>
           )}
@@ -152,7 +120,7 @@ export function Menu({
                 rel="noreferrer"
                 className="px-6 py-3 rounded-2xl bg-shere-red text-white font-bold shadow-[0_0_40px_-10px_rgba(230,57,70,0.6)] hover:scale-105 active:scale-95 transition-transform"
               >
-                {t({ sl: "Naroči prek Wolta", en: "Order via Wolt" }, lang)}
+                {ui("akcija.narociWolt", lang)}
               </a>
             )}
             {lokal.glovoUrl && (
@@ -162,7 +130,7 @@ export function Menu({
                 rel="noreferrer"
                 className="px-6 py-3 rounded-2xl bg-shere-red text-white font-bold shadow-[0_0_40px_-10px_rgba(230,57,70,0.6)] hover:scale-105 active:scale-95 transition-transform"
               >
-                {t({ sl: "Naroči prek Glova", en: "Order via Glovo" }, lang)}
+                {ui("akcija.narociGlovo", lang)}
               </a>
             )}
             <a
@@ -179,7 +147,7 @@ export function Menu({
               href={meniAdresa}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-shere-red text-white font-bold shadow-[0_0_40px_-10px_rgba(230,57,70,0.6)] hover:scale-105 active:scale-95 transition-transform"
             >
-              {t({ sl: "Poglej cel meni", en: "See full menu" }, lang)}
+              {ui("akcija.pogledajCelMeni", lang)}
               <ArrowRight size={18} />
             </Link>
           </div>

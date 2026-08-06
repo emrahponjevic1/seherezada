@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next"
 import { Poppins, Inter } from "next/font/google"
 import "./globals.css"
 
+import { JEZICI } from "@/lib/domain"
 import { ThemeProvider } from "@/providers/ThemeProvider"
-import { LanguageProvider } from "@/providers/LanguageProvider"
 import { BackgroundPattern } from "@/components/BackgroundPattern"
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
@@ -54,6 +54,35 @@ const temaSkripta = `
 }catch(e){document.documentElement.classList.add('dark')}
 })()`
 
+/**
+ * Jezik i smjer pisma na <html> (korak 22).
+ *
+ * ZAŠTO SKRIPTOM: `<html>` smije iscrtati samo korijenski raspored, a on
+ * ne vidi rutu — sve adrese idu kroz jedan catch-all, pa `app/layout.tsx`
+ * nema `params`. Jedina alternativa je `headers()`, ali on cijelu
+ * aplikaciju prebacuje na dinamičko iscrtavanje i gubi svih 140 unaprijed
+ * izgrađenih stranica. Skripta je blokirajuća i stoji prije stilova, pa
+ * arapski `dir="rtl"` stigne PRIJE prvog iscrtavanja — nema bljeska.
+ *
+ * Sadržaj stranice svejedno nosi ispravan `lang` u serverskom HTML-u
+ * (vidi `app/[[...slug]]/page.tsx`), a ciljanje jezika Googleu daje
+ * `hreflang`, ne ovaj atribut.
+ */
+const MAPA_JEZIKA = Object.fromEntries(
+  JEZICI.filter((j) => j.prefiks).map((j) => [
+    j.prefiks as string,
+    { lang: j.kod, dir: (j as { smjer?: string }).smjer === "rtl" ? "rtl" : "ltr" },
+  ]),
+)
+
+const jezikSkripta = `
+(function(){try{
+  var m=${JSON.stringify(MAPA_JEZIKA)};
+  var j=m[location.pathname.split('/')[1]]||{lang:'sl',dir:'ltr'};
+  document.documentElement.lang=j.lang;
+  document.documentElement.dir=j.dir;
+}catch(e){}})()`
+
 export default function RootLayout({
   children,
 }: {
@@ -62,11 +91,13 @@ export default function RootLayout({
   return (
     <html
       lang="sl"
+      dir="ltr"
       suppressHydrationWarning
       className={`${poppins.variable} ${inter.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: temaSkripta }} />
+        <script dangerouslySetInnerHTML={{ __html: jezikSkripta }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -96,7 +127,6 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider defaultTheme="dark" storageKey="shere-theme">
-          <LanguageProvider>
             <div className="min-h-screen flex flex-col relative w-full selection:bg-shere-red selection:text-white bg-background">
               {/* Sadržaj: leži iznad podnožja i pri kraju skrolanja ga otkriva */}
               <div className="relative z-20 flex flex-col w-full bg-background rounded-b-none lg:rounded-b-[4rem] shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_30px_80px_rgba(0,0,0,0.6)] overflow-hidden">
@@ -124,7 +154,6 @@ export default function RootLayout({
                 <MobileCTA />
               </div>
             </div>
-          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

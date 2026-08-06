@@ -1,7 +1,8 @@
 import Link from "next/link"
+import { s } from "@/lib/sadrzaj"
 
 import type { Lang, Lokal, MenuSekcija } from "@/lib/domain"
-import { formatCijena, t } from "@/lib/i18n"
+import { formatCijena, t, ui } from "@/lib/i18n"
 import { href, type SeoPage } from "@/lib/route"
 
 import {
@@ -35,8 +36,8 @@ export function SeoStranica({
   lang: Lang
   glavniSlug: string
 }) {
-  const s = SADRZAJ_SEO[stranica]
-  const domov = t({ sl: "Domov", en: "Home" }, lang)
+  const podaci = SADRZAJ_SEO[stranica]
+  const domov = ui("akcija.domov", lang)
 
   const a = {
     domov: href({ kind: "lokal-home", lang, lokal: glavniSlug }, glavniSlug),
@@ -48,45 +49,45 @@ export function SeoStranica({
 
   const mrvice: Mrvica[] = [
     { naziv: domov, adresa: a.domov },
-    { naziv: t({ sl: "Meni", en: "Menu" }, lang), adresa: a.meni },
-    { naziv: t(s.naslov, lang) },
+    { naziv: ui("nav.meni", lang), adresa: a.meni },
+    { naziv: t(podaci.naslov, lang) },
   ]
 
   // Blok 5 — ponuda te kategorije, ili cijeli meni ako kategorije nema.
-  const zaPrikaz = s.kategorija
-    ? sekcije.filter((sek) => sek.kategorija.slug === s.kategorija)
+  const zaPrikaz = podaci.kategorija
+    ? sekcije.filter((sek) => sek.kategorija.slug === podaci.kategorija)
     : sekcije
 
   // Blok 6 — lokali; neke stranice upućuju na tačno određen lokal.
   const uPogonu = lokali.filter((l) => l.stanje === "radi")
-  const zaLokacije = s.samoLokal
-    ? uPogonu.filter((l) => l.slug === s.samoLokal)
+  const zaLokacije = podaci.samoLokal
+    ? uPogonu.filter((l) => l.slug === podaci.samoLokal)
     : uPogonu
   const kontaktni = zaLokacije[0] ?? uPogonu[0]
 
   return (
     <OkvirStranice
       mrvice={mrvice}
-      naslov={t(s.naslov, lang)}
-      uvod={t(s.uvod, lang)}
+      naslov={t(podaci.naslov, lang)}
+      uvod={t(podaci.uvod, lang)}
     >
-      <Odjeljak naslov={t(s.blok3.naslov, lang)}>
-        <p>{t(s.blok3.tekst, lang)}</p>
+      <Odjeljak naslov={t(podaci.blok3.naslov, lang)}>
+        <p>{t(podaci.blok3.tekst, lang)}</p>
       </Odjeljak>
 
-      <Odjeljak naslov={t(s.blok4.naslov, lang)}>
-        <p>{t(s.blok4.tekst, lang)}</p>
+      <Odjeljak naslov={t(podaci.blok4.naslov, lang)}>
+        <p>{t(podaci.blok4.tekst, lang)}</p>
       </Odjeljak>
 
       {/* Blok 5 — cijene iz repozitorija */}
-      <Odjeljak naslov={t({ sl: "Ponudba in cene", en: "Offering and prices" }, lang)}>
+      <Odjeljak naslov={ui("meni.ponudbaInCene", lang)}>
         {zaPrikaz.length === 0 ? (
-          <p>{t({ sl: "Ponudba se pripravlja.", en: "The offering is being prepared." }, lang)}</p>
+          <p>{ui("meni.ponudbaSePripravlja", lang)}</p>
         ) : (
           <div className="space-y-6 not-prose">
             {zaPrikaz.map((sek) => (
               <div key={sek.kategorija.id}>
-                {!s.kategorija && (
+                {!podaci.kategorija && (
                   <h3 className="font-black font-poppins text-lg mb-2 text-foreground">
                     {t(sek.kategorija.naziv, lang)}
                   </h3>
@@ -109,15 +110,9 @@ export function SeoStranica({
               </div>
             ))}
             <p className="text-sm">
-              {t(
-                {
-                  sl: "Cene veljajo za lokal na Trubarjevi; na Slovenski so višje za 0,50 €.",
-                  en: "Prices apply to the Trubarjeva location; at Slovenska they are 0.50 € higher.",
-                },
-                lang,
-              )}{" "}
+              {s("meni.ceneVeljajo", lang)}{" "}
               <Link href={a.meni} className="text-shere-red hover:underline">
-                {t({ sl: "Poglej cel meni", en: "See the full menu" }, lang)}
+                {ui("akcija.pogledajCelMeni", lang)}
               </Link>
             </p>
           </div>
@@ -125,7 +120,7 @@ export function SeoStranica({
       </Odjeljak>
 
       {/* Blok 6 — lokacije i radno vrijeme */}
-      <Odjeljak naslov={t({ sl: "Kje smo in kdaj", en: "Where we are and when" }, lang)}>
+      <Odjeljak naslov={ui("seo.kjeSmo", lang)}>
         <ul className="space-y-4 not-prose">
           {zaLokacije.map((lokal) => (
             <li key={lokal.id} className="rounded-2xl border border-border p-4 bg-white/5">
@@ -141,23 +136,17 @@ export function SeoStranica({
             </li>
           ))}
         </ul>
-        {s.samoLokal && (
+        {podaci.samoLokal && (
           <p className="text-sm">
-            {t(
-              {
-                sl: "Ta stran namenoma navaja samo ta lokal — drugi ob tej uri ne dela.",
-                en: "This page deliberately lists only this location — the other is not open at that hour.",
-              },
-              lang,
-            )}
+            {s("seo.samoTajLokal", lang)}
           </p>
         )}
       </Odjeljak>
 
       {/* Blok 7 — pitanja */}
-      <Odjeljak naslov={t({ sl: "Pogosta vprašanja", en: "Frequently asked questions" }, lang)}>
+      <Odjeljak naslov={ui("nav.faq", lang)}>
         <div className="space-y-3 not-prose">
-          {s.pitanja.map((p, i) => (
+          {podaci.pitanja.map((p, i) => (
             <Pitanje key={i} pitanje={t(p.pitanje, lang)}>
               {t(p.odgovor, lang)}
             </Pitanje>
@@ -171,7 +160,7 @@ export function SeoStranica({
           ...(kontaktni?.woltUrl
             ? [
                 {
-                  naziv: t({ sl: "Naroči", en: "Order" }, lang),
+                  naziv: ui("akcija.naroci", lang),
                   adresa: kontaktni.woltUrl,
                   glavno: true,
                   vanjski: true,
@@ -179,18 +168,18 @@ export function SeoStranica({
               ]
             : []),
           {
-            naziv: `${t({ sl: "Pokliči", en: "Call" }, lang)} ${kontaktni?.telefon ?? ""}`,
+            naziv: `${ui("akcija.poklici", lang)} ${kontaktni?.telefon ?? ""}`,
             adresa: `tel:${(kontaktni?.telefon ?? "").replace(/\s/g, "")}`,
             vanjski: true,
           },
-          { naziv: t({ sl: "Cel meni", en: "Full menu" }, lang), adresa: a.meni },
+          { naziv: ui("nav.celMeni", lang), adresa: a.meni },
         ]}
       />
 
       {/* Blok 9 — srodne stranice */}
       <Srodne
-        naslov={t({ sl: "Sorodne strani", en: "Related pages" }, lang)}
-        stavke={s.srodne.map((slug) => ({
+        naslov={ui("naslov.sorodneStrani", lang)}
+        stavke={podaci.srodne.map((slug) => ({
           naziv: t(SADRZAJ_SEO[slug].naslov, lang),
           adresa: href({ kind: "seo", lang, page: slug }, glavniSlug),
         }))}

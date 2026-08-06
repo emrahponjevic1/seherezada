@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation"
 import { Phone, UtensilsCrossed, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
-import { useLanguage } from "@/providers/LanguageProvider"
-import { t as prevedi } from "@/lib/i18n"
+import { t as prevedi, ui } from "@/lib/i18n"
 import type { Kategorija } from "@/lib/domain"
 import { href, type Route, type SeoPage } from "@/lib/route"
 import { izPutanje, trenutniLokal, type OkvirPodaci } from "./okvir"
@@ -38,7 +37,6 @@ export function MobileCTAKlijent({
   glavniSlug,
   kategorije,
 }: OkvirPodaci & { kategorije: Kategorija[] }) {
-  const { t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [isHeroActionsVisible, setIsHeroActionsVisible] = useState(true)
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -112,14 +110,14 @@ export function MobileCTAKlijent({
                   className="flex-1 bg-zinc-900 dark:bg-zinc-800 text-white py-4 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-lg border border-white/5 active:scale-95 transition-transform"
                 >
                   <Phone size={20} />
-                  {t("Pokliči", "Call")}
+                  {ui("akcija.poklici", lang)}
                 </a>
                 <button
                   onClick={() => setIsOpen(true)}
                   className="flex-1 bg-shere-red text-white py-4 rounded-2xl flex items-center justify-center gap-2 font-bold shadow-[0_10px_20px_-10px_rgba(230,57,70,0.6)] active:scale-95 transition-transform"
                 >
                   <UtensilsCrossed size={20} />
-                  {t("Meni", "Menu")}
+                  {ui("nav.meni", lang)}
                 </button>
               </div>
             </motion.div>
@@ -141,10 +139,10 @@ export function MobileCTAKlijent({
               <div className="px-6 w-full flex justify-between items-center">
                 <div>
                   <h2 className="text-2xl font-black font-poppins">
-                    {t("Izberi Kategorijo", "Select Category")}
+                    {ui("cta.izberiKategorijo", lang)}
                   </h2>
                   <p className="text-xs text-muted-foreground">
-                    {t("Skoči direktno na želeno hrano", "Jump directly to your choice")}
+                    {ui("cta.skociDirektno", lang)}
                   </p>
                 </div>
                 <button

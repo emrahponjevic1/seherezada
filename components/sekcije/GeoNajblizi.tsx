@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react"
 import { Navigation } from "lucide-react"
 
 import type { Lang } from "@/lib/domain"
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 
 /**
  * „Poišči najbližjega" — tri pravila koja se lako prekrše.
@@ -108,8 +108,8 @@ export function GeoNajblizi({
         >
           <Navigation size={18} className="text-shere-red" />
           {trazi
-            ? t({ sl: "Iščem…", en: "Searching…" }, lang)
-            : t({ sl: "Poišči najbližjega", en: "Find the nearest" }, lang)}
+            ? ui("stanje.iscem", lang)
+            : ui("akcija.poisciNajblizjega", lang)}
         </button>
       </div>
     </Kontekst.Provider>
@@ -135,7 +135,7 @@ export function OznakaUdaljenosti({
       </span>
       {najblizi === slug && (
         <span className="px-2 py-0.5 rounded-lg bg-shere-red/10 text-shere-red">
-          {t({ sl: "najbližji", en: "nearest" }, lang)}
+          {ui("oznaka.najblizji", lang)}
         </span>
       )}
     </span>

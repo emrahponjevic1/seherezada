@@ -13,7 +13,7 @@ import {
 import { X, Phone, Info } from "lucide-react"
 
 import type { Lang, Lokal, MenuStavka } from "@/lib/domain"
-import { formatCijena, t, tList } from "@/lib/i18n"
+import { formatCijena, t, tList, ui } from "@/lib/i18n"
 import { SlikaJela } from "@/components/stanja/SlikaJela"
 
 import { OznakeJela } from "./sekcije/OznakeJela"
@@ -42,16 +42,20 @@ const staggerItem: Variants = {
   },
 }
 
-/** Alergeni se u podacima čuvaju kao slugovi — ovdje dobijaju ime. */
-const ALERGEN: Record<string, { sl: string; en: string }> = {
-  gluten: { sl: "Gluten", en: "Gluten" },
-  laktoza: { sl: "Laktoza", en: "Lactose" },
-  sezam: { sl: "Sezam", en: "Sesame" },
-  orasasti: { sl: "Oreščki", en: "Nuts" },
-  jaja: { sl: "Jajca", en: "Eggs" },
-  riba: { sl: "Ribe", en: "Fish" },
-  soja: { sl: "Soja", en: "Soy" },
-  gorusica: { sl: "Gorčica", en: "Mustard" },
+/**
+ * Alergeni se u podacima čuvaju kao slugovi — ovdje dobijaju ključ, a ime
+ * dolazi iz kataloga. Slug koji katalog ne poznaje ispisuje se kakav jest,
+ * da nova oznaka u bazi ne napravi rupu na stranici.
+ */
+const ALERGEN: Record<string, string> = {
+  gluten: "alergen.gluten",
+  laktoza: "alergen.laktoza",
+  sezam: "alergen.sezam",
+  orasasti: "alergen.orasasti",
+  jaja: "alergen.jaja",
+  riba: "alergen.riba",
+  soja: "alergen.soja",
+  gorusica: "alergen.gorusica",
 }
 
 export function ProductModal({
@@ -111,7 +115,7 @@ export function ProductModal({
         >
           <button
             onClick={onClose}
-            aria-label={t({ sl: "Zapri", en: "Close" }, lang)}
+            aria-label={ui("akcija.zapri", lang)}
             className="absolute top-4 right-4 z-50 p-3 bg-black/40 backdrop-blur-xl text-white rounded-full lg:bg-white/10 lg:text-white lg:hover:bg-red-500 transition-all hover:scale-110 active:scale-95 border border-white/10"
           >
             <X size={24} strokeWidth={3} />
@@ -186,7 +190,7 @@ export function ProductModal({
                 <div className="flex flex-wrap gap-2">
                   {stavka.izdvojeno && (
                     <span className="bg-orange-500/10 text-orange-500 border border-orange-500/20 px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
-                      🔥 {t({ sl: "Priljubljeno", en: "Popular" }, lang)}
+                      🔥 {ui("oznaka.priljubljeno", lang)}
                     </span>
                   )}
                   <OznakeJela jelo={jelo} lang={lang} />
@@ -200,7 +204,7 @@ export function ProductModal({
                 <div className="flex items-center gap-2 mb-2">
                   <Info size={16} className="text-shere-red" />
                   <h4 className="font-bold uppercase tracking-widest text-xs text-muted-foreground">
-                    {t({ sl: "Opis jedi", en: "Dish description" }, lang)}
+                    {ui("meni.opisJedi", lang)}
                   </h4>
                 </div>
                 <p className="text-lg lg:text-xl leading-relaxed text-foreground/90 font-medium">
@@ -212,7 +216,7 @@ export function ProductModal({
                 <motion.div variants={staggerItem} className="mb-8">
                   <h4 className="font-bold uppercase tracking-widest text-xs text-muted-foreground mb-4 flex items-center gap-2">
                     <span className="w-8 h-[1px] bg-border"></span>
-                    {t({ sl: "Sestavine", en: "Ingredients" }, lang)}
+                    {ui("meni.sestavine", lang)}
                     <span className="flex-1 h-[1px] bg-border"></span>
                   </h4>
                   <div className="flex flex-wrap gap-2.5">
@@ -232,7 +236,7 @@ export function ProductModal({
                 <motion.div variants={staggerItem} className="mb-8">
                   <h4 className="font-bold uppercase tracking-widest text-xs text-red-500/80 mb-4 flex items-center gap-2">
                     <span className="w-8 h-[1px] bg-red-500/10"></span>
-                    ⚠️ {t({ sl: "Alergeni", en: "Allergens" }, lang)}
+                    ⚠️ {ui("meni.alergeni", lang)}
                     <span className="flex-1 h-[1px] bg-red-500/10"></span>
                   </h4>
                   <div className="flex flex-wrap gap-2.5">
@@ -241,7 +245,7 @@ export function ProductModal({
                         key={a}
                         className="bg-red-500/5 hover:bg-red-500/10 border border-red-500/20 text-red-500 dark:text-red-400 px-4 py-2 rounded-xl text-sm font-semibold transition-colors cursor-default"
                       >
-                        {ALERGEN[a] ? t(ALERGEN[a], lang) : a}
+                        {ALERGEN[a] ? ui(ALERGEN[a], lang) : a}
                       </span>
                     ))}
                   </div>
@@ -270,19 +274,13 @@ export function ProductModal({
                     size={22}
                     className="group-hover:rotate-12 transition-transform"
                   />
-                  {t({ sl: "Pokliči in naroči", en: "Call & order" }, lang)}
+                  {ui("akcija.pokliciInNaroci", lang)}
                 </a>
 
                 {(lokal.woltUrl || lokal.glovoUrl) && (
                   <div className="text-center mt-6">
                     <p className="text-xs text-muted-foreground font-semibold uppercase tracking-widest mb-3">
-                      {t(
-                        {
-                          sl: "Ali pa naroči prek dostave",
-                          en: "Or order via delivery",
-                        },
-                        lang,
-                      )}
+                      {ui("akcija.aliNaroci", lang)}
                     </p>
                     <div className="flex gap-3 justify-center">
                       {lokal.woltUrl && (

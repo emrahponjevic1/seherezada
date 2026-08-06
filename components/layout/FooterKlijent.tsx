@@ -5,10 +5,10 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { MapPin, Phone, Copy, ArrowRight } from "lucide-react"
 
-import { useLanguage } from "@/providers/LanguageProvider"
 import { ui, formatRadnoVrijeme, jeOtvoren } from "@/lib/i18n"
 import { DANI_PO_GETDAY, type Dan, type Lokal } from "@/lib/domain"
 import { SEO_PAGES, SHARED_PAGES, href, type Route } from "@/lib/route"
+import { KLJUC_SEO, KLJUC_ZAJEDNICKE } from "@/lib/naslovi"
 import { izPutanje, lokaliUPogonu, trenutniLokal, type OkvirPodaci } from "./okvir"
 
 const DANI_REDOM: Dan[] = ["pon", "uto", "sri", "cet", "pet", "sub", "ned"]
@@ -17,7 +17,6 @@ const NASLOV_KOLONE =
   "text-2xl font-bold font-poppins text-shere-red tracking-wide relative pb-2 before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 before:w-12 before:h-0.5 before:bg-shere-red w-full text-center"
 
 export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
-  const { lang: langSucelja, t } = useLanguage()
   const pathname = usePathname()
   const { lang } = izPutanje(pathname, { lokali, glavniSlug })
 
@@ -40,7 +39,7 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
 
   const kopirajAdresu = (tekst: string) => {
     navigator.clipboard.writeText(tekst)
-    alert(t("Naslov kopiran!", "Address copied!"))
+    alert(ui("poruka.naslovKopiran", lang))
   }
 
   return (
@@ -50,18 +49,18 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 relative z-10">
         {/* ── Lokali ─────────────────────────────────────────── */}
         <div className="space-y-6 flex flex-col items-center text-center md:col-span-2 lg:col-span-1">
-          <h3 className={NASLOV_KOLONE}>{ui("nav.lokali", langSucelja)}</h3>
+          <h3 className={NASLOV_KOLONE}>{ui("nav.lokali", lang)}</h3>
 
           <div className="w-full space-y-8">
             {uPogonu.map((lokal) => (
               <LokalBlok
                 key={lokal.id}
                 lokal={lokal}
-                lang={langSucelja}
+                lang={lang}
                 danas={danasIndeks}
                 otvoren={sada ? jeOtvoren(lokal.radnoVrijeme, sada) : null}
                 naKopiraj={kopirajAdresu}
-                kopirajLabel={t("Kopiraj", "Copy Address")}
+                kopirajLabel={ui("akcija.kopiraj", lang)}
               />
             ))}
           </div>
@@ -69,7 +68,7 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
 
         {/* ── Naša ponuda ────────────────────────────────────── */}
         <div className="space-y-6 flex flex-col items-center text-center">
-          <h3 className={NASLOV_KOLONE}>{t("Naša ponudba", "Our offer")}</h3>
+          <h3 className={NASLOV_KOLONE}>{ui("footer.ponudba", lang)}</h3>
           <ul className="space-y-3 w-full">
             {SEO_PAGES.map((stranica) => (
               <li key={stranica}>
@@ -77,7 +76,7 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                   href={adresa({ kind: "seo", lang, page: stranica })}
                   className="text-lg text-muted-foreground hover:text-shere-red transition-colors"
                 >
-                  {t(SEO_NAZIV[stranica].sl, SEO_NAZIV[stranica].en)}
+                  {ui(KLJUC_SEO[stranica], lang)}
                 </Link>
               </li>
             ))}
@@ -86,7 +85,7 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
 
         {/* ── Informacije ────────────────────────────────────── */}
         <div className="space-y-6 flex flex-col items-center text-center">
-          <h3 className={NASLOV_KOLONE}>{t("Informacije", "Information")}</h3>
+          <h3 className={NASLOV_KOLONE}>{ui("footer.informacije", lang)}</h3>
           <ul className="space-y-3 w-full">
             {SHARED_PAGES.map((stranica) => (
               <li key={stranica}>
@@ -94,7 +93,7 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                   href={adresa({ kind: "shared", lang, page: stranica })}
                   className="text-lg text-muted-foreground hover:text-shere-red transition-colors"
                 >
-                  {t(ZAJEDNICKA_NAZIV[stranica].sl, ZAJEDNICKA_NAZIV[stranica].en)}
+                  {ui(KLJUC_ZAJEDNICKE[stranica], lang)}
                 </Link>
               </li>
             ))}
@@ -103,7 +102,7 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
 
         {/* ── Pratite nas ────────────────────────────────────── */}
         <div className="space-y-6 flex flex-col items-center text-center">
-          <h3 className={NASLOV_KOLONE}>{t("Sledite nam", "Follow us")}</h3>
+          <h3 className={NASLOV_KOLONE}>{ui("footer.slediteNam", lang)}</h3>
           <ul className="space-y-3 w-full">
             <li>
               <a
@@ -164,15 +163,12 @@ export function FooterKlijent({ lokali, glavniSlug }: OkvirPodaci) {
           </div>
         </div>
         <p className="text-muted-foreground max-w-md text-lg leading-relaxed mx-auto">
-          {t(
-            "Avtentični turški kebab in fast food v srcu Ljubljane. Pridite in okusite razliko.",
-            "Authentic Turkish kebab and fast food in the heart of Ljubljana. Come and taste the difference.",
-          )}
+          {ui("footer.opis", lang)}
         </p>
         <div className="flex gap-4 text-sm text-muted-foreground justify-center">
           <span>© {new Date().getFullYear()} Šeherezada d.o.o.</span>
           <span>•</span>
-          <span>All rights reserved.</span>
+          <span>{ui("footer.svaPrava", lang)}</span>
         </div>
       </div>
     </footer>
@@ -270,26 +266,4 @@ function LokalBlok({
   )
 }
 
-// Nazivi stranica — sadržaj im pišu koraci 9 i 22.
-const SEO_NAZIV: Record<(typeof SEO_PAGES)[number], { sl: string; en: string }> = {
-  "kebab-ljubljana": { sl: "Kebab", en: "Kebab" },
-  "pizza-ljubljana": { sl: "Pizza", en: "Pizza" },
-  "burger-ljubljana": { sl: "Burgerji", en: "Burgers" },
-  "falafel-ljubljana": { sl: "Falafel", en: "Falafel" },
-  "halal-hrana-ljubljana": { sl: "Halal hrana", en: "Halal food" },
-  "nocna-hrana-ljubljana": { sl: "Nočna hrana", en: "Late-night food" },
-  "dostava-ljubljana": { sl: "Dostava", en: "Delivery" },
-  "studentski-meni-ljubljana": { sl: "Študentski meni", en: "Student menu" },
-}
-
-const ZAJEDNICKA_NAZIV: Record<
-  (typeof SHARED_PAGES)[number],
-  { sl: string; en: string }
-> = {
-  "o-nas": { sl: "O nas", en: "About us" },
-  halal: { sl: "Halal", en: "Halal" },
-  galerija: { sl: "Galerija", en: "Gallery" },
-  "pogosta-vprasanja": { sl: "Pogosta vprašanja", en: "FAQ" },
-  zasebnost: { sl: "Zasebnost", en: "Privacy" },
-  pogoji: { sl: "Pogoji", en: "Terms" },
-}
+// Nazivi stranica žive u lib/naslovi.ts — vidi KLJUC_SEO i KLJUC_ZAJEDNICKE.

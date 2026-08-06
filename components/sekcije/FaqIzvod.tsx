@@ -1,7 +1,8 @@
 import Link from "next/link"
+import { s } from "@/lib/sadrzaj"
 import { ArrowRight, ChevronDown } from "lucide-react"
 
-import { formatRadnoVrijeme, t } from "@/lib/i18n"
+import { formatRadnoVrijeme, ui } from "@/lib/i18n"
 import type { Dan, Lang, Lokal } from "@/lib/domain"
 import { href } from "@/lib/route"
 
@@ -18,15 +19,7 @@ import { href } from "@/lib/route"
 
 const DANI_REDOM: Dan[] = ["pon", "uto", "sri", "cet", "pet", "sub", "ned"]
 
-const KRATKI_DAN: Record<Dan, { sl: string; en: string }> = {
-  pon: { sl: "Pon", en: "Mon" },
-  uto: { sl: "Tor", en: "Tue" },
-  sri: { sl: "Sre", en: "Wed" },
-  cet: { sl: "Čet", en: "Thu" },
-  pet: { sl: "Pet", en: "Fri" },
-  sub: { sl: "Sob", en: "Sat" },
-  ned: { sl: "Ned", en: "Sun" },
-}
+// Skraćeni dani žive u katalogu pod danKratko.* (korak 22).
 
 /** Spaja uzastopne dane sa istim vremenom: „Pon–Čet 09:00 – 02:00". */
 function sazetakVremena(lokal: Lokal, lang: Lang): string {
@@ -45,8 +38,8 @@ function sazetakVremena(lokal: Lokal, lang: Lang): string {
 
   return grupe
     .map((g) => {
-      const od = t(KRATKI_DAN[g.od], lang)
-      const doo = t(KRATKI_DAN[g.do], lang)
+      const od = ui(`danKratko.${g.od}`, lang)
+      const doo = ui(`danKratko.${g.do}`, lang)
       const raspon = g.od === g.do ? od : `${od}–${doo}`
       return `${raspon} ${g.vrijeme}`
     })
@@ -95,33 +88,18 @@ export function FaqIzvod({
     <section className="w-full py-20 md:py-24">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-10 text-center md:text-left">
-          {t(
-            { sl: "Pogosta vprašanja", en: "Frequently asked questions" },
-            lang,
-          )}
+          {ui("nav.faq", lang)}
         </h2>
 
         <div className="space-y-4 max-w-3xl">
           <Pitanje
-            pitanje={t(
-              { sl: "Je meso res halal?", en: "Is the meat really halal?" },
-              lang,
-            )}
+            pitanje={s("faq.halal.pitanje", lang)}
           >
-            {t(
-              {
-                sl: "Da. Meso nabavljamo pri preverjenih halal dobaviteljih in ga pripravljamo ločeno. V kuhinji ni svinjine in ne uporabljamo alkohola — to velja za vse jedi, tudi za burgerje in pice.",
-                en: "Yes. We source our meat from certified halal suppliers and prepare it separately. There is no pork in the kitchen and we use no alcohol — this applies to every dish, burgers and pizzas included.",
-              },
-              lang,
-            )}
+            {s("faq.halal.odgovor", lang)}
           </Pitanje>
 
           <Pitanje
-            pitanje={t(
-              { sl: "Do kdaj ste odprti?", en: "How late are you open?" },
-              lang,
-            )}
+            pitanje={s("faq.pitanje.doKdaj", lang)}
           >
             <ul className="space-y-2">
               {uPogonu.map((lokal) => (
@@ -136,33 +114,15 @@ export function FaqIzvod({
           </Pitanje>
 
           <Pitanje
-            pitanje={t(
-              {
-                sl: "Imate vegetarijansko ponudbo?",
-                en: "Do you have vegetarian options?",
-              },
-              lang,
-            )}
+            pitanje={s("faq.vegetarijansko.pitanje", lang)}
           >
-            {t(
-              {
-                sl: "Imamo. Falafel v jufki in falafel plošča sta povsem rastlinska, prav tako pomfri in sezonska solata. Med picami sta vegetarijanski margerita in vegetariana.",
-                en: "We do. Falafel in yufka and the falafel plate are fully plant-based, as are the fries and the seasonal salad. Among the pizzas, margherita and vegetariana are vegetarian.",
-              },
-              lang,
-            )}
+            {s("faq.vegetarijansko.odgovor", lang)}
           </Pitanje>
 
           <Pitanje
-            pitanje={t({ sl: "Dostavljate?", en: "Do you deliver?" }, lang)}
+            pitanje={s("faq.dostava.pitanje", lang)}
           >
-            {t(
-              {
-                sl: "Dostava poteka prek Wolta in Glova. Lahko pa jed tudi naročite po telefonu in jo prevzamete pri nas.",
-                en: "Delivery runs through Wolt and Glovo. You can also order by phone and pick your food up at the counter.",
-              },
-              lang,
-            )}
+            {s("faq.dostava.odgovor", lang)}
           </Pitanje>
         </div>
 
@@ -171,7 +131,7 @@ export function FaqIzvod({
             href={svaVprasanja}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm font-bold hover:scale-105 active:scale-95 transition-transform"
           >
-            {t({ sl: "Vsa vprašanja", en: "All questions" }, lang)}
+            {ui("akcija.vsaVprasanja", lang)}
             <ArrowRight size={18} />
           </Link>
         </div>

@@ -3,7 +3,7 @@
 import { useRef, useState } from "react"
 
 import type { Lang, Lokal, MenuSekcija, MenuStavka } from "@/lib/domain"
-import { t } from "@/lib/i18n"
+import { t, ui } from "@/lib/i18n"
 import { ProductCard } from "@/components/ProductCard"
 import { ProductModal } from "@/components/ProductModal"
 
@@ -93,7 +93,7 @@ export function MeniInteraktivni({
       : (sekcije.find((s) => s.kategorija.slug === aktivna)?.stavke.length ?? 0)
 
   const tabovi = [
-    { slug: SVE, naziv: t({ sl: "Vse", en: "All" }, lang), emoji: "🍽️" },
+    { slug: SVE, naziv: ui("meni.vse", lang), emoji: "🍽️" },
     ...sekcije.map((s) => ({
       slug: s.kategorija.slug,
       naziv: t(s.kategorija.naziv, lang),
@@ -110,7 +110,7 @@ export function MeniInteraktivni({
         <div className="flex justify-end mb-2">
           <div className="text-sm font-black text-shere-red bg-shere-red/10 px-5 py-2.5 rounded-2xl border border-shere-red/20 w-fit flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-shere-red animate-pulse"></span>
-            {vidljivo} {t({ sl: "jedi", en: "dishes" }, lang)}
+            {vidljivo} {ui("meni.jedi", lang)}
           </div>
         </div>
 

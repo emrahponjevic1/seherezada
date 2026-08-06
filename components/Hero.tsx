@@ -1,7 +1,8 @@
 import Link from "next/link"
+import { s } from "@/lib/sadrzaj"
 import { Star, ArrowRight, Utensils, Phone } from "lucide-react"
 
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 import type { Lang, Lokal } from "@/lib/domain"
 import { href } from "@/lib/route"
 
@@ -78,26 +79,14 @@ export function Hero({
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[1.05] tracking-tight drop-shadow-2xl font-poppins">
                 Šeherezada <br />
                 <span className="text-shere-red font-outline-2 drop-shadow-[0_0_35px_rgba(230,57,70,0.4)] text-3xl sm:text-4xl md:text-5xl lg:text-6xl block mt-2 font-black tracking-normal">
-                  {t(
-                    {
-                      sl: "Halal kebab in fast food v Ljubljani",
-                      en: "Halal kebab and fast food in Ljubljana",
-                    },
-                    lang,
-                  )}
+                  {s("hero.podnaslov", lang)}
                 </span>
               </h1>
             </Pojava>
 
             <Pojava delay={0.4}>
               <p className="text-zinc-300 text-lg md:text-xl max-w-xl font-medium leading-relaxed">
-                {t(
-                  {
-                    sl: "Doživi avtentične turške okuse, sočno meso pečeno na pravem ognju in domač kruh, pripravljen po tajnem receptu.",
-                    en: "Experience authentic Turkish flavors, juicy flame-grilled meat, and fresh homemade bread baked using our secret recipe.",
-                  },
-                  lang,
-                )}
+                {s("hero.opis", lang)}
               </p>
             </Pojava>
           </div>
@@ -120,7 +109,7 @@ export function Hero({
                   {lokal.ocjena.toLocaleString("sl-SI")}{" "}
                   <span className="text-zinc-400">
                     ({lokal.brojRecenzija?.toLocaleString("sl-SI")}+{" "}
-                    {t({ sl: "Google ocen", en: "Google reviews" }, lang)})
+                    {ui("hero.googleOcen", lang)})
                   </span>
                 </span>
               </div>
@@ -143,7 +132,7 @@ export function Hero({
                   size={20}
                   className="text-shere-red transition-transform group-hover:rotate-12"
                 />
-                {t({ sl: "Prikaži meni", en: "View menu" }, lang)}
+                {ui("akcija.prikaziMeni", lang)}
                 <ArrowRight
                   size={20}
                   className="group-hover:translate-x-1 transition-transform opacity-70"
@@ -167,7 +156,7 @@ export function Hero({
           </Pojava>
         </div>
 
-        <HeroTanjir />
+        <HeroTanjir lang={lang} />
       </div>
     </section>
   )

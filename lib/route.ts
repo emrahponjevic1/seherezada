@@ -281,3 +281,58 @@ export function href(r: Route, glavniSlug: string): string {
 export function napraviHref(glavniSlug: string) {
   return (r: Route): string => href(r, glavniSlug)
 }
+
+// ─────────────────────────────────────────────────────────────
+//  Jezici (korak 22)
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * ISTA stranica, drugi jezik.
+ *
+ * Prekidač jezika MORA ići kroz ovo. Ručno lijepljenje prefiksa gubi
+ * lokal i stranicu, pa gost sa `/seherezada2/meni` završi na naslovnoj —
+ * ista greška koju prekidač lokala izbjegava u koraku 19.
+ */
+export function naJeziku(
+  slug: string[] | undefined,
+  cilj: Lang,
+  ctx: RouteKontekst,
+): string {
+  const ruta = resolveRoute(slug, ctx)
+
+  switch (ruta.kind) {
+    case "lokal-home":
+    case "lokal-page":
+    case "shared":
+    case "seo":
+      return href({ ...ruta, lang: cilj }, ctx.glavniSlug)
+    default:
+      // 404 ili preusmjerenje — nema šta prevesti, vodimo na naslovnu.
+      return href(
+        { kind: "lokal-home", lang: cilj, lokal: ctx.glavniSlug },
+        ctx.glavniSlug,
+      )
+  }
+}
+
+/**
+ * Adrese iste stranice na SVIM jezicima — za prekidač i za `hreflang`.
+ *
+ * Ključ je KOD jezika (`bs`), ne prefiks (`ba`): kod ide u `hreflang`,
+ * prefiks u adresu. Zamjena to dvoje je najčešća greška ovdje.
+ */
+export function sveAdrese(
+  slug: string[] | undefined,
+  ctx: RouteKontekst,
+): Record<Lang, string> {
+  const izlaz = {} as Record<Lang, string>
+  for (const jezik of JEZICI) {
+    izlaz[jezik.kod] = naJeziku(slug, jezik.kod, ctx)
+  }
+  return izlaz
+}
+
+/** `/en/meni` → `["en","meni"]`. Prekidači dobiju pathname, ne segmente. */
+export function segmenti(pathname: string): string[] {
+  return pathname.split("/").filter(Boolean)
+}

@@ -3,13 +3,14 @@ import { notFound, permanentRedirect } from "next/navigation"
 
 import { repo } from "@/lib/repo"
 import { JEZICI } from "@/lib/domain"
-import { BASE_URL, OG_SLIKA, metaZaRutu } from "@/lib/meta"
+import { BASE_URL, OG_LOKALI, OG_SLIKA, metaZaRutu } from "@/lib/meta"
 import {
   LOKAL_PAGES,
   SEO_PAGES,
   SHARED_PAGES,
   href,
   resolveRoute,
+  sveAdrese,
   type Route,
   type RouteKontekst,
 } from "@/lib/route"
@@ -139,12 +140,31 @@ export async function generateMetadata({
   // Kanonska adresa uvijek pokazuje na sebe, punom adresom.
   const kanonska = BASE_URL + href(route, ctx.glavniSlug)
 
+  /**
+   * hreflang za svih sedam jezika.
+   *
+   * Ključ je KOD jezika (`bs`), a ne prefiks iz adrese (`ba`) — hreflang
+   * traži ISO oznaku, pa bi `ba` Google odbacio kao nepoznatu.
+   *
+   * `x-default` pokazuje na slovenski: to je adresa bez prefiksa i ono
+   * što dobije posjetilac čiji jezik nemamo.
+   */
+  const jezicne = Object.fromEntries(
+    Object.entries(sveAdrese(slug, ctx)).map(([kod, putanja]) => [
+      kod,
+      BASE_URL + putanja,
+    ]),
+  )
+
   return {
     title: meta.naslov,
     description: meta.opis,
     alternates: {
       canonical: kanonska,
-      // korak 22: alternates.languages — hreflang za sedam jezika
+      languages: {
+        ...jezicne,
+        "x-default": jezicne.sl,
+      },
     },
     openGraph: {
       type: "website",
@@ -152,7 +172,10 @@ export async function generateMetadata({
       title: meta.naslov,
       description: meta.opis,
       url: kanonska,
-      locale: route.lang,
+      locale: OG_LOKALI[route.lang],
+      alternateLocale: JEZICI.filter((j) => j.kod !== route.lang).map(
+        (j) => OG_LOKALI[j.kod],
+      ),
       images: [
         {
           url: BASE_URL + OG_SLIKA.url,

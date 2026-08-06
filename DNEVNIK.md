@@ -547,10 +547,99 @@ u `GeoNajblizi` nema `useEffect`, a `getCurrentPosition` se poziva **samo iz ruk
 
 ---
 
+## Korak 22 — sedam jezika
+
+**Povod nije bio plan nego prijava:** „i dalje imam samo slo i eng, a na /en se ništa ne dešava."
+Provjera je pokazala da je pola optužbe tačno, a druga polovina gora nego što je zvučala.
+
+**Šta je zapravo bilo pokvareno.** Sadržaj na `/en` JE bio engleski — sekcije, naslovi, sve.
+Ali `providers/LanguageProvider.tsx` je od koraka 1 stajao netaknut sa `type Language = "sl" | "en"`,
+i iz njega su natpise vukli navbar, podnožje, mobilna traka i značke na tanjiru. Rezultat: engleska
+stranica u slovenskom okviru. Prekidač je mijenjao `useState`, ne adresu, pa se URL nije mijenjao —
+jezik se nije mogao podijeliti linkom ni preživjeti osvježavanje. I najgore: na cijelom sajtu bilo je
+**nula linkova** na bilo koji jezik osim slovenskog. Do `/en` se dolazilo samo ručnim kucanjem.
+
+**Ruter je već sve znao.** `resolveRoute()` i `href()` čitaju prefikse iz `JEZICI` od koraka 3, pa
+su svih sedam jezika radili na nivou adresa i prije ovog koraka. Falio je samo sloj iznad.
+
+### Odluke
+
+**Dva kataloga, ne jedan.** `messages/<jezik>.json` drži natpise (153 ključa), a
+`messages/sadrzaj/<jezik>.json` prozu stranica (101 ključ). Razlog je mjerljiv: `lib/i18n.ts` uvozi
+navbar, koji je klijentski, pa sve što uđe tamo završi u paketu koji gost preuzme. Priča lokala,
+halal objašnjenja i pravni tekstovi na sedam jezika su stotine kilobajta koje niko ne čita na šest
+jezika odjednom. `lib/sadrzaj.ts` nosi `import "server-only"` da to ostane tako.
+
+**Prekidač su `<Link>` elementi, ne dugmad, i spisak je UVIJEK u dokumentu.** Prva verzija je
+iscrtavala padajući meni uslovno (`{otvoren && …}`) — radila je na klik, ali je provjera pokazala
+da u HTML-u i dalje nema nijednog linka na drugi jezik. Sad ga skriva samo stil, isto pravilo po
+kojem podmeni menija ostaje u HTML-u. Tek time `hreflang` pokazuje na adrese do kojih se stvarno
+može doći klikom.
+
+**Adrese gradi `sveAdrese()`, nikad lijepljenje prefiksa.** Gost sa `/seherezada2/meni` završi na
+`/en/seherezada2/meni`, ne na naslovnoj — ista zamka koju prekidač lokala izbjegava u koraku 19.
+
+**`bs` vs `ba`.** Kod jezika je `bs` (ide u `lang`, `hreflang`, `og:locale`), prefiks u adresi je
+`ba`. Zamjena to dvoje je najlakša greška ovdje, pa `prefiks()` u `lib/i18n.ts` nosi upozorenje.
+
+**`<html lang>` skriptom, ne kroz `headers()`.** `<html>` smije iscrtati samo korijenski raspored,
+a on ne vidi rutu — sve ide kroz jedan catch-all, pa `app/layout.tsx` nema `params`. Jedina
+alternativa je `headers()`, ali on cijelu aplikaciju prebacuje na dinamičko iscrtavanje i gubi
+svih 140 unaprijed izgrađenih stranica. Blokirajuća skripta stoji prije stilova, pa arapski
+`dir="rtl"` stigne prije prvog iscrtavanja — nema bljeska. **Posljedica koju treba znati:** sirovi
+SSR HTML nosi `lang="sl"` dok se skripta ne izvrši. Za Google to ne smeta jer ciljanje jezika radi
+`hreflang`, ali je ograničenje, ne osobina.
+
+**Alat umjesto ručnog rada.** `scripts/prevodi.mjs` prima spec u kojem je ključ napisan jednom sa
+svih sedam prijevoda i razdijeli ga po fajlovima; `provjeri` nalazi rupe i siročad. Sedam fajlova
+znači sedam izmjena po natpisu, a propust se inače primijeti tek kad gost vidi goli ključ.
+
+### Šta je prevedeno
+
+Okvir (navbar, podnožje, mobilna traka, značke), naslovna, kartice lokala, geolokacija, meni,
+modal jela, oznake i alergeni, stranica recenzija, izvod FAQ-a, zajedničke stranice (o nas, halal,
+galerija, pogosta vprašanja, zasebnost, pogoji) i **svi `<title>` i `<meta description>`** za svih
+140 adresa.
+
+### Šta NIJE prevedeno
+
+Tri fajla su ostala na slovenskom i engleskom:
+
+| fajl | tekstova | šta je |
+|---|---|---|
+| `components/stranice/sadrzajSeo.ts` | 96 | osam ciljanih stranica za pretragu |
+| `lib/repo.static.ts` | 87 | demo podaci (nazivi i opisi jela) |
+| `components/stranice/sadrzajFaq.ts` | 46 | 24 pitanja i odgovora |
+
+Na tim mjestima `t()` pada na engleski, pa gost na `/zh/kebab-ljubljana` dobije engleski tekst u
+kineskom okviru — ne slovenski, ali ni kineski. Isto važi za nazive jela: oni žive u **bazi**, gdje
+kolone `naziv` i `opis` imaju `sl` i `en` ključeve, pa ni migracija ni `/chef` još ne nude ostalih
+pet jezika.
+
+### Popravljeno usput
+
+- `ReviewsKarusel.tsx` je bio jedina komponenta koja je još uvozila `src/data.ts` — demo recenzije
+  su prešle na katalog, sa ključevima umjesto teksta. Prave Google recenzije (korak 21) ostaju na
+  jeziku na kojem su napisane: tuđe riječi se ne prevode, prevodi se samo okvir oko njih.
+- `providers/LanguageProvider.tsx` obrisan — ostao je bez ijednog korisnika.
+- `KRATKI_DAN` je stajao dvaput, u `ZajednickeStranice.tsx` i `FaqIzvod.tsx`, sa različitim
+  skraćenicama. Sad je jedan ključ `danKratko.*`.
+- Nazivi stranica su bili prepisani na tri mjesta; sad su u `lib/naslovi.ts`.
+
+### Provjera
+
+Svih sedam jezika vraća 200. Navbar, podnožje i naslovi kartice preglednika mijenjaju se po ruti.
+Prekidač nudi sedam jezika kao prave linkove u izvornom HTML-u; sa `/seherezada2/meni` vodi na
+`/{jezik}/seherezada2/meni`. `hreflang` ima svih sedam plus `x-default`, sa `bs` → `/ba`.
+Gradnja i dalje daje 140 statičkih stranica.
+
+---
+
 ## Otvoreno
 
-- **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.
 - **QR kod** na stranici recenzija — čeka pravi `google_place_id` (korak 21).
-- **Prekidač SL/EN** ne mijenja tekst serverskih sekcija — rješava korak 22.
+- **Tri fajla neprevedena** — `sadrzajSeo.ts` (96), `repo.static.ts` (87), `sadrzajFaq.ts` (46); vidi korak 22.
+- **Nazivi jela u bazi** imaju samo `sl` i `en`; `/chef` još ne nudi ostalih pet jezika.
+- **RTL raspored** za arapski nije prilagođen — `dir` je postavljen, ali stilovi nisu provjereni.
 - **404 bez okvira** — ograničenje Next 16, opisano uz korak 5.
 - **Provjere „tvoje oko"** iz koraka 1, 4, 5, 7, 8 i 9 čekaju korisnika.

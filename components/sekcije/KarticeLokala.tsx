@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { MapPin, ArrowRight } from "lucide-react"
 
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 import type { Lang, Lokal } from "@/lib/domain"
 import { href } from "@/lib/route"
 
@@ -38,7 +38,7 @@ export function KarticeLokala({
   return (
     <section className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 mt-16 md:mt-24">
       <h2 className="sr-only">
-        {t({ sl: "Naši lokali", en: "Our locations" }, lang)}
+        {ui("naslov.nasiLokali", lang)}
       </h2>
 
       <GeoNajblizi
@@ -72,7 +72,7 @@ export function KarticeLokala({
                     <div className="min-w-0">
                       <h3 className="font-bold text-lg">{lokal.naziv}</h3>
                       <span className="inline-block mt-1 text-xs font-black tracking-wide bg-shere-gold/10 text-shere-gold px-2.5 py-1 rounded-xl">
-                        {t({ sl: "Kmalu", en: "Coming soon" }, lang)}
+                        {ui("stanje.kmalu", lang)}
                       </span>
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export function KarticeLokala({
                       rel="noreferrer"
                       className="mt-2 ml-16 inline-flex items-center gap-1 text-sm font-semibold text-shere-red hover:underline"
                     >
-                      {t({ sl: "Navodila", en: "Directions" }, lang)}
+                      {ui("akcija.navodila", lang)}
                       <ArrowRight size={14} />
                     </a>
                   </>

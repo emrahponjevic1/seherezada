@@ -1,4 +1,4 @@
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 import type { Lang, Lokal, MenuStavka } from "@/lib/domain"
 
 import { PopularPicksMreza } from "./sekcije/PopularPicksMreza"
@@ -25,16 +25,10 @@ export function PopularPicks({
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
         <div className="mb-10 text-center md:text-left">
           <h2 className="text-4xl md:text-5xl font-black font-poppins mb-3 tracking-tight">
-            {t({ sl: "Priljubljene izbire", en: "Popular picks" }, lang)}
+            {ui("recenzije.priljubljeneIzbire", lang)}
           </h2>
           <p className="text-muted-foreground text-lg">
-            {t(
-              {
-                sl: "Najbolje ocenjene jedi naših gostov.",
-                en: "Best rated dishes of our guests.",
-              },
-              lang,
-            )}
+            {ui("recenzije.najboljeOcenjene", lang)}
           </p>
         </div>
 

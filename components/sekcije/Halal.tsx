@@ -1,7 +1,8 @@
 import Link from "next/link"
+import { s } from "@/lib/sadrzaj"
 import { ArrowRight } from "lucide-react"
 
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 import type { Lang } from "@/lib/domain"
 import { href } from "@/lib/route"
 
@@ -28,13 +29,7 @@ export function Halal({
           <div className="relative w-full h-[320px] sm:h-[420px] rounded-[3rem] overflow-hidden shadow-2xl border border-white/5 dark:border-white/10 group order-last lg:order-first">
             <img
               src="/rotisserie_hero.webp"
-              alt={t(
-                {
-                  sl: "Halal meso na vertikalnem žaru",
-                  en: "Halal meat on the vertical grill",
-                },
-                lang,
-              )}
+              alt={s("halal.slikaOpis", lang)}
               width={1024}
               height={1024}
               loading="lazy"
@@ -45,37 +40,22 @@ export function Halal({
 
           <div className="space-y-6">
             <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight">
-              {t(
-                { sl: "Vse pri nas je halal", en: "Everything here is halal" },
-                lang,
-              )}
+              {ui("halal.svePriNas", lang)}
             </h2>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              {t(
-                {
-                  sl: "Meso nabavljamo pri preverjenih halal dobaviteljih in ga pripravljamo ločeno od vsega ostalega. V kuhinji ni svinjine in ne uporabljamo alkohola — niti v omakah niti v testu.",
-                  en: "We source our meat from certified halal suppliers and prepare it separately from everything else. There is no pork in the kitchen and we use no alcohol — not in the sauces, not in the dough.",
-                },
-                lang,
-              )}
+              {s("halal.izvod.p1", lang)}
             </p>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              {t(
-                {
-                  sl: "Isto velja za vse tri lokale in za vsako jed na meniju, tudi za burgerje in pice.",
-                  en: "The same applies to all three locations and to every dish on the menu, burgers and pizzas included.",
-                },
-                lang,
-              )}
+              {s("halal.izvod.p2", lang)}
             </p>
 
             <Link
               href={halalStranica}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-shere-red text-white font-bold shadow-[0_0_40px_-10px_rgba(230,57,70,0.6)] hover:scale-105 active:scale-95 transition-transform"
             >
-              {t({ sl: "Preberi več", en: "Read more" }, lang)}
+              {ui("akcija.preberiVec", lang)}
               <ArrowRight size={18} />
             </Link>
           </div>

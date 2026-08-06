@@ -9,6 +9,7 @@
 import {
   DANI_PO_GETDAY,
   FALLBACK,
+  JEZICI,
   type Dan,
   type Lang,
   type Prevod,
@@ -21,6 +22,11 @@ import {
 // izvan Nexta (seed skripta u koraku 11 radi u čistom Node-u).
 import sl from "../messages/sl.json" with { type: "json" }
 import en from "../messages/en.json" with { type: "json" }
+import de from "../messages/de.json" with { type: "json" }
+import bs from "../messages/bs.json" with { type: "json" }
+import tr from "../messages/tr.json" with { type: "json" }
+import ar from "../messages/ar.json" with { type: "json" }
+import zh from "../messages/zh.json" with { type: "json" }
 
 // ─────────────────────────────────────────────────────────────
 //  Prijevodi sadržaja
@@ -73,12 +79,17 @@ export function tList(polje: PrevodLista | undefined, lang: Lang): string[] {
 type Poruke = Record<string, string>
 
 /**
- * Za sada postoje sl i en. Ostalih pet jezika dolazi u koraku 22 —
- * do tada `ui()` pada na engleski, pa na slovenski.
+ * Svih sedam jezika (korak 22). Fali li ključ u nekom, `ui()` pada na
+ * engleski pa na slovenski — nikad na praznu nisku.
  */
-const PORUKE: Partial<Record<Lang, Poruke>> = {
+const PORUKE: Record<Lang, Poruke> = {
   sl: sl as Poruke,
   en: en as Poruke,
+  de: de as Poruke,
+  bs: bs as Poruke,
+  tr: tr as Poruke,
+  ar: ar as Poruke,
+  zh: zh as Poruke,
 }
 
 /** Vraća ključ ako prijevoda nema — tako se propust vidi, a ne pravi praznina. */
@@ -92,6 +103,45 @@ export function ui(kljuc: string, lang: Lang): string {
   }
 
   return kljuc
+}
+
+/** `ui()` s popunjavanjem `{oznaka}` rupa: ui2("stanje.odprtoDo", lang, {ura: "23:00"}) */
+export function ui2(
+  kljuc: string,
+  lang: Lang,
+  rupe: Record<string, string | number>,
+): string {
+  return Object.entries(rupe).reduce(
+    (tekst, [ime, vrijednost]) =>
+      tekst.replaceAll(`{${ime}}`, String(vrijednost)),
+    ui(kljuc, lang),
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+//  Svojstva jezika
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Smjer pisma. Samo arapski je zdesna nalijevo — vraća se kao vrijednost
+ * `dir` atributa, pa ga i `<html>` i pojedini blokovi mogu koristiti.
+ */
+export function smjer(lang: Lang): "rtl" | "ltr" {
+  const jezik = JEZICI.find((j) => j.kod === lang) as
+    | { smjer?: string }
+    | undefined
+  return jezik?.smjer === "rtl" ? "rtl" : "ltr"
+}
+
+/**
+ * Prefiks u adresi, ili `null` za slovenski.
+ *
+ * PAŽNJA: prefiks ≠ kod jezika. Bosanski ima kod `bs` (to ide u `lang` i
+ * `hreflang`, jer je to ISO oznaka) ali prefiks `ba` (to ide u adresu).
+ * Miješanje to dvoje je najlakša greška u ovom fajlu.
+ */
+export function prefiks(lang: Lang): string | null {
+  return JEZICI.find((j) => j.kod === lang)?.prefiks ?? null
 }
 
 // ─────────────────────────────────────────────────────────────

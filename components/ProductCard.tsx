@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 
 import type { Lang, MenuStavka } from "@/lib/domain"
-import { formatCijena, t } from "@/lib/i18n"
+import { formatCijena, t, ui } from "@/lib/i18n"
 import { SlikaJela } from "@/components/stanja/SlikaJela"
 
 import { OznakeJela } from "./sekcije/OznakeJela"
@@ -158,7 +158,7 @@ export function ProductCard({
                   : "bg-muted text-foreground hover:bg-shere-red hover:text-white"
               }`}
             >
-              {t({ sl: "Prikaži podrobnosti", en: "View details" }, lang)}
+              {ui("akcija.prikaziPodrobnosti", lang)}
             </button>
           </motion.div>
 

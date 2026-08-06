@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Moon, Sun, Languages, Menu as MenuIcon, X, ChevronDown } from "lucide-react"
+import { Moon, Sun, Menu as MenuIcon, X, ChevronDown } from "lucide-react"
 import {
   motion,
   AnimatePresence,
@@ -13,14 +13,19 @@ import {
 } from "framer-motion"
 
 import { useTheme } from "@/providers/ThemeProvider"
-import { useLanguage } from "@/providers/LanguageProvider"
-import { href, type Route } from "@/lib/route"
-import { izPutanje, trenutniLokal, type OkvirPodaci } from "./okvir"
+import { ui } from "@/lib/i18n"
+import { href, type Route, type RouteKontekst } from "@/lib/route"
+import {
+  izPutanje,
+  lokaliUPogonu,
+  trenutniLokal,
+  type OkvirPodaci,
+} from "./okvir"
 import { PrekidacLokala, zapamtiLokal } from "./PrekidacLokala"
+import { PrekidacJezika } from "./PrekidacJezika"
 
 export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
   const { theme, setTheme } = useTheme()
-  const { lang: langSucelja, setLang, t } = useLanguage()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [podmeniOtvoren, setPodmeniOtvoren] = useState(false)
@@ -39,21 +44,30 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
     page: "meni",
   })
 
+  // Natpisi dolaze iz `ui()` sa jezikom IZ ADRESE. Ranije su dolazili iz
+  // `useLanguage()`, koji je jezik držao u klijentskom stanju — pa je na
+  // /en zaglavlje ostajalo slovensko dok je sadržaj bio engleski.
   const podmeni = [
-    { adresa: adresa({ kind: "seo", lang, page: "kebab-ljubljana" }), sl: "Kebab", en: "Kebab" },
-    { adresa: adresa({ kind: "seo", lang, page: "pizza-ljubljana" }), sl: "Pizza", en: "Pizza" },
-    { adresa: adresa({ kind: "seo", lang, page: "burger-ljubljana" }), sl: "Burgerji", en: "Burgers" },
-    { adresa: adresa({ kind: "seo", lang, page: "falafel-ljubljana" }), sl: "Falafel", en: "Falafel" },
-    { adresa: meniAdresa, sl: "Cel meni", en: "Full menu" },
+    { adresa: adresa({ kind: "seo", lang, page: "kebab-ljubljana" }), naziv: ui("jelo.kebab", lang) },
+    { adresa: adresa({ kind: "seo", lang, page: "pizza-ljubljana" }), naziv: ui("jelo.pizza", lang) },
+    { adresa: adresa({ kind: "seo", lang, page: "burger-ljubljana" }), naziv: ui("jelo.burgeri", lang) },
+    { adresa: adresa({ kind: "seo", lang, page: "falafel-ljubljana" }), naziv: ui("jelo.falafel", lang) },
+    { adresa: meniAdresa, naziv: ui("nav.celMeni", lang) },
   ]
 
   const stavke = [
-    { adresa: meniAdresa, sl: "Meni", en: "Menu", imaPodmeni: true },
-    { adresa: adresa({ kind: "shared", lang, page: "halal" }), sl: "Halal", en: "Halal", imaPodmeni: false },
-    { adresa: adresa({ kind: "shared", lang, page: "o-nas" }), sl: "O nas", en: "About us", imaPodmeni: false },
-    { adresa: adresa({ kind: "shared", lang, page: "galerija" }), sl: "Galerija", en: "Gallery", imaPodmeni: false },
-    { adresa: adresa({ kind: "shared", lang, page: "pogosta-vprasanja" }), sl: "Vprašanja", en: "FAQ", imaPodmeni: false },
+    { adresa: meniAdresa, naziv: ui("nav.meni", lang), imaPodmeni: true },
+    { adresa: adresa({ kind: "shared", lang, page: "halal" }), naziv: ui("nav.halal", lang), imaPodmeni: false },
+    { adresa: adresa({ kind: "shared", lang, page: "o-nas" }), naziv: ui("nav.oNas", lang), imaPodmeni: false },
+    { adresa: adresa({ kind: "shared", lang, page: "galerija" }), naziv: ui("nav.galerija", lang), imaPodmeni: false },
+    { adresa: adresa({ kind: "shared", lang, page: "pogosta-vprasanja" }), naziv: ui("nav.vprasanja", lang), imaPodmeni: false },
   ]
+
+  // Prekidaču jezika treba isti kontekst koji koristi resolveRoute.
+  const ctx: RouteKontekst = {
+    lokalSlugi: lokaliUPogonu(lokali).map((l) => l.slug),
+    glavniSlug,
+  }
 
   const naslovnaAdresa = adresa({ kind: "lokal-home", lang, lokal: lokalSlug })
 
@@ -140,7 +154,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
           <nav className="hidden lg:flex space-x-2 text-sm font-bold tracking-wide">
             {stavke.map((stavka) => (
               <div
-                key={stavka.adresa + stavka.sl}
+                key={stavka.adresa + stavka.naziv}
                 className="relative"
                 onMouseEnter={() => stavka.imaPodmeni && setPodmeniOtvoren(true)}
                 onMouseLeave={() => stavka.imaPodmeni && setPodmeniOtvoren(false)}
@@ -153,7 +167,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                       : "text-foreground/80 hover:text-foreground"
                   }`}
                 >
-                  <span className="relative z-10">{t(stavka.sl, stavka.en)}</span>
+                  <span className="relative z-10">{stavka.naziv}</span>
                   {stavka.imaPodmeni && (
                     <ChevronDown size={14} className="relative z-10" />
                   )}
@@ -184,11 +198,11 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                     <div className="bg-background/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
                       {podmeni.map((p) => (
                         <Link
-                          key={p.adresa + p.sl}
+                          key={p.adresa + p.naziv}
                           href={p.adresa}
                           className="block px-4 py-2.5 rounded-xl text-foreground/80 hover:text-foreground hover:bg-muted/40 transition-colors"
                         >
-                          {t(p.sl, p.en)}
+                          {p.naziv}
                         </Link>
                       ))}
                     </div>
@@ -208,14 +222,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
               pathname={pathname}
             />
 
-            <button
-              onClick={() => setLang(langSucelja === "sl" ? "en" : "sl")}
-              className="flex px-3 py-2.5 rounded-xl bg-muted/40 hover:bg-muted/80 border border-white/5 transition-all items-center gap-2 text-xs font-black tracking-wider text-foreground/80"
-              title="Toggle Language"
-            >
-              <Languages size={16} />
-              <span>{langSucelja.toUpperCase()}</span>
-            </button>
+            <PrekidacJezika lang={lang} pathname={pathname} ctx={ctx} />
 
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -248,7 +255,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
             <nav className="flex flex-col space-y-8 mt-8">
               {stavke.map((stavka, i) => (
                 <motion.div
-                  key={stavka.adresa + stavka.sl}
+                  key={stavka.adresa + stavka.naziv}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + i * 0.1, duration: 0.4 }}
@@ -258,7 +265,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                     onClick={() => setIsMobileOpen(false)}
                     className="text-4xl font-black font-poppins text-foreground tracking-tight hover:text-shere-red transition-colors"
                   >
-                    {t(stavka.sl, stavka.en)}
+                    {stavka.naziv}
                   </Link>
                 </motion.div>
               ))}
@@ -279,20 +286,13 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                 varijanta="mobitel"
               />
 
-              <div className="flex items-center justify-between mb-8">
-                <p className="text-sm text-muted-foreground font-medium uppercase tracking-widest">
-                  {t("Jezik aplikacije", "App Language")}
-                </p>
-                <button
-                  onClick={() => {
-                    setLang(langSucelja === "sl" ? "en" : "sl")
-                    setIsMobileOpen(false)
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-shere-red text-white font-black text-sm tracking-wider shadow-lg shadow-shere-red/25 active:scale-95 transition-transform"
-                >
-                  {langSucelja === "sl" ? "ENGLISH" : "SLOVENŠČINA"}
-                </button>
-              </div>
+              <PrekidacJezika
+                lang={lang}
+                pathname={pathname}
+                ctx={ctx}
+                varijanta="mobitel"
+                onOdabir={() => setIsMobileOpen(false)}
+              />
 
               <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
                 <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">

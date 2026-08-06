@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Star, ArrowRight } from "lucide-react"
 
-import { t } from "@/lib/i18n"
+import { ui } from "@/lib/i18n"
 import type { Lang, Lokal } from "@/lib/domain"
 import { href } from "@/lib/route"
 
@@ -36,7 +36,7 @@ export function Reviews({
 
       <div className="container mx-auto px-4 text-center relative z-10">
         <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-8">
-          {t({ sl: "Mnenja gostov", en: "Guest reviews" }, lang)}
+          {ui("recenzije.naslov", lang)}
         </h2>
 
         <div className="flex justify-center mb-8 gap-1 text-shere-gold">
@@ -52,7 +52,7 @@ export function Reviews({
             href={sveRecenzije}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm font-bold hover:scale-105 active:scale-95 transition-transform"
           >
-            {t({ sl: "Vse recenzije", en: "All reviews" }, lang)}
+            {ui("akcija.vseRecenzije", lang)}
             <ArrowRight size={18} />
           </Link>
         </div>
