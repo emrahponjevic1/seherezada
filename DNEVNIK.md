@@ -405,6 +405,43 @@ cijenu** — jedina tri pogotka na „cijenu" su rečenice koje objašnjavaju za
 
 ---
 
+## Korak 16 — /chef → meni lokala i cijene
+
+Ovdje se spajaju lokali i katalog. Sve dosad je bilo pripremanje — ovo je ekran na kojem vlasnik
+radi svaki dan.
+
+**Novi lokal počinje praznog menija.** Katalog je biblioteka, meni je izbor iz nje. Zato
+dodavanje traži cijenu odmah: jelo bez cijene u meniju nema smisla.
+
+**Cijena se uređuje u samom redu**, bez otvaranja jela, i snima pri izlasku iz polja. Polje
+pokazuje stanje — *shranjujem / shranjeno / napaka*. Kad snimanje ne uspije, polje se **vraća na
+staru vrijednost**; inače bi u njemu ostao broj koji u bazi ne postoji, a vlasnik bi mislio da je
+snimljen.
+
+Tri radnje se lako pobrkaju, pa svaka ima svoj opis pri prelasku mišem:
+- **skrito** — privremeno sakriveno sa sajta, red i cijena ostaju
+- **izpostavljeno** — jelo ulazi u „Priljubljene izbire" na naslovnoj
+- **Odstrani** — briše red iz `lokal_jela`; **jelo ostaje u katalogu**
+
+**Zbirna tabela `/chef/cijene`** pokazuje sva jela × sve lokale. `—` znači da jelo nije u meniju
+tog lokala — to je podatak, ne greška, i klik nudi dodavanje. „Uporabi" mijenja cijenu **samo tamo
+gdje jelo već postoji**, nikad je ne dodaje.
+
+**Prečica koja štedi sate:** pri dodavanju iz kataloga postoji „Predlagaj cene iz…", koja prepiše
+cijene odabranog lokala u polja, pa se dotjeraju. Otvaranje novog lokala tako traje minute.
+
+**Već pokriveno ranije:** radno vrijeme i izuzeci po datumu su u obrascu lokala (korak 14), a
+prednost izuzetka nad redovnim vremenom dokazana je u koraku 2 (`k2c10`).
+
+**Provjera:** 17 tvrdnji kroz stvarne pozive akcija — nov lokal ima prazan meni a katalog nudi
+svih 23 jela; `7,25` i `8.75` se **oboje** prihvataju; isto jelo se ne može dodati dvaput i
+postojeća cijena se ne prepisuje; negativna cijena i tekst odbijeni **uz vraćanje stare
+vrijednosti**; izmjena u jednom lokalu **ne dira** drugi; isključeno `dostupno` sakriva sa sajta
+a red ostaje; `izdvojeno` stavlja jelo u izdvojena; „primijeni na sve" mijenja red svugdje gdje
+jelo postoji; jelo van menija ima `null`; **Ukloni** briše iz menija a jelo ostaje u katalogu.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.
