@@ -6,6 +6,7 @@ import Link from "next/link"
 import type { Jelo, Kategorija } from "@/lib/domain"
 import { t } from "@/lib/i18n"
 import { spremiJelo, type StanjeObrasca } from "@/lib/chef/jela"
+import { OtpremiSliku } from "./OtpremiSliku"
 import { ALERGENI, predloziSlug } from "@/lib/chef/provjere"
 
 import {
@@ -49,6 +50,7 @@ export function ObrazacJela({
   )
   const greske = stanje.greske
   const [slug, setSlug] = useState(jelo?.slug ?? "")
+  const [slikaUrl, setSlikaUrl] = useState(jelo?.slikaUrl ?? "")
 
   return (
     <form action={akcija} className="space-y-8 max-w-3xl">
@@ -194,11 +196,20 @@ export function ObrazacJela({
 
       <section className="bg-white border border-zinc-200 rounded-2xl p-6 space-y-5">
         <h2 className="font-black font-poppins text-lg">Slika</h2>
+
+        <OtpremiSliku
+          mapa="jela"
+          ime={slug}
+          pocetna={jelo?.slikaUrl}
+          naUspjeh={setSlikaUrl}
+        />
+
         <Tekst
           ime="slikaUrl"
           naslov="Naslov slike"
-          defaultValue={jelo?.slikaUrl}
-          pomoc="Nalaganje slik s telefona pride v koraku 17. Do takrat vpišite naslov."
+          value={slikaUrl}
+          onChange={(e) => setSlikaUrl(e.target.value)}
+          pomoc="Izpolni se samodejno po nalaganju. Lahko vpišete tudi zunanji naslov."
         />
         <PoJeziku
           ime="slikaAlt"

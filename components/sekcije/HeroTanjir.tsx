@@ -84,7 +84,7 @@ export function HeroTanjir() {
           className="relative z-10 w-[260px] h-[260px] sm:w-[370px] sm:h-[370px] rounded-full p-2 bg-gradient-to-tr from-shere-red to-orange-500 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border-[6px] border-white/10 dark:border-white/5"
         >
           <motion.img
-            src="/rotisserie_hero.png"
+            src="/rotisserie_hero.webp"
             alt="Šeherezada premium Turkish Doner Plate"
             width={370}
             height={370}

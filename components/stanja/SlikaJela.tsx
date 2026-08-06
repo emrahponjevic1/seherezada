@@ -39,11 +39,22 @@ export function SlikaJela({
     )
   }
 
+  // Naše otpremljene slike postoje u tri veličine — preglednik bira
+  // najmanju koja mu treba. Vanjske adrese (zastupne fotografije) nemaju
+  // varijante, pa idu kakve jesu.
+  const nase = slikaUrl.startsWith("/api/slike/")
+
   return (
-    // Obični <img>: jela koriste vanjske adrese, a next/image bi tražio
-    // upis domena u konfiguraciju. Korak 17 uvodi vlastite slike i srcset.
+    // Obični <img>: dio slika su vanjske adrese, a next/image bi tražio
+    // upis svakog domena u konfiguraciju.
     <img
-      src={slikaUrl}
+      src={nase ? `${slikaUrl}/800.webp` : slikaUrl}
+      srcSet={
+        nase
+          ? `${slikaUrl}/400.webp 400w, ${slikaUrl}/800.webp 800w, ${slikaUrl}/1600.webp 1600w`
+          : undefined
+      }
+      sizes={nase ? "(max-width: 768px) 45vw, 300px" : undefined}
       alt={alt}
       width={width}
       height={height}

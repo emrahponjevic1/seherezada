@@ -442,6 +442,37 @@ jelo postoji; jelo van menija ima `null`; **Ukloni** briše iz menija a jelo ost
 
 ---
 
+## Korak 17 — slike
+
+**Odstupanje: slike idu na disk, ne u Supabase Storage** — kao i baza, vodimo ih sami.
+
+Stoje u `podaci/slike/`, **izvan `public/`**. Razlog: `public/` se kopira pri gradnji, pa se
+datoteke dodane kasnije ne bi vidjele u samostalnoj gradnji. Poslužuje ih `/api/slike/[...put]`,
+sa kratkim kešom jer nova slika prepisuje staru pod istim imenom.
+
+Server obrađuje, ne preglednik: obreže na 4:3, napravi tri veličine u WebP-u i **spušta kvalitet
+dok svaka ne stane ispod 300 KB**. `sharp(...).rotate()` poštuje EXIF orijentaciju, inače bi
+fotografije sa telefona stizale okrenute.
+
+**Tip se čita iz zaglavlja, ne iz nastavka imena.** Nastavak laže — PDF preimenovan u `.jpg`
+prošao bi provjeru po imenu. Isto vrijedi za ime mape: izvodi se iz sluga i provjerava obrascem,
+inače bi `..` u imenu vodilo pisanje izvan predviđene mape.
+
+`<SlikaJela>` dobija `srcset` samo za naše slike; vanjske zastupne fotografije nemaju varijante
+pa idu kakve jesu.
+
+**`rotisserie_hero.png` → WebP: 899 KB → 158 KB, 82% manje.** Plan traži PNG kao rezervu kroz
+`<picture>`; umjesto toga je PNG zadržan na disku a korištenja prebačena na `.webp`. WebP podržava
+svaki preglednik u upotrebi od 2020, pa bi rezervni `<source>` bio dodatna oznaka bez ijednog
+stvarnog korisnika.
+
+**Provjera:** velika fotografija daje tri veličine, **sve ispod 300 KB**; premala slika (200×150)
+odbijena; **PDF preimenovan u `.jpg` odbijen na serveru**; otpremanje bez prijave vraća 401;
+slike se poslužuju kao `image/webp`, nepostojeća daje 404, a `..` u putanji ne izlazi iz mape;
+nova slika istog jela **prepisuje staru** i broj datoteka ostaje tri.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.

@@ -321,7 +321,7 @@ export function ZajednickaStranica({
         { grupa: "hrana", url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80", opis: { sl: "Pica iz kamnite peči", en: "Pizza from the stone oven" } },
         { grupa: "hrana", url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80", opis: { sl: "Šehere burger z dvojno govedino", en: "Shehere burger with double beef" } },
         { grupa: "hrana", url: "https://images.unsplash.com/photo-1593010950930-741fb981f26a?w=800&q=80", opis: { sl: "Falafel plošča s humusom", en: "Falafel plate with hummus" } },
-        { grupa: "lokal", url: "/rotisserie_hero.png", opis: { sl: "Vertikalni žar na Trubarjevi", en: "The vertical grill on Trubarjeva" } },
+        { grupa: "lokal", url: "/rotisserie_hero.webp", opis: { sl: "Vertikalni žar na Trubarjevi", en: "The vertical grill on Trubarjeva" } },
         { grupa: "lokal", url: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&q=80", opis: { sl: "Pult lokala na Slovenski", en: "The counter at the Slovenska location" } },
         { grupa: "ekipa", url: "https://images.unsplash.com/photo-1593010950930-741fb981f26a?w=800&q=80", opis: { sl: "Priprava mesa pred odprtjem", en: "Preparing the meat before opening" } },
         { grupa: "ekipa", url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80", opis: { sl: "Peka kruha ob petih zjutraj", en: "Baking bread at five in the morning" } },

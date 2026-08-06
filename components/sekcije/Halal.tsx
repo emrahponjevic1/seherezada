@@ -27,7 +27,7 @@ export function Halal({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="relative w-full h-[320px] sm:h-[420px] rounded-[3rem] overflow-hidden shadow-2xl border border-white/5 dark:border-white/10 group order-last lg:order-first">
             <img
-              src="/rotisserie_hero.png"
+              src="/rotisserie_hero.webp"
               alt={t(
                 {
                   sl: "Halal meso na vertikalnem žaru",

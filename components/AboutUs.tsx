@@ -45,7 +45,7 @@ export function AboutUs({
           <div className="relative w-full h-[450px] sm:h-[550px] lg:h-[700px] rounded-[3rem] overflow-hidden shadow-2xl border border-white/5 dark:border-white/10 group">
             <div className="parallax-img absolute w-full h-[130%] -top-[15%] left-0">
               <img
-                src="/rotisserie_hero.png"
+                src="/rotisserie_hero.webp"
                 alt={t(
                   {
                     sl: "Meso na vertikalnem žaru v Šeherezadi",
