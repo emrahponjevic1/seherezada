@@ -303,6 +303,43 @@ koji to ne uzme u obzir daje lažno negativan rezultat.
 
 ---
 
+## Korak 13 — prijava i zaštita /chef
+
+Plan je računao na Supabase Auth. Bez njega je prijava napisana od nule.
+
+**Lozinke** — `scrypt` iz `node:crypto`, sa vlastitom soli po korisniku, zapis
+`scrypt$<sol>$<heš>`. Poređenje ide kroz `timingSafeEqual`, jer obično `===` odaje koliko se
+znakova poklopilo. Kad e-mail ne postoji, heš se **svejedno računa** — inače trajanje odgovora
+odaje koji nalozi postoje.
+
+**Sesija** — potpisan kolačić, bez tabele sesija. Nosi `{id, email, exp}` i HMAC potpis.
+Namjerno koristi **Web Crypto, ne `node:crypto`**, jer isti kod mora raditi i u `proxy.ts`
+koji se izvršava na Edge okruženju.
+
+**Odstupanje: `middleware.ts` → `proxy.ts`.** Next 16 je konvenciju preimenovao i na
+`middleware` javlja upozorenje o zastarjelosti.
+
+**Prijava je izvan zaštićene grupe ruta.** `app/chef/(zasticeno)/` traži sesiju, a
+`app/chef/prijava/` je van te grupe — da nije, i prijava bi tražila prijavu i nastao bi krug
+bez izlaza.
+
+**Nalozi se prave naredbom**, `npm run korisnik -- <email> <lozinka> [ime]`. Registracije kroz
+sučelje namjerno nema. To je ujedno i način da se promijeni zaboravljena lozinka — bez
+Supabasea nema slanja e-pošte, pa je link „Pozabljeno geslo" zamijenjen napomenom.
+
+**Odstupanje: admin nije primoran na svijetlu temu kroz `dark:` varijante** nego kroz izričite
+boje (`bg-zinc-50 text-zinc-900`). Klasa teme stoji na `<html>` u korijenskom okviru i odatle
+se ne može poništiti.
+
+**Provjera:** sve pod `/chef/*` bez sesije vraća 307 na prijavu, uz sačuvan `next`; prijava
+ostaje dostupna; važeća sesija otvara `/chef` i prikazuje e-mail i dugme Odjava; **pokvaren
+potpis, izmijenjen sadržaj sa tuđim potpisom i istekla sesija — sve troje odbijeno**; lozinka
+u bazi nije u čistom tekstu, tačna prolazi a pogrešna i prazna ne; `noindex, nofollow` na
+stranici; robots zabranjuje `/chef`, sitemap ga ne sadrži; **nijedna tajna se ne pojavljuje u
+`.next/static`** (provjereno osam uzoraka).
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.
