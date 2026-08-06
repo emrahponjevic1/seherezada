@@ -473,6 +473,31 @@ nova slika istog jela **prepisuje staru** i broj datoteka ostaje tri.
 
 ---
 
+## Korak 18 — dinamički lokali u rutama
+
+Mali korak, jer je korak 3 urađen kako je propisano: `resolveRoute` već prima slugove kao
+argumente, `generateStaticParams` već čita iz `repo`, a `dynamicParams` je uključen od početka.
+
+Dodano je jedino **čitanje tabele preusmjerenja**. Ona se gleda **tek kad obično razrješavanje da
+404** — tako se za svaku ispravnu adresu ne ide u bazu bez potrebe. Novi slug se zatim razrješava
+ponovo, pa ako je u međuvremenu postao glavni lokal, adresa vodi na „/" a ne na međukorak.
+
+**Naišao sam na nešto što bi u radu lako zbunilo:** Next **keširа i 404 odgovore**. Ako neko
+posjeti adresu prije nego preusmjerenje postoji, zapamćeni 404 se servira i poslije upisa u bazu.
+Kroz `/chef` se to ne dešava — `spremiLokal` poziva `revalidirajSkupLokala()`, koja poništava
+oznaku `preusmjerenja`. Problem nastaje samo pri upisu direktno u bazu, kao u mom prvom testu.
+
+**Provjera:** preusmjerenje radi za naslovnu, `/meni` i `/recenzije`, i **čuva jezički prefiks**
+(`/en/stara/meni` → `/en/seherezada2/meni`), sve sa statusom **308**; lokal `uskoro` i nepostojeći
+slug daju 404 i nisu u sitemapu; postojeći lokali rade; slug `meni` odbijen u bazi uz jasnu
+poruku, a u obrascu i resolveru dokazano ranije (`k14c4`, `k3c2`).
+
+**`k18c11`:** jedini ukucani slug lokala u cijelom kodu je `samoLokal: "trubarjeva"` u
+`sadrzajSeo.ts`, i to je namjerno — plan izričito traži da `/nocna-hrana-ljubljana` upućuje na
+lokal 1, jer Slovenska zatvara u 23:59.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.

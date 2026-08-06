@@ -10,6 +10,7 @@ import {
   SHARED_PAGES,
   href,
   resolveRoute,
+  type Route,
   type RouteKontekst,
 } from "@/lib/route"
 
@@ -39,6 +40,45 @@ async function kontekst(): Promise<RouteKontekst> {
     lokalSlugi: lokali.filter((l) => l.stanje === "radi").map((l) => l.slug),
     glavniSlug: glavni.slug,
   }
+}
+
+/**
+ * Razrješavanje sa preusmjerenjima.
+ *
+ * Tabela se gleda TEK kad obično razrješavanje da 404 — tako se za svaku
+ * ispravnu adresu ne ide u bazu bez potrebe. Bez ovoga bi svaka promjena
+ * sluga tiho polomila sve podijeljene linkove i odštampane QR kodove.
+ */
+async function razrijesi(
+  slug: string[] | undefined,
+  ctx: RouteKontekst,
+): Promise<Route> {
+  const ruta = resolveRoute(slug, ctx)
+  if (ruta.kind !== "notfound") return ruta
+
+  const segmenti = (slug ?? []).filter(Boolean)
+  if (segmenti.length === 0) return ruta
+
+  // Preusmjerava se slug LOKALA, pa se gleda prvi segment poslije jezika.
+  const prefiksi = JEZICI.map((j) => j.prefiks).filter(Boolean)
+  const imaJezik = prefiksi.includes(segmenti[0])
+  const indeks = imaJezik ? 1 : 0
+  const stari = segmenti[indeks]
+  if (!stari) return ruta
+
+  const novi = await repo.getPreusmjerenje(stari)
+  if (!novi) return ruta
+
+  const zamijenjeni = [...segmenti]
+  zamijenjeni[indeks] = novi
+
+  // Novi slug se razrješava ponovo — ako je i on glavni lokal, dobija
+  // adresu bez prefiksa umjesto da ostane na međukoraku.
+  const nova = resolveRoute(zamijenjeni, ctx)
+  if (nova.kind === "redirect") return nova
+  if (nova.kind === "notfound") return ruta
+
+  return { kind: "redirect", to: href(nova, ctx.glavniSlug), trajno: true }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -84,7 +124,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const ctx = await kontekst()
-  const route = resolveRoute(slug, ctx)
+  const route = await razrijesi(slug, ctx)
 
   if (route.kind === "redirect" || route.kind === "notfound") return {}
 
@@ -141,7 +181,7 @@ export default async function Stranica({
   params: Promise<{ slug?: string[] }>
 }) {
   const { slug } = await params
-  const route = resolveRoute(slug, await kontekst())
+  const route = await razrijesi(slug, await kontekst())
 
   switch (route.kind) {
     case "redirect":
