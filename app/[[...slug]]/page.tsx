@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { notFound, permanentRedirect } from "next/navigation"
 
 import { repo } from "@/lib/repo"
-import { t } from "@/lib/i18n"
 import { JEZICI } from "@/lib/domain"
 import { BASE_URL, OG_SLIKA, metaZaRutu } from "@/lib/meta"
 import {
@@ -16,6 +15,11 @@ import {
 
 import { Naslovna } from "@/components/sekcije/Naslovna"
 import { StranicaMenija } from "@/components/sekcije/StranicaMenija"
+import {
+  PrikazRecenzija,
+  PrikazSeo,
+  PrikazZajednicke,
+} from "@/components/stranice/prikazi"
 
 /** Lokal dodan poslije gradnje mora dobiti stranicu, ne 404 (korak 18). */
 export const dynamicParams = true
@@ -128,21 +132,6 @@ export async function generateMetadata({
 }
 
 // ─────────────────────────────────────────────────────────────
-//  Kostur stranice — punе ih koraci 7, 8 i 9
-// ─────────────────────────────────────────────────────────────
-
-function Kostur({ naslov, opis }: { naslov: string; opis: string }) {
-  return (
-    <section className="max-w-[1440px] mx-auto px-4 md:px-8 py-20">
-      <h1 className="text-4xl md:text-5xl font-black font-poppins tracking-tight">
-        {naslov}
-      </h1>
-      <p className="mt-4 text-muted-foreground font-inter max-w-2xl">{opis}</p>
-    </section>
-  )
-}
-
-// ─────────────────────────────────────────────────────────────
 //  Stranica
 // ─────────────────────────────────────────────────────────────
 
@@ -175,29 +164,13 @@ export default async function Stranica({
         return <StranicaMenija lokalSlug={route.lokal} lang={route.lang} />
       }
 
-      // Recenzije — sadržaj piše korak 9, prave ocjene korak 21.
-      return (
-        <Kostur
-          naslov={`Mnenja gostov — Šeherezada ${lokal.ulica}`}
-          opis={t(lokal.uvodniTekst, route.lang)}
-        />
-      )
+      return <PrikazRecenzija lokalSlug={route.lokal} lang={route.lang} />
     }
 
     case "shared":
-      return (
-        <Kostur
-          naslov={route.page}
-          opis="Vsebino te strani pripravlja korak 9."
-        />
-      )
+      return <PrikazZajednicke stranica={route.page} lang={route.lang} />
 
     case "seo":
-      return (
-        <Kostur
-          naslov={route.page}
-          opis="Vsebino te strani pripravlja korak 9."
-        />
-      )
+      return <PrikazSeo stranica={route.page} lang={route.lang} />
   }
 }
