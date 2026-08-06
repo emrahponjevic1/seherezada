@@ -1,8 +1,8 @@
 "use client"
 
-// PRIVREMENO — korak 3 briše ovaj fajl i zamjenjuje ga sa app/[[...slug]]/page.tsx.
-// Ovdje samo drži postojeće sekcije istim redom kao dosadašnji App.tsx,
-// da se poslije migracije ništa vizuelno ne promijeni.
+// PRIVREMENO — korak 7 preuzima naslovnu i dijeli sekcije na serverski
+// tekst + klijentski animirani omotač. Ovdje stoji samo da naslovna ne
+// ostane prazna između koraka 3 i 7; sadržaj i redoslijed su nepromijenjeni.
 
 import { useState } from "react"
 
@@ -14,8 +14,8 @@ import { Reviews } from "@/components/Reviews"
 import { ProductModal } from "@/components/ProductModal"
 import type { MenuItem } from "@/src/data"
 
-export default function Page() {
-  // Stanje modala je ovdje privremeno — korak 8 ga seli u Menu/PopularPicks.
+export function NaslovnaPrivremeno() {
+  // Stanje modala seli u Menu/PopularPicks u koraku 8.
   const [selectedProduct, setSelectedProduct] = useState<MenuItem | null>(null)
 
   return (
