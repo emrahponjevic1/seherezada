@@ -18,6 +18,7 @@ import type {
 } from "./domain"
 
 import { staticRepo } from "./repo.static"
+import { postgresRepo } from "./repo.postgres"
 
 export interface Repo {
   /** Lokali u stanju 'radi' i 'uskoro', poredani po `redoslijed`. */
@@ -42,5 +43,11 @@ export interface Repo {
   getPreusmjerenje(stariSlug: string): Promise<string | null>
 }
 
-// Korak 11 mijenja SAMO ovu liniju: staticRepo → supabaseRepo
-export const repo: Repo = staticRepo
+/**
+ * Jedina linija koju je korak 11 promijenio: staticRepo → postgresRepo.
+ *
+ * `staticRepo` ostaje u projektu — koristan je za rad bez baze i kao
+ * živa dokumentacija ugovora. `REPO=static` ga vraća u pogon.
+ */
+export const repo: Repo =
+  process.env.REPO === "static" ? staticRepo : postgresRepo
