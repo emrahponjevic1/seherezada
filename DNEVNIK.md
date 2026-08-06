@@ -249,6 +249,60 @@ pada, brisanje lokala ne briše jela, web uloga dobija `permission denied` na pi
 
 ---
 
+## Korak 11 — repozitorij nad bazom i seed
+
+Sajt čita iz PostgreSQL-a. **Nijedna komponenta, ruta ni stranica nije dirana** — to je i bio
+test ispravnosti koraka 2, i prošao je.
+
+`lib/baza.ts` drži dvije veze (web čita, admin piše) i čuva bazen na `globalThis` — bez toga bi
+razvojni server pravio nov bazen pri svakoj izmjeni dok se baza ne uguši.
+
+**`getMeni` je jedan upit sa tri spoja**, ne upit po kategoriji. Grupisanje radi kod. Bez toga bi
+meni sa osam kategorija pravio devet odlazaka u bazu.
+
+**Upiti su umotani u `unstable_cache` sa oznakama odmah**, ne naknadno — da je ostavljeno za
+korak 12, svaki poziv bi se prepravljao.
+
+**Nova stvar koje u planu nije bilo:** migracije traže vlasnika baze, a `seherezada_admin` smije
+pisati *u* tabele ali ih ne smije *praviti*. Zato postoji treća veza `DATABASE_URL_MIGRACIJE`,
+koja se na serveru koristi jednom pri objavi, ne u radu. Uz nju ide `scripts/migriraj.mjs` koji
+vodi evidenciju u tabeli `migracije` i preskače već pokrenute.
+
+Seed uvozi demo podatke iz `lib/repo.static.ts` i radi u čistom Node-u — moguće samo zato što
+`repo.static.ts` ima isključivo `import type`, koje Node briše pri obradi tipova.
+
+**Provjera:** seed prolazi na praznoj bazi; drugo pokretanje ne duplira (8/23/3/46 prije i
+poslije); `/meni` prikazuje 23 jela sa cijenama iz baze; `/seherezada2/meni` +0,50 €; lokal
+`uskoro` vraća 404 i nije u sitemapu; sva tri lokala imaju različit uvodni tekst; `EXPLAIN`
+pokazuje jedan plan; admin veza se ne pojavljuje u `.next/static`.
+
+---
+
+## Korak 12 — keširanje i revalidacija
+
+`lib/revalidate.ts` sa po jednom funkcijom za svaku vrstu izmjene. **Admin nikad ne poziva
+poništavanje direktno** — pravilo „šta se poništava kad" stoji na jednom mjestu.
+
+**Odstupanje: `updateTag` umjesto `revalidateTag`.** U Next 16 je `revalidateTag(tag, profile)`
+dobio drugi argument, a za trenutno poništavanje iz serverskih akcija postoji `updateTag`, koji
+uz to daje „vidi svoju izmjenu" semantiku. Obrasci na `/chef` su serverske akcije, pa je to
+tačan alat.
+
+**Oznake menija morale su se vezati za lokal.** `unstable_cache` ima statične oznake po omotaču,
+pa se `meni:{lokal}` dobija samo tako što se omotač pravi po slugu.
+
+**Provjera na živom serveru:** izmjena cijene direktno u bazi se **ne vidi** dok se oznaka ne
+poništi — keš stvarno drži. Poništavanje `meni:trubarjeva` osvježilo je `/meni` na novu cijenu,
+a `/seherezada2/meni` je **ostao na staroj** iako je i njegova cijena bila promijenjena u bazi:
+izolacija po lokalu radi. Oznaka `jela` osvježava oba. Prebacivanje trećeg lokala na `radi` +
+poništavanje `lokali` diglo je sitemap sa 140 na 161 unos **bez ponovne gradnje**.
+
+**Zapaženo:** Next servira staro pa osvježava u pozadini, pa prvi zahtjev poslije poništavanja
+još vraća prethodnu vrijednost, a drugi novu. To je očekivano ponašanje, ne greška — ali test
+koji to ne uzme u obzir daje lažno negativan rezultat.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.

@@ -255,52 +255,62 @@ function uStavku(r: RedMenija): MenuStavka {
   }
 }
 
-const dohvatiMeni = unstable_cache(
-  async (lokalSlug: string): Promise<MenuSekcija[]> => {
-    const redovi = await upit<RedMenija>(UPIT_MENIJA, [lokalSlug])
+/**
+ * Oznake se vežu ZA LOKAL, pa promjena cijene u jednom lokalu ne obara
+ * keš drugom. Zato se `unstable_cache` pravi po slugu — oznake su
+ * statične po omotaču, pa se drugačije ne može dobiti `meni:{lokal}`.
+ *
+ * Meni nosi TRI oznake: svoju, `jela` i `kategorije`. Promjena cijene
+ * pogađa jedan lokal, a promjena opisa jela sve.
+ */
+const dohvatiMeni = (lokalSlug: string): Promise<MenuSekcija[]> =>
+  unstable_cache(
+    async (): Promise<MenuSekcija[]> => {
+      const redovi = await upit<RedMenija>(UPIT_MENIJA, [lokalSlug])
 
-    // Grupisanje po kategoriji radi kod, ne baza — jedan odlazak umjesto devet.
-    const sekcije: MenuSekcija[] = []
-    const poKategoriji = new Map<string, MenuSekcija>()
+      // Grupisanje po kategoriji radi kod, ne baza — jedan odlazak umjesto devet.
+      const sekcije: MenuSekcija[] = []
+      const poKategoriji = new Map<string, MenuSekcija>()
 
-    for (const r of redovi) {
-      let sekcija = poKategoriji.get(r.kat_id)
-      if (!sekcija) {
-        sekcija = {
-          kategorija: uKategoriju({
-            id: r.kat_id,
-            slug: r.kat_slug,
-            naziv: r.kat_naziv,
-            opis: r.kat_opis,
-            redoslijed: r.kat_redoslijed,
-            aktivna: r.kat_aktivna,
-          }),
-          stavke: [],
+      for (const r of redovi) {
+        let sekcija = poKategoriji.get(r.kat_id)
+        if (!sekcija) {
+          sekcija = {
+            kategorija: uKategoriju({
+              id: r.kat_id,
+              slug: r.kat_slug,
+              naziv: r.kat_naziv,
+              opis: r.kat_opis,
+              redoslijed: r.kat_redoslijed,
+              aktivna: r.kat_aktivna,
+            }),
+            stavke: [],
+          }
+          poKategoriji.set(r.kat_id, sekcija)
+          sekcije.push(sekcija)
         }
-        poKategoriji.set(r.kat_id, sekcija)
-        sekcije.push(sekcija)
+        sekcija.stavke.push(uStavku(r))
       }
-      sekcija.stavke.push(uStavku(r))
-    }
 
-    // Prazne kategorije ne postoje u rezultatu — spoj ih je već izostavio.
-    return sekcije
-  },
-  ["meni"],
-  { tags: [TAG.jela, TAG.kategorije] },
-)
+      // Prazne kategorije ne postoje u rezultatu — spoj ih je već izostavio.
+      return sekcije
+    },
+    ["meni", lokalSlug],
+    { tags: [TAG.meni(lokalSlug), TAG.jela, TAG.kategorije] },
+  )()
 
-const dohvatiIzdvojena = unstable_cache(
-  async (lokalSlug: string): Promise<MenuStavka[]> => {
-    const redovi = await upit<RedMenija>(
-      UPIT_MENIJA.replace("and j.aktivno", "and j.aktivno and lj.izdvojeno"),
-      [lokalSlug],
-    )
-    return redovi.map(uStavku)
-  },
-  ["izdvojena"],
-  { tags: [TAG.jela] },
-)
+const dohvatiIzdvojena = (lokalSlug: string): Promise<MenuStavka[]> =>
+  unstable_cache(
+    async (): Promise<MenuStavka[]> => {
+      const redovi = await upit<RedMenija>(
+        UPIT_MENIJA.replace("and j.aktivno", "and j.aktivno and lj.izdvojeno"),
+        [lokalSlug],
+      )
+      return redovi.map(uStavku)
+    },
+    ["izdvojena", lokalSlug],
+    { tags: [TAG.meni(lokalSlug), TAG.jela] },
+  )()
 
 const dohvatiJelo = unstable_cache(
   async (slug: string): Promise<Jelo | null> => {
