@@ -521,6 +521,32 @@ adrese**, a `href()` se poziva tri puta; lokal `uskoro` je onemogućen; `/meni` 
 
 ---
 
+## Korak 20 — kartice lokala na naslovnoj
+
+Dopuna, ne nov korak: komponenta i sekcija postoje od koraka 7. Ovdje je dodano ono što bez baze
+i više lokala nije imalo smisla — geolokacija.
+
+**Tri pravila oko „Poišči najbližjega", i sva tri se lako prekrše:**
+
+1. **Lokacija se traži samo na klik.** Nikad pri otvaranju stranice — traka sa dozvolom odmah pri
+   učitavanju tjera posjetioce. U `GeoNajblizi` zato **nema nijednog `useEffect`**.
+2. **Nema preusmjeravanja.** Rezultat je isticanje najbližeg i udaljenost; **poredak kartica se
+   ne mijenja**. Gost i dalje bira sam.
+3. **Odbijanje dozvole nije greška.** Dugme se vrati u početno stanje, bez poruke.
+
+Udaljenost je zračna linija iz koordinata — dovoljno za „koji mi je bliži", bez vanjskog servisa.
+Lokacija se koristi i odbacuje, nigdje se ne pamti.
+
+**Popravljeno usput:** „Navodila" je prije bio ugniježđen unutar linka kartice. Ugniježđeni `<a>`
+nije dozvoljen i preglednici ga razdvoje na nepredvidiv način. Sad je kartica link na lokal, a
+„Navodila" zaseban link na Google Maps **sa tačnim koordinatama**.
+
+**Provjera:** nazivi, adrese i radno vrijeme svih lokala u izvornom HTML-u; „Navodila" vodi na
+`maps.google.com/?q=46.0533,14.5122`; lokal `uskoro` ima oznaku *Kmalu* i **nula linkova**;
+u `GeoNajblizi` nema `useEffect`, a `getCurrentPosition` se poziva **samo iz rukovaoca klika**.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.

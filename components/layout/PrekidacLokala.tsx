@@ -57,9 +57,12 @@ export function PrekidacLokala({
   const [otvoren, setOtvoren] = useState(false)
   const [sada, setSada] = useState<Date | null>(null)
 
+  // Sat se čita tek poslije montiranja — na serveru bi se zamrznuo na
+  // trenutak gradnje.
   useEffect(() => {
-    setSada(new Date())
-    const i = setInterval(() => setSada(new Date()), 60000)
+    const osvjezi = () => setSada(new Date())
+    osvjezi()
+    const i = setInterval(osvjezi, 60000)
     return () => clearInterval(i)
   }, [])
 
