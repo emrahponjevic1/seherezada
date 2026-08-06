@@ -16,6 +16,9 @@ dist-ssr
 .next
 next-env.d.ts
 
+# Okruženje — nikad u git
+.env*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
