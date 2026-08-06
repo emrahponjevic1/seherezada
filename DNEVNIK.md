@@ -498,6 +498,29 @@ lokal 1, jer Slovenska zatvara u 23:59.
 
 ---
 
+## Korak 19 — prekidač lokala
+
+Aditivan korak: korak 4 je stabilizovao `Navbar.tsx` i ostavio dva označena mjesta, pa se ovdje
+samo ubacila gotova komponenta. Struktura navbara nije prepravljana.
+
+**Prekidač navigira, ne mijenja stanje.** Adresa se gradi isključivo funkcijom `href()` — nikad
+ručnim spajanjem segmenata. Gost ostaje na **istoj vrsti stranice**: sa `/meni` ide na
+`/seherezada2/meni`, ne na naslovnu. Vraćanje na naslovnu pri promjeni je najčešći razlog zbog
+kojeg ljudi napuste sajt.
+
+Na zajedničkim stranicama lokala nema u adresi, pa prekidač ne navigira nego samo zapamti izbor
+u kolačiću i osvježi stranicu.
+
+**Kolačić `shere-lokal` nikad ne preusmjerava** i ne mijenja šta se renderuje na stranicama koje
+imaju lokal u adresi. Postavlja se i pri odabiru i pri otvaranju bilo koje stranice lokala —
+tako je zapamćen i lokal koji je gost otvorio direktno preko adrese.
+
+**Provjera:** prekidač je u izvornom HTML-u; u komponenti **nema nijednog ručnog spajanja
+adrese**, a `href()` se poziva tri puta; lokal `uskoro` je onemogućen; `/meni` sa kolačićem
+`seherezada2` i dalje vraća **200 i prikazuje Trubarjevu** — kolačić stvarno ne preusmjerava.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.

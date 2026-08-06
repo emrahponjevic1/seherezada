@@ -16,6 +16,7 @@ import { useTheme } from "@/providers/ThemeProvider"
 import { useLanguage } from "@/providers/LanguageProvider"
 import { href, type Route } from "@/lib/route"
 import { izPutanje, trenutniLokal, type OkvirPodaci } from "./okvir"
+import { PrekidacLokala, zapamtiLokal } from "./PrekidacLokala"
 
 export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
   const { theme, setTheme } = useTheme()
@@ -71,6 +72,12 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
   // sekcije jedne stranice, a sekcije su sada zasebne stranice.
   const jeAktivna = (cilj: string) =>
     cilj === "/" ? pathname === "/" : pathname === cilj || pathname.startsWith(cilj + "/")
+
+  // Kolačić pamti i lokal koji je gost otvorio direktno preko adrese,
+  // ne samo onaj koji je izabrao prekidačem.
+  useEffect(() => {
+    zapamtiLokal(lokalSlug)
+  }, [lokalSlug])
 
   useEffect(() => {
     if (isMobileOpen) {
@@ -193,7 +200,13 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
 
           {/* Kontrole */}
           <div className="flex items-center space-x-2 z-50 relative">
-            {/* korak 19: prekidač lokala ide ovdje, lijevo od jezika */}
+            <PrekidacLokala
+              lokali={lokali}
+              glavniSlug={glavniSlug}
+              trenutni={lokalSlug}
+              lang={lang}
+              pathname={pathname}
+            />
 
             <button
               onClick={() => setLang(langSucelja === "sl" ? "en" : "sl")}
@@ -257,7 +270,14 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
               transition={{ delay: 0.6 }}
               className="mt-auto pt-12 border-t border-white/10"
             >
-              {/* korak 19: red LOKAL ide ovdje, iznad reda JEZIK APLIKACIJE */}
+              <PrekidacLokala
+                lokali={lokali}
+                glavniSlug={glavniSlug}
+                trenutni={lokalSlug}
+                lang={lang}
+                pathname={pathname}
+                varijanta="mobitel"
+              />
 
               <div className="flex items-center justify-between mb-8">
                 <p className="text-sm text-muted-foreground font-medium uppercase tracking-widest">
