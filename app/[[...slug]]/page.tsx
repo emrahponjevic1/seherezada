@@ -15,6 +15,7 @@ import {
 } from "@/lib/route"
 
 import { Naslovna } from "@/components/sekcije/Naslovna"
+import { StranicaMenija } from "@/components/sekcije/StranicaMenija"
 
 /** Lokal dodan poslije gradnje mora dobiti stranicu, ne 404 (korak 18). */
 export const dynamicParams = true
@@ -170,13 +171,14 @@ export default async function Stranica({
       const lokal = await repo.getLokal(route.lokal)
       if (!lokal || lokal.stanje !== "radi") notFound()
 
+      if (route.page === "meni") {
+        return <StranicaMenija lokalSlug={route.lokal} lang={route.lang} />
+      }
+
+      // Recenzije — sadržaj piše korak 9, prave ocjene korak 21.
       return (
         <Kostur
-          naslov={
-            route.page === "meni"
-              ? `Meni in cene — Šeherezada ${lokal.ulica}`
-              : `Mnenja gostov — Šeherezada ${lokal.ulica}`
-          }
+          naslov={`Mnenja gostov — Šeherezada ${lokal.ulica}`}
           opis={t(lokal.uvodniTekst, route.lang)}
         />
       )

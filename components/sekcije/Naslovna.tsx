@@ -1,20 +1,16 @@
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-
 import { repo } from "@/lib/repo"
-import { t } from "@/lib/i18n"
 import type { Lang } from "@/lib/domain"
-import { href } from "@/lib/route"
 
 import { Hero } from "@/components/Hero"
 import { PopularPicks } from "@/components/PopularPicks"
 import { AboutUs } from "@/components/AboutUs"
 import { Reviews } from "@/components/Reviews"
 
+import { Menu } from "@/components/Menu"
+
 import { KarticeLokala } from "./KarticeLokala"
 import { Halal } from "./Halal"
 import { FaqIzvod } from "./FaqIzvod"
-import { MeniIzvod } from "./MeniIzvod"
 
 /**
  * Naslovna — devet sekcija, tim redom:
@@ -33,20 +29,15 @@ export async function Naslovna({
   lokalSlug: string
   lang: Lang
 }) {
-  const [lokali, glavni, kategorije, izdvojena] = await Promise.all([
+  const [lokali, glavni, sekcije, izdvojena] = await Promise.all([
     repo.getLokali(),
     repo.getGlavniLokal(),
-    repo.getKategorije(),
+    repo.getMeni(lokalSlug),
     repo.getIzdvojena(lokalSlug),
   ])
 
   const lokal = lokali.find((l) => l.slug === lokalSlug) ?? glavni
   const glavniSlug = glavni.slug
-
-  const meniAdresa = href(
-    { kind: "lokal-page", lang, lokal: lokalSlug, page: "meni" },
-    glavniSlug,
-  )
 
   return (
     <>
@@ -59,22 +50,18 @@ export async function Naslovna({
         glavniSlug={glavniSlug}
       />
 
-      <PopularPicks stavke={izdvojena} kategorije={kategorije} lang={lang} />
+      <PopularPicks stavke={izdvojena} lokal={lokal} lang={lang} />
 
       <AboutUs lang={lang} glavniSlug={glavniSlug} />
 
-      {/* Sekcija 5 — meni; puna stranica je /meni (korak 8) */}
-      <MeniIzvod />
-
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8 -mt-10 mb-4">
-        <Link
-          href={meniAdresa}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-shere-red text-white font-bold shadow-[0_0_40px_-10px_rgba(230,57,70,0.6)] hover:scale-105 active:scale-95 transition-transform"
-        >
-          {t({ sl: "Poglej cel meni", en: "See full menu" }, lang)}
-          <ArrowRight size={18} />
-        </Link>
-      </div>
+      {/* Sekcija 5 — ista komponenta kao stranica menija, u varijanti 'izvod' */}
+      <Menu
+        sekcije={sekcije}
+        lokal={lokal}
+        lang={lang}
+        glavniSlug={glavniSlug}
+        varijanta="izvod"
+      />
 
       <Halal lang={lang} glavniSlug={glavniSlug} />
 
