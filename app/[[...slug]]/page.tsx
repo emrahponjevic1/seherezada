@@ -4,12 +4,13 @@ import { notFound, permanentRedirect } from "next/navigation"
 import { repo } from "@/lib/repo"
 import { t } from "@/lib/i18n"
 import { JEZICI } from "@/lib/domain"
+import { BASE_URL, OG_SLIKA, metaZaRutu } from "@/lib/meta"
 import {
   LOKAL_PAGES,
   SEO_PAGES,
   SHARED_PAGES,
+  href,
   resolveRoute,
-  type Route,
   type RouteKontekst,
 } from "@/lib/route"
 
@@ -68,7 +69,7 @@ export async function generateStaticParams() {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  Metapodaci — puni ih korak 6, ovdje samo jedinstven naslov
+//  Metapodaci
 // ─────────────────────────────────────────────────────────────
 
 export async function generateMetadata({
@@ -77,35 +78,51 @@ export async function generateMetadata({
   params: Promise<{ slug?: string[] }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const route = resolveRoute(slug, await kontekst())
+  const ctx = await kontekst()
+  const route = resolveRoute(slug, ctx)
 
   if (route.kind === "redirect" || route.kind === "notfound") return {}
 
-  const naslov = await naslovZaRutu(route)
-  return { title: naslov }
-}
+  const lokal =
+    route.kind === "lokal-home" || route.kind === "lokal-page"
+      ? await repo.getLokal(route.lokal)
+      : null
 
-async function naslovZaRutu(route: Route): Promise<string> {
-  switch (route.kind) {
-    case "lokal-home": {
-      const lokal = await repo.getLokal(route.lokal)
-      return lokal?.glavni
-        ? "Šeherezada — Halal kebab & fast food Ljubljana"
-        : `Šeherezada ${lokal?.ulica ?? ""} — Halal kebab & fast food`
-    }
-    case "lokal-page": {
-      const lokal = await repo.getLokal(route.lokal)
-      const ime = lokal?.ulica ?? ""
-      return route.page === "meni"
-        ? `Meni in cene — Šeherezada ${ime}`
-        : `Mnenja gostov — Šeherezada ${ime}`
-    }
-    case "shared":
-      return `${route.page} — Šeherezada`
-    case "seo":
-      return `${route.page} — Šeherezada`
-    default:
-      return "Šeherezada"
+  const meta = metaZaRutu(route, lokal)
+  if (!meta) return {}
+
+  // Kanonska adresa uvijek pokazuje na sebe, punom adresom.
+  const kanonska = BASE_URL + href(route, ctx.glavniSlug)
+
+  return {
+    title: meta.naslov,
+    description: meta.opis,
+    alternates: {
+      canonical: kanonska,
+      // korak 22: alternates.languages — hreflang za sedam jezika
+    },
+    openGraph: {
+      type: "website",
+      siteName: "Šeherezada",
+      title: meta.naslov,
+      description: meta.opis,
+      url: kanonska,
+      locale: route.lang,
+      images: [
+        {
+          url: BASE_URL + OG_SLIKA.url,
+          width: OG_SLIKA.width,
+          height: OG_SLIKA.height,
+          alt: OG_SLIKA.alt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.naslov,
+      description: meta.opis,
+      images: [BASE_URL + OG_SLIKA.url],
+    },
   }
 }
 
