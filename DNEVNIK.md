@@ -340,6 +340,42 @@ stranici; robots zabranjuje `/chef`, sitemap ga ne sadrži; **nijedna tajna se n
 
 ---
 
+## Korak 14 — /chef → lokali
+
+Prvi ekran na kojem vlasnik stvarno radi i prvi koji piše u bazu.
+
+`lib/chef/upiti.ts` čita **bez keša** — admin mora vidjeti trenutno stanje, ne ono od prije
+poništavanja. Javni sajt i dalje čita kroz keširani `repo`.
+
+Svaka akcija radi tri stvari istim redom: provjeri sesiju, provjeri podatke **na serveru**,
+poništi keš kroz `lib/revalidate.ts`.
+
+**Promjena sluga upisuje preusmjerenje** i uz to prepisuje postojeći lanac
+(`update preusmjerenja set novi_slug=... where novi_slug=stari`), da stara adresa ne pokazuje
+na međukorak koji više ne postoji.
+
+**Zamjena glavnog lokala ide u jednoj transakciji** — baza dozvoljava tačno jedan glavni, pa bi
+međustanje sa dva palo. Novi glavni od tada živi na „/", pa njegov stari slug preusmjerava, a
+stari glavni dobija svoj slug natrag i njegovo preusmjerenje se briše.
+
+**Odstupanje: povuci-i-pusti za redoslijed zamijenjen je strelicama gore/dolje.** Ista funkcija,
+bez nove biblioteke. Redoslijed se pritom prepisuje po položaju, jer vrijednosti u bazi mogu
+imati rupe pa zamjena samo dva broja nije pouzdana.
+
+**Nađeno usput i popravljeno:** `updateTag` radi samo iz serverskih akcija. Da se ove funkcije
+ikad pozovu odnekud drugdje, poziv bi puknuo **poslije uspješnog upisa** — podaci snimljeni, a
+korisnik vidi grešku. Zato `lib/revalidate.ts` sad pada na `revalidateTag` kad `updateTag` nije
+dostupan. Poništavanje keša ne smije oboriti upis koji je već prošao.
+
+**Provjera:** 15 tvrdnji kroz stvarne pozive akcija — slug `meni` i `Bežigrad` odbijeni, postojeći
+slug odbijen, snimanje bez uvodnog teksta odbijeno, nov lokal nije glavni, kopiranje prenijelo
+**23 jela** i nastalo u stanju `uskoro` **bez** Wolta, Glova, Place ID-a i uvodnog teksta, promjena
+sluga upisala preusmjerenje, **glavni lokal se ne može sakriti**, zamjena glavnog ostavlja tačno
+jedan i upisuje preusmjerenje. Uz to: nov lokal `radi` digao sitemap sa 140 na 161 unos i sve tri
+njegove adrese vraćaju 200 — **bez ponovne gradnje**.
+
+---
+
 ## Otvoreno
 
 - **`k2c14`** — `data.ts` još uvozi samo `ReviewsKarusel.tsx` (demo recenzije). Zatvara korak 21.

@@ -1,6 +1,23 @@
-import { revalidatePath, updateTag } from "next/cache"
+import { revalidatePath, revalidateTag, updateTag } from "next/cache"
 
 import { TAG } from "./repo.postgres"
+
+/**
+ * `updateTag` radi SAMO iz serverskih akcija. Obrasci na /chef to jesu,
+ * ali ako se ove funkcije ikad pozovu odnekud drugdje — iz rute, iz
+ * skripte — poziv bi puknuo POSLIJE uspješnog upisa u bazu. Podaci bi
+ * bili snimljeni, a korisnik bi vidio grešku.
+ *
+ * Zato postoji rezerva: `revalidateTag`, koja radi svugdje. Poništavanje
+ * keša ne smije oboriti upis koji je već prošao.
+ */
+function ponisti(oznaka: string) {
+  try {
+    updateTag(oznaka)
+  } catch {
+    revalidateTag(oznaka, "max")
+  }
+}
 
 /**
  * Poništavanje keša.
@@ -17,7 +34,7 @@ import { TAG } from "./repo.postgres"
 
 /** Cijena, dostupnost, izdvojeno, redoslijed — pogađa SAMO taj lokal. */
 export function revalidirajMeni(lokalSlug: string) {
-  updateTag(TAG.meni(lokalSlug))
+  ponisti(TAG.meni(lokalSlug))
 }
 
 /**
@@ -25,12 +42,12 @@ export function revalidirajMeni(lokalSlug: string) {
  * pa se poništavaju meniji SVIH.
  */
 export function revalidirajJela() {
-  updateTag(TAG.jela)
+  ponisti(TAG.jela)
 }
 
 /** Naziv, opis ili redoslijed kategorije — pogađa sve menije. */
 export function revalidirajKategorije() {
-  updateTag(TAG.kategorije)
+  ponisti(TAG.kategorije)
 }
 
 /**
@@ -38,8 +55,8 @@ export function revalidirajKategorije() {
  * Pogađa i podnožje na svim stranicama i meni tog lokala.
  */
 export function revalidirajLokal(lokalSlug: string) {
-  updateTag(TAG.lokali)
-  updateTag(TAG.meni(lokalSlug))
+  ponisti(TAG.lokali)
+  ponisti(TAG.meni(lokalSlug))
 }
 
 /**
@@ -50,12 +67,12 @@ export function revalidirajLokal(lokalSlug: string) {
  * poništava sam.
  */
 export function revalidirajSkupLokala() {
-  updateTag(TAG.lokali)
-  updateTag(TAG.preusmjerenja)
+  ponisti(TAG.lokali)
+  ponisti(TAG.preusmjerenja)
   revalidatePath("/", "layout")
 }
 
 /** Upisano novo preusmjerenje starog sluga. */
 export function revalidirajPreusmjerenja() {
-  updateTag(TAG.preusmjerenja)
+  ponisti(TAG.preusmjerenja)
 }
