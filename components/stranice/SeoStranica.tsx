@@ -50,7 +50,7 @@ export function SeoStranica({
   const mrvice: Mrvica[] = [
     { naziv: domov, adresa: a.domov },
     { naziv: ui("nav.meni", lang), adresa: a.meni },
-    { naziv: t(podaci.naslov, lang) },
+    { naziv: ui(podaci.naslov, lang) },
   ]
 
   // Blok 5 — ponuda te kategorije, ili cijeli meni ako kategorije nema.
@@ -68,15 +68,15 @@ export function SeoStranica({
   return (
     <OkvirStranice
       mrvice={mrvice}
-      naslov={t(podaci.naslov, lang)}
-      uvod={t(podaci.uvod, lang)}
+      naslov={ui(podaci.naslov, lang)}
+      uvod={s(podaci.uvod, lang)}
     >
-      <Odjeljak naslov={t(podaci.blok3.naslov, lang)}>
-        <p>{t(podaci.blok3.tekst, lang)}</p>
+      <Odjeljak naslov={s(podaci.blok3.naslov, lang)}>
+        <p>{s(podaci.blok3.tekst, lang)}</p>
       </Odjeljak>
 
-      <Odjeljak naslov={t(podaci.blok4.naslov, lang)}>
-        <p>{t(podaci.blok4.tekst, lang)}</p>
+      <Odjeljak naslov={s(podaci.blok4.naslov, lang)}>
+        <p>{s(podaci.blok4.tekst, lang)}</p>
       </Odjeljak>
 
       {/* Blok 5 — cijene iz repozitorija */}
@@ -147,8 +147,8 @@ export function SeoStranica({
       <Odjeljak naslov={ui("nav.faq", lang)}>
         <div className="space-y-3 not-prose">
           {podaci.pitanja.map((p, i) => (
-            <Pitanje key={i} pitanje={t(p.pitanje, lang)}>
-              {t(p.odgovor, lang)}
+            <Pitanje key={i} pitanje={s(p.pitanje, lang)}>
+              {s(p.odgovor, lang)}
             </Pitanje>
           ))}
         </div>
@@ -180,7 +180,7 @@ export function SeoStranica({
       <Srodne
         naslov={ui("naslov.sorodneStrani", lang)}
         stavke={podaci.srodne.map((slug) => ({
-          naziv: t(SADRZAJ_SEO[slug].naslov, lang),
+          naziv: ui(SADRZAJ_SEO[slug].naslov, lang),
           adresa: href({ kind: "seo", lang, page: slug }, glavniSlug),
         }))}
       />

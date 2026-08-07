@@ -1,8 +1,8 @@
 import Link from "next/link"
+import { s } from "@/lib/sadrzaj"
 import { ChevronDown } from "lucide-react"
 
-import type { Lang, Prevod } from "@/lib/domain"
-import { t } from "@/lib/i18n"
+import type { Lang } from "@/lib/domain"
 
 /**
  * Zajednički dijelovi podstranica: mrvice, okvir, naslovi i accordion.
@@ -97,9 +97,14 @@ export function Odjeljak({
 
 // ─────────────────────────────────────────────────────────────
 
+/**
+ * Pitanje i odgovor drže KLJUČEVE kataloga, ne tekst — vidi sadrzajFaq.ts.
+ * Prije su bili `Prevod` sa sl i en, pa je gost na ostalih pet jezika
+ * dobijao engleski tekst u svom okviru.
+ */
 export interface PitanjeOdgovor {
-  pitanje: Prevod
-  odgovor: Prevod
+  pitanje: string
+  odgovor: string
 }
 
 /** Jedno pitanje — otvara se, ali odgovor je uvijek u dokumentu. */
@@ -141,8 +146,8 @@ export function GrupaPitanja({
       </h2>
       <div className="space-y-3">
         {pitanja.map((p, i) => (
-          <Pitanje key={i} pitanje={t(p.pitanje, lang)}>
-            {t(p.odgovor, lang)}
+          <Pitanje key={i} pitanje={s(p.pitanje, lang)}>
+            {s(p.odgovor, lang)}
           </Pitanje>
         ))}
       </div>

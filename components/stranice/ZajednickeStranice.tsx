@@ -1,5 +1,5 @@
 import type { Lang, Lokal } from "@/lib/domain"
-import { formatRadnoVrijeme, t, ui } from "@/lib/i18n"
+import { formatRadnoVrijeme, ui } from "@/lib/i18n"
 import { s } from "@/lib/sadrzaj"
 import type { Dan } from "@/lib/domain"
 import { href, type SharedPage } from "@/lib/route"
@@ -207,8 +207,8 @@ export function ZajednickaStranica({
           <Odjeljak naslov={ui("nav.faq", lang)}>
             <div className="space-y-3">
               {HALAL_I_SASTOJCI.slice(0, 4).map((p, i) => (
-                <Pitanje key={i} pitanje={t(p.pitanje, lang)}>
-                  {t(p.odgovor, lang)}
+                <Pitanje key={i} pitanje={s(p.pitanje, lang)}>
+                  {s(p.odgovor, lang)}
                 </Pitanje>
               ))}
             </div>
@@ -317,8 +317,8 @@ export function ZajednickaStranica({
                 {odgovorOVremenu}
               </Pitanje>
               {CAS_IN_LOKACIJA.map((p, i) => (
-                <Pitanje key={i} pitanje={t(p.pitanje, lang)}>
-                  {t(p.odgovor, lang)}
+                <Pitanje key={i} pitanje={s(p.pitanje, lang)}>
+                  {s(p.odgovor, lang)}
                 </Pitanje>
               ))}
             </div>
