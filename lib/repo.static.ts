@@ -45,6 +45,11 @@ const KATEGORIJE: Kategorija[] = [
     opis: {
       sl: "Meso z vertikalnega žara, rezano na roko in postreženo v svežem kruhu.",
       en: "Meat from the vertical grill, hand-carved and served in fresh bread.",
+      de: "Fleisch vom Drehspieß, von Hand geschnitten und in frischem Brot serviert.",
+      bs: "Meso s vertikalnog ražnja, rezano rukom i posluženo u svježem hljebu.",
+      tr: "Döner ocağından, elle kesilmiş ve taze ekmek arasında sunulan et.",
+      ar: "لحم من السيخ الدوّار، مقطّع يدوياً ويُقدَّم في خبز طازج.",
+      zh: "立式烤炉上的肉，手工切片，夹在新鲜面包中。",
     },
     redoslijed: 1,
     aktivna: true,
@@ -56,6 +61,11 @@ const KATEGORIJE: Kategorija[] = [
     opis: {
       sl: "Testo, ki vzhaja 24 ur, pečeno na kamniti plošči.",
       en: "Dough proofed for 24 hours, baked on a stone slab.",
+      de: "Teig, der 24 Stunden geht, auf Stein gebacken.",
+      bs: "Tijesto koje odstoji 24 sata, pečeno na kamenoj ploči.",
+      tr: "24 saat dinlendirilmiş hamur, taş üzerinde pişirilir.",
+      ar: "عجين يختمر 24 ساعة، يُخبز على لوح حجري.",
+      zh: "发酵 24 小时的面团，在石板上烤制。",
     },
     redoslijed: 2,
     aktivna: true,
@@ -67,6 +77,11 @@ const KATEGORIJE: Kategorija[] = [
     opis: {
       sl: "Sveže mleto meso in doma pečene žemlje.",
       en: "Freshly ground meat and house-baked buns.",
+      de: "Frisch gewolftes Fleisch und hausgebackene Brötchen.",
+      bs: "Svježe mljeveno meso i doma pečena peciva.",
+      tr: "Taze çekilmiş et ve evde pişirilmiş ekmekler.",
+      ar: "لحم مفروم طازج وخبز مخبوز عندنا.",
+      zh: "新鲜绞制的肉与自制面包。",
     },
     redoslijed: 3,
     aktivna: true,
@@ -78,6 +93,11 @@ const KATEGORIJE: Kategorija[] = [
     opis: {
       sl: "Čičerika, sveža zelišča in sezam — brez mesa.",
       en: "Chickpeas, fresh herbs and sesame — meat free.",
+      de: "Kichererbsen, frische Kräuter und Sesam — ohne Fleisch.",
+      bs: "Slanutak, svježe bilje i sezam — bez mesa.",
+      tr: "Nohut, taze otlar ve susam — etsiz.",
+      ar: "حمّص وأعشاب طازجة وسمسم — بلا لحم.",
+      zh: "鹰嘴豆、新鲜香草和芝麻——不含肉。",
     },
     redoslijed: 4,
     aktivna: true,
@@ -110,6 +130,11 @@ const KATEGORIJE: Kategorija[] = [
     opis: {
       sl: "Glavna jed, priloga in pijača po ugodnejši ceni.",
       en: "Main course, side and a drink at a better price.",
+      de: "Hauptgericht, Beilage und Getränk zum günstigeren Preis.",
+      bs: "Glavno jelo, prilog i piće po povoljnijoj cijeni.",
+      tr: "Ana yemek, garnitür ve içecek daha uygun fiyata.",
+      ar: "طبق رئيسي وطبق جانبي ومشروب بسعر أوفر.",
+      zh: "主菜、配菜和饮料，价格更优惠。",
     },
     redoslijed: 8,
     aktivna: true,
@@ -130,6 +155,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Tradicionalni turški döner v svežem kruhu, z jogurtovim prelivom.",
       en: "Traditional Turkish döner in fresh bread with yogurt sauce.",
+      de: "Traditioneller türkischer Döner in frischem Brot, mit Joghurtsauce.",
+      bs: "Tradicionalni turski döner u svježem hljebu, s jogurt prelivom.",
+      tr: "Taze ekmek arasında geleneksel Türk döneri, yoğurt soslu.",
+      ar: "دونر تركي تقليدي في خبز طازج، مع صلصة اللبن.",
+      zh: "传统土耳其旋转烤肉，夹新鲜面包，佐酸奶酱。",
     },
     sastojci: {
           sl: ["Govedina in teletina", "Zelje", "Paradižnik", "Čebula", "Jogurtov preliv"],
@@ -145,6 +175,11 @@ const JELA: Jelo[] = [
     slikaAlt: {
       sl: "Döner kebab v svežem kruhu",
       en: "Döner kebab in fresh bread",
+      de: "Döner Kebab in frischem Brot",
+      bs: "Döner kebab u svježem hljebu",
+      tr: "Taze ekmekte döner kebap",
+      ar: "دونر كباب في خبز طازج",
+      zh: "新鲜面包夹旋转烤肉",
     },
     halal: true,
     vegetarijansko: false,
@@ -161,6 +196,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Tanka jufka, zavita okrog mesa in sveže zelenjave.",
       en: "Thin yufka flatbread wrapped around meat and fresh vegetables.",
+      de: "Dünnes Yufka, um Fleisch und frisches Gemüse gewickelt.",
+      bs: "Tanka jufka, zamotana oko mesa i svježeg povrća.",
+      tr: "Etin ve taze sebzelerin etrafına sarılmış ince yufka.",
+      ar: "رقاق رقيق ملفوف حول اللحم والخضار الطازجة.",
+      zh: "薄卷饼裹着肉和新鲜蔬菜。",
     },
     sastojci: {
           sl: ["Govedina in teletina", "Jufka", "Solata", "Paradižnik", "Česnov preliv"],
@@ -189,6 +229,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Tesno zavit dürüm z ostrejšim prelivom in pečeno papriko.",
       en: "Tightly rolled dürüm with a spicier sauce and roasted pepper.",
+      de: "Eng gewickelter Dürüm mit schärferer Sauce und gegrillter Paprika.",
+      bs: "Čvrsto zamotan dürüm s oštrijim prelivom i pečenom paprikom.",
+      tr: "Daha keskin soslu ve közlenmiş biberli, sıkı sarılmış dürüm.",
+      ar: "دوروم ملفوف بإحكام مع صلصة أكثر حدّة وفلفل مشوي.",
+      zh: "裹得紧实的杜鲁姆卷，佐较辣酱汁和烤甜椒。",
     },
     sastojci: {
           sl: ["Govedina in teletina", "Pečena paprika", "Čebula", "Pikantni preliv"],
@@ -217,6 +262,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Večja porcija mesa s pomfrijem, solato in dvema prelivoma.",
       en: "A larger portion of meat with fries, salad and two sauces.",
+      de: "Größere Fleischportion mit Pommes, Salat und zwei Saucen.",
+      bs: "Veća porcija mesa s pomfritom, salatom i dva preliva.",
+      tr: "Patates kızartması, salata ve iki soslu daha büyük et porsiyonu.",
+      ar: "حصة أكبر من اللحم مع البطاطس المقلية والسلطة وصلصتين.",
+      zh: "更大份的肉，配薯条、沙拉和两种酱汁。",
     },
     sastojci: {
           sl: ["Govedina in teletina", "Pomfri", "Sezonska solata", "Dva preliva"],
@@ -247,6 +297,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Paradižnikova osnova, mocarela in sveža bazilika.",
       en: "Tomato base, mozzarella and fresh basil.",
+      de: "Tomatensauce, Mozzarella und frisches Basilikum.",
+      bs: "Podloga od paradajza, mocarela i svježi bosiljak.",
+      tr: "Domates sosu, mozzarella ve taze fesleğen.",
+      ar: "قاعدة طماطم وجبن موتزاريلا وريحان طازج.",
+      zh: "番茄底酱、马苏里拉与新鲜罗勒。",
     },
     sastojci: {
           sl: ["Paradižnikova omaka", "Mocarela", "Bazilika", "Oljčno olje"],
@@ -275,6 +330,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Piščančja šunka, šampinjoni in mocarela.",
       en: "Chicken ham, mushrooms and mozzarella.",
+      de: "Hähnchenschinken, Champignons und Mozzarella.",
+      bs: "Pileća šunka, šampinjoni i mocarela.",
+      tr: "Tavuk jambonu, mantar ve mozzarella.",
+      ar: "مرتديلا دجاج وفطر وموتزاريلا.",
+      zh: "鸡肉火腿、蘑菇与马苏里拉。",
     },
     sastojci: {
           sl: ["Paradižnikova omaka", "Mocarela", "Piščančja šunka", "Šampinjoni"],
@@ -303,6 +363,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Sezonska zelenjava z žara na paradižnikovi osnovi.",
       en: "Grilled seasonal vegetables on a tomato base.",
+      de: "Gegrilltes Saisongemüse auf Tomatensauce.",
+      bs: "Sezonsko povrće s žara na podlozi od paradajza.",
+      tr: "Domates sosu üzerine ızgara mevsim sebzeleri.",
+      ar: "خضار الموسم المشوية على قاعدة طماطم.",
+      zh: "番茄底酱上铺时令烤蔬菜。",
     },
     sastojci: {
           sl: ["Paradižnikova omaka", "Mocarela", "Bučke", "Paprika", "Melanzane"],
@@ -331,6 +396,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Piščanec, čili in rdeča čebula — za tiste, ki imajo radi ostro.",
       en: "Chicken, chilli and red onion — for those who like it hot.",
+      de: "Hähnchen, Chili und rote Zwiebel — für alle, die es scharf mögen.",
+      bs: "Piletina, čili i crveni luk — za one koji vole ljuto.",
+      tr: "Tavuk, acı biber ve kırmızı soğan — acı sevenlere.",
+      ar: "دجاج وفلفل حارّ وبصل أحمر — لمن يحبّون الحرارة.",
+      zh: "鸡肉、辣椒和红洋葱——献给爱吃辣的人。",
     },
     sastojci: {
           sl: ["Paradižnikova omaka", "Mocarela", "Piščanec", "Čili", "Rdeča čebula"],
@@ -361,6 +431,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Dvojna govedina, karamelizirana čebula in hišni preliv.",
       en: "Double beef patty, caramelised onion and house sauce.",
+      de: "Doppeltes Rindfleisch, karamellisierte Zwiebeln und Hausdressing.",
+      bs: "Dupla govedina, karamelizirani luk i kućni preliv.",
+      tr: "Çift dana köftesi, karamelize soğan ve ev yapımı sos.",
+      ar: "قطعتا لحم بقري وبصل مكرمل وصلصة البيت.",
+      zh: "双层牛肉、焦糖洋葱与本店特调酱。",
     },
     sastojci: {
           sl: ["Govedina 2×100 g", "Karamelizirana čebula", "Solata", "Hišni preliv"],
@@ -389,6 +464,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Govedina, čedar in kisle kumarice v mehki žemlji.",
       en: "Beef, cheddar and pickles in a soft bun.",
+      de: "Rindfleisch, Cheddar und Essiggurken im weichen Brötchen.",
+      bs: "Govedina, čedar i kiseli krastavci u mekanom pecivu.",
+      tr: "Yumuşak ekmekte dana köftesi, cheddar ve turşu.",
+      ar: "لحم بقري وجبن شيدر ومخلّل خيار في خبزة طرية.",
+      zh: "松软面包夹牛肉、切达芝士与酸黄瓜。",
     },
     sastojci: {
           sl: ["Govedina 150 g", "Čedar", "Kisle kumarice", "Ketchup", "Gorčica"],
@@ -417,6 +497,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Hrustljav piščančji file s solato in majonezo.",
       en: "Crispy chicken fillet with lettuce and mayonnaise.",
+      de: "Knuspriges Hähnchenfilet mit Salat und Mayonnaise.",
+      bs: "Hrskavi pileći file sa salatom i majonezom.",
+      tr: "Salata ve mayonezle çıtır tavuk fileto.",
+      ar: "شريحة دجاج مقرمشة مع السلطة والمايونيز.",
+      zh: "酥脆鸡排配生菜与蛋黄酱。",
     },
     sastojci: {
           sl: ["Piščančji file", "Solata", "Paradižnik", "Majoneza"],
@@ -447,6 +532,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Ocvrte kroglice iz čičerike s sezamovim prelivom.",
       en: "Fried chickpea balls with sesame sauce.",
+      de: "Frittierte Kichererbsenbällchen mit Sesamsauce.",
+      bs: "Pržene kuglice od slanutka sa sezam prelivom.",
+      tr: "Susam soslu kızarmış nohut topları.",
+      ar: "أقراص حمّص مقلية مع صلصة السمسم.",
+      zh: "炸鹰嘴豆丸子配芝麻酱。",
     },
     sastojci: {
           sl: ["Čičerika", "Peteršilj", "Jufka", "Tahini preliv", "Solata"],
@@ -475,6 +565,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Falafel s humusom, solato in toplo pito.",
       en: "Falafel with hummus, salad and warm pita.",
+      de: "Falafel mit Hummus, Salat und warmem Pitabrot.",
+      bs: "Falafel s humusom, salatom i toplom pitom.",
+      tr: "Humus, salata ve sıcak pide ile falafel.",
+      ar: "فلافل مع الحمّص والسلطة وخبز دافئ.",
+      zh: "沙拉三明治配鹰嘴豆泥、沙拉和温热皮塔饼。",
     },
     sastojci: {
           sl: ["Falafel", "Humus", "Sezonska solata", "Pita", "Tahini preliv"],
@@ -505,6 +600,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Deset kosov v lepinji, s čebulo in ajvarjem.",
       en: "Ten pieces in flatbread, with onion and ajvar.",
+      de: "Zehn Stück im Fladenbrot, mit Zwiebeln und Ajvar.",
+      bs: "Deset komada u lepinji, s lukom i ajvarom.",
+      tr: "Pide ekmeğinde on adet, soğan ve ajvar ile.",
+      ar: "عشر قطع في خبز مسطّح، مع البصل والأيفار.",
+      zh: "十条烤肉肠夹在薄饼中，配洋葱和红椒酱。",
     },
     sastojci: {
           sl: ["Mleta govedina", "Lepinja", "Čebula", "Ajvar", "Kajmak"],
@@ -533,6 +633,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "File z žara s pečeno zelenjavo in rižem.",
       en: "Grilled fillet with roasted vegetables and rice.",
+      de: "Gegrilltes Filet mit Röstgemüse und Reis.",
+      bs: "File s žara s pečenim povrćem i rižom.",
+      tr: "Izgara fileto, közlenmiş sebze ve pilav ile.",
+      ar: "شريحة مشوية مع خضار مشوية وأرز.",
+      zh: "炭烤鸡排配烤蔬菜和米饭。",
     },
     sastojci: {
           sl: ["Piščančji file", "Riž", "Pečena zelenjava", "Limona"],
@@ -563,6 +668,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Hrustljav pomfri z morsko soljo.",
       en: "Crispy fries with sea salt.",
+      de: "Knusprige Pommes mit Meersalz.",
+      bs: "Hrskavi pomfrit s morskom soli.",
+      tr: "Deniz tuzlu çıtır patates.",
+      ar: "بطاطس مقرمشة بملح البحر.",
+      zh: "香脆薯条配海盐。",
     },
     sastojci: {
           sl: ["Krompir", "Morska sol"],
@@ -591,6 +701,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Topel kruh s česnovim maslom in peteršiljem.",
       en: "Warm bread with garlic butter and parsley.",
+      de: "Warmes Brot mit Knoblauchbutter und Petersilie.",
+      bs: "Topli hljeb s maslacem od češnjaka i peršinom.",
+      tr: "Sarımsaklı tereyağı ve maydanozlu sıcak ekmek.",
+      ar: "خبز دافئ بزبدة الثوم والبقدونس.",
+      zh: "温热面包配蒜香黄油与欧芹。",
     },
     sastojci: {
           sl: ["Kruh", "Česnovo maslo", "Peteršilj"],
@@ -619,6 +734,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Sveža zelenjava z oljčnim oljem in limono.",
       en: "Fresh vegetables with olive oil and lemon.",
+      de: "Frisches Gemüse mit Olivenöl und Zitrone.",
+      bs: "Svježe povrće s maslinovim uljem i limunom.",
+      tr: "Zeytinyağı ve limonlu taze sebzeler.",
+      ar: "خضار طازجة بزيت الزيتون والليمون.",
+      zh: "新鲜蔬菜佐橄榄油与柠檬。",
     },
     sastojci: {
           sl: ["Solata", "Paradižnik", "Kumare", "Oljčno olje", "Limona"],
@@ -674,6 +794,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Slan jogurtov napitek — klasika ob kebabu.",
       en: "Salted yogurt drink — the classic alongside kebab.",
+      de: "Salziges Joghurtgetränk — der Klassiker zum Kebab.",
+      bs: "Slani jogurt napitak — klasika uz kebab.",
+      tr: "Tuzlu yoğurt içeceği — kebabın klasiği.",
+      ar: "مشروب لبن مالح — رفيق الكباب التقليدي.",
+      zh: "咸味酸奶饮品——配烤肉的经典搭档。",
     },
     sastojci: {
           sl: ["Jogurt", "Voda", "Sol"],
@@ -729,6 +854,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Glavna jed po izbiri, juha, solata, jabolko in pijača.",
       en: "Main course of choice, soup, salad, apple and a drink.",
+      de: "Hauptgericht nach Wahl, Suppe, Salat, Apfel und Getränk.",
+      bs: "Glavno jelo po izboru, juha, salata, jabuka i piće.",
+      tr: "Seçtiğiniz ana yemek, çorba, salata, elma ve içecek.",
+      ar: "طبق رئيسي من اختياركم، وحساء، وسلطة، وتفاحة، ومشروب.",
+      zh: "自选主菜、汤、沙拉、一个苹果和一份饮料。",
     },
     sastojci: {
           sl: ["Glavna jed po izbiri", "Juha", "Solata", "Jabolko", "Pijača"],
@@ -756,6 +886,11 @@ const JELA: Jelo[] = [
     opis: {
       sl: "Štiri glavne jedi, dve veliki prilogi in štiri pijače.",
       en: "Four main courses, two large sides and four drinks.",
+      de: "Vier Hauptgerichte, zwei große Beilagen und vier Getränke.",
+      bs: "Četiri glavna jela, dva velika priloga i četiri pića.",
+      tr: "Dört ana yemek, iki büyük garnitür ve dört içecek.",
+      ar: "أربعة أطباق رئيسية، وطبقان جانبيان كبيران، وأربعة مشروبات.",
+      zh: "四份主菜、两份大配菜和四杯饮料。",
     },
     sastojci: {
           sl: ["4× glavna jed", "2× velika priloga", "4× pijača"],
@@ -890,6 +1025,11 @@ const LOKALI: Lokal[] = [
     uvodniTekst: {
       sl: "Prvi lokal Šeherezade stoji na Trubarjevi od leta 2009. Odprti smo najdlje v mestu — ob koncu tedna do petih zjutraj, ko je večina kuhinj že zaprtih.",
       en: "The first Šeherezada opened on Trubarjeva in 2009. We stay open the longest in town — until five in the morning at weekends, when most kitchens have long closed.",
+      de: "Das erste Lokal von Šeherezada steht seit 2009 in der Trubarjeva. Wir haben am längsten in der Stadt geöffnet — am Wochenende bis fünf Uhr morgens, wenn die meisten Küchen längst zu sind.",
+      bs: "Prvi lokal Šeherezade stoji u Trubarjevoj od 2009. godine. Otvoreni smo najduže u gradu — vikendom do pet ujutro, kada je većina kuhinja odavno zatvorena.",
+      tr: "Šeherezada'nın ilk şubesi 2009'dan beri Trubarjeva'da. Şehirde en geç saate kadar açık olan biziz — hafta sonları sabahın beşine kadar, mutfakların çoğu çoktan kapandığında.",
+      ar: "أول فرع لشهرزاد قائم في تروبارييفا منذ عام 2009. ونحن الأطول عملاً في المدينة — في عطلة نهاية الأسبوع حتى الخامسة فجراً، حين تكون معظم المطابخ قد أُغلقت.",
+      zh: "Šeherezada 的第一家店自 2009 年起坐落在 Trubarjeva。我们是全城营业最晚的——周末到凌晨五点，那时大多数厨房早已打烊。",
     },
     ocjena: 4.5,
     brojRecenzija: 1914,
@@ -914,6 +1054,11 @@ const LOKALI: Lokal[] = [
     uvodniTekst: {
       sl: "Lokal na Slovenski je večji in svetlejši, z dvajsetimi sedeži in mizami ob oknu. Primeren za daljše kosilo, ne le za jed s seboj.",
       en: "The Slovenska location is larger and brighter, with twenty seats and tables by the window. Made for a proper sit-down lunch, not just takeaway.",
+      de: "Das Lokal in der Slovenska ist größer und heller, mit zwanzig Sitzplätzen und Tischen am Fenster. Geeignet für ein längeres Mittagessen, nicht nur zum Mitnehmen.",
+      bs: "Lokal u Slovenskoj je veći i svjetliji, s dvadeset sjedećih mjesta i stolovima uz prozor. Prikladan za duži ručak, ne samo za hranu za ponijeti.",
+      tr: "Slovenska şubesi daha büyük ve daha aydınlık; yirmi oturma yeri ve pencere kenarında masaları var. Yalnızca paket servis için değil, uzun bir öğle yemeği için de uygun.",
+      ar: "فرع سلوفينسكا أكبر وأكثر إضاءة، وفيه عشرون مقعداً وطاولات بجانب النافذة. يصلح لغداء متأنٍّ، لا للطلبات الخارجية وحدها.",
+      zh: "Slovenska 店更大也更明亮，有二十个座位和靠窗的餐桌。适合坐下来慢慢吃午饭，而不只是外带。",
     },
     ocjena: 4.3,
     brojRecenzija: 412,
@@ -933,6 +1078,11 @@ const LOKALI: Lokal[] = [
     uvodniTekst: {
       sl: "Tretji lokal se pripravlja na Dunajski cesti. Odprtje načrtujemo v prihodnjih mesecih.",
       en: "Our third location is being prepared on Dunajska cesta. We plan to open in the coming months.",
+      de: "Das dritte Lokal entsteht an der Dunajska cesta. Die Eröffnung planen wir für die kommenden Monate.",
+      bs: "Treći lokal se priprema u Dunajskoj cesti. Otvorenje planiramo u narednim mjesecima.",
+      tr: "Üçüncü şube Dunajska caddesinde hazırlanıyor. Açılışı önümüzdeki aylarda planlıyoruz.",
+      ar: "الفرع الثالث قيد التحضير في شارع دوناييسكا. ونخطّط لافتتاحه في الأشهر المقبلة.",
+      zh: "第三家门店正在 Dunajska cesta 筹备中。我们计划在未来几个月内开业。",
     },
     glavni: false,
     stanje: "uskoro",

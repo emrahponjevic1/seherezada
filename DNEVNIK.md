@@ -627,6 +627,29 @@ između gradnji — promjena u bazi se ne vidi dok se keš ne obriše:
 Ovo pogađa svaku izmjenu podataka koja ne ide kroz `ponisti()`, dakle i
 ručne `update` upite u bazi.
 
+### Greška koju je prijavio korisnik: opisi jela
+
+Nazivi jela su se prevodili, opisi nisu. Uzrok je bio u alatu koji je
+dopunjavao `lib/repo.static.ts`: regex je tražio `{ sl: "...", en: "..." }`
+**u jednom redu**. Nazivi su tako pisani i prošli su; sastojci su imali svoj
+obrazac i prošli su; ali opisi su pisani preko tri reda i tiho su preskočeni.
+
+Gore od same greške: **provjera je imala istu pretpostavku**. Brojao sam
+jednoredne zapise koji su ostali bez prijevoda, dobio nulu i zaključio da je
+gotovo. Provjera koja dijeli pretpostavku sa zamjenom ne provjerava ništa.
+
+Ispravka je dvostruka:
+
+1. Regex sa `s*` svuda, pa hvata i razlomljene zapise — 30 dodatnih.
+2. Kontrola koja ne dijeli pretpostavku: broji `sl:` i `zh:` u fajlu i traži
+   da se poklope (110 = 110).
+
+Uveden je i `npm run curenje` — skener koji uzima **svaku** slovensku nisku
+iz oba kataloga i iz podataka o jelima, i traži je na stranicama ostalih šest
+jezika. 344 niske × 17 stranica × 6 jezika. Raniji ručni spisak od dvanaest
+sumnjivih fraza je propustio upravo opise; ovaj ih ne može propustiti jer mu
+je izvor isti onaj katalog iz kojeg se stranica gradi.
+
 ### RTL za arapski
 
 `dir="rtl"` sam po sebi ne okreće Tailwind klase — `ml-`, `text-left` i

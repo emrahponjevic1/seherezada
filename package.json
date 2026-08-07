@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "seed": "node --env-file=.env.local scripts/seed.ts",
     "migriraj": "node --env-file=.env.local scripts/migriraj.mjs",
-    "korisnik": "node --env-file=.env.local scripts/korisnik.mjs"
+    "korisnik": "node --env-file=.env.local scripts/korisnik.mjs",
+    "prevodi": "node scripts/prevodi.mjs provjeri && node scripts/prevodi.mjs provjeri --sadrzaj",
+    "curenje": "node scripts/curenje.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
