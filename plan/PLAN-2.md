@@ -14,9 +14,9 @@ commit po koraku.
 
 | | |
 |---|---|
-| Gotovo | koraci 1–20, 22, 23 |
-| **Preskočeno** | **korak 21 — recenzije** (nema commita) |
-| Nije rađeno | korak 24 — okruženje i objava |
+| Gotovo | koraci 1–20, 22, 23, **24, 25** |
+| **Preskočeno** | **korak 21 — recenzije** (nema commita); radi se kao korak 26 |
+| Sljedeće | korak 26 — recenzije bez obaveznog troška |
 | Stack | Next 16 · React 19 · Tailwind 3 · **čisti PostgreSQL** (`pg`), ne Supabase |
 | Prijava | vlastita (`lib/auth.ts`, `lib/sesija.ts`) |
 | Slike | vlastita obrada (`sharp`), `podaci/slike/` + `/api/slike` |
