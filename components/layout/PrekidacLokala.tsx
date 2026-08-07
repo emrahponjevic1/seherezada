@@ -147,7 +147,7 @@ export function PrekidacLokala({
             onClick={() => setOtvoren(false)}
             aria-hidden
           />
-          <div className="absolute right-0 top-full mt-2 w-72 z-50 bg-background/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
+          <div className="absolute end-0 top-full mt-2 w-72 z-50 bg-background/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
             {uPogonu.map((l) => {
               const nedostupan = l.stanje !== "radi"
               const otvorenLokal = sada ? jeOtvoren(l.radnoVrijeme, sada) : null
@@ -164,7 +164,7 @@ export function PrekidacLokala({
                   key={l.id}
                   onClick={() => !nedostupan && odaberi(l.slug)}
                   disabled={nedostupan}
-                  className={`w-full text-left px-4 py-3 rounded-xl transition-colors flex items-start gap-3 ${
+                  className={`w-full text-start px-4 py-3 rounded-xl transition-colors flex items-start gap-3 ${
                     nedostupan
                       ? "opacity-50 cursor-not-allowed"
                       : "hover:bg-muted/40"

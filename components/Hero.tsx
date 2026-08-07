@@ -65,7 +65,7 @@ export function Hero({
       </div>
 
       <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8">
+        <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start space-y-6 md:space-y-8">
           <Pojava delay={0.2} y={-20}>
             <ZnackaOtvoreno
               radnoVrijeme={lokal.radnoVrijeme}

@@ -45,7 +45,7 @@ export function KarticeLokala({
         lang={lang}
         tacke={vidljivi.map((l) => ({ slug: l.slug, lat: l.lat, lng: l.lng }))}
       >
-        <div className="w-full bg-card/40 border border-white/5 dark:border-white/10 backdrop-blur-md rounded-3xl p-6 md:p-8 grid gap-6 text-left [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
+        <div className="w-full bg-card/40 border border-white/5 dark:border-white/10 backdrop-blur-md rounded-3xl p-6 md:p-8 grid gap-6 text-start [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
           {vidljivi.map((lokal) => {
             const jeUskoro = lokal.stanje === "uskoro"
             const jeTrenutni = lokal.slug === trenutniSlug
@@ -107,7 +107,7 @@ export function KarticeLokala({
                       href={mapa}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-2 ml-16 inline-flex items-center gap-1 text-sm font-semibold text-shere-red hover:underline"
+                      className="mt-2 ms-16 inline-flex items-center gap-1 text-sm font-semibold text-shere-red hover:underline"
                     >
                       {ui("akcija.navodila", lang)}
                       <ArrowRight size={14} />

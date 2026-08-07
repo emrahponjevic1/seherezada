@@ -87,7 +87,7 @@ export function FaqIzvod({
   return (
     <section className="w-full py-20 md:py-24">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-10 text-center md:text-left">
+        <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-10 text-center md:text-start">
           {ui("nav.faq", lang)}
         </h2>
 

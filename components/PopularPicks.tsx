@@ -23,7 +23,7 @@ export function PopularPicks({
   return (
     <section id="popular" className="py-20 w-full overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-        <div className="mb-10 text-center md:text-left">
+        <div className="mb-10 text-center md:text-start">
           <h2 className="text-4xl md:text-5xl font-black font-poppins mb-3 tracking-tight">
             {ui("recenzije.priljubljeneIzbire", lang)}
           </h2>

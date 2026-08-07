@@ -81,7 +81,7 @@ export function ProductCard({
             )}
           </div>
 
-          <div className="flex-1 flex flex-col justify-center pr-8 space-y-1">
+          <div className="flex-1 flex flex-col justify-center pe-8 space-y-1">
             <h3 className="text-xl font-black font-poppins text-foreground line-clamp-2 leading-tight">
               {naziv}
             </h3>

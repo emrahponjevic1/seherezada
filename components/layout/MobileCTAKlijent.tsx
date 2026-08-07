@@ -165,7 +165,7 @@ export function MobileCTAKlijent({
                     key={kat.id}
                     href={adresaKategorije(kat.slug)}
                     onClick={() => setIsOpen(false)}
-                    className={`w-full py-4.5 px-5 rounded-[1.8rem] bg-gradient-to-r ${izgled.bg} border border-white/5 dark:border-white/10 text-left font-black text-lg shadow-md active:scale-[0.98] transition-all flex items-center gap-4 relative overflow-hidden group`}
+                    className={`w-full py-4.5 px-5 rounded-[1.8rem] bg-gradient-to-r ${izgled.bg} border border-white/5 dark:border-white/10 text-start font-black text-lg shadow-md active:scale-[0.98] transition-all flex items-center gap-4 relative overflow-hidden group`}
                   >
                     <div className="w-14 h-14 rounded-2xl bg-black/30 flex items-center justify-center text-3xl shrink-0 shadow-inner">
                       {izgled.emoji}

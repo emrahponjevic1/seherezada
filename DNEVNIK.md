@@ -601,20 +601,49 @@ modal jela, oznake i alergeni, stranica recenzija, izvod FAQ-a, zajedničke stra
 galerija, pogosta vprašanja, zasebnost, pogoji) i **svi `<title>` i `<meta description>`** za svih
 140 adresa.
 
-### Šta NIJE prevedeno
+### Drugi prolaz — ostatak teksta
 
-Tri fajla su ostala na slovenskom i engleskom:
+Prvi prolaz je ostavio tri fajla na sl+en. Drugi ih je zatvorio:
 
-| fajl | tekstova | šta je |
+| fajl | tekstova | kako |
 |---|---|---|
-| `components/stranice/sadrzajSeo.ts` | 96 | osam ciljanih stranica za pretragu |
-| `lib/repo.static.ts` | 87 | demo podaci (nazivi i opisi jela) |
-| `components/stranice/sadrzajFaq.ts` | 46 | 24 pitanja i odgovora |
+| `sadrzajFaq.ts` | 23 pitanja i odgovora | ključevi u `messages/sadrzaj/` |
+| `sadrzajSeo.ts` | osam ciljanih stranica | ključevi; naslov dijeli ključ sa `<title>` iste rute |
+| `lib/repo.static.ts` | 23 jela i 8 kategorija | dopunjeni zapisi, ne katalog |
 
-Na tim mjestima `t()` pada na engleski, pa gost na `/zh/kebab-ljubljana` dobije engleski tekst u
-kineskom okviru — ne slovenski, ali ni kineski. Isto važi za nazive jela: oni žive u **bazi**, gdje
-kolone `naziv` i `opis` imaju `sl` i `en` ključeve, pa ni migracija ni `/chef` još ne nude ostalih
-pet jezika.
+**Zašto jela idu drukčije.** Nazivi i opisi jela nisu natpisi sučelja nego
+PODACI: žive u bazi, uređuju se kroz `/chef` i sijeku se kroz `seed.ts`. Da su
+otišli u katalog, `/chef` bi uređivao ključ umjesto teksta. Zato su dopunjeni
+na licu mjesta, a baza je ponovo zasijana — kolona `naziv` sada nosi svih
+sedam jezika u JSONB-u. Obrazac u `/chef` je već bio spreman: `PoJeziku` se
+vrti po `JEZICI`, pa je novih pet jezika dobio bez ijedne izmjene.
+
+**Zamka koja je pojela pola sata.** Poslije `npm run seed` prva gradnja je
+i dalje služila stare nazive. `unstable_cache` preživljava u `.next/cache`
+između gradnji — promjena u bazi se ne vidi dok se keš ne obriše:
+
+    rm -rf .next/cache && npm run build
+
+Ovo pogađa svaku izmjenu podataka koja ne ide kroz `ponisti()`, dakle i
+ručne `update` upite u bazi.
+
+### RTL za arapski
+
+`dir="rtl"` sam po sebi ne okreće Tailwind klase — `ml-`, `text-left` i
+slične su fizičke. Javne komponente su prebačene na logička svojstva
+(`ms-`, `me-`, `ps-`, `pe-`, `text-start`, `text-end`, `end-0`), kojih
+Tailwind 3.4 ima. Bilo ih je malo — četiri margine, osam poravnanja i dva
+padajuća menija.
+
+`/chef` je namjerno ostao na fizičkim klasama: admin panel je uvijek na
+slovenskom, pa mu RTL ne treba, a prebacivanje bi samo povećalo razliku.
+
+Preostali `right-0` u zaglavlju je par `left-0 right-0` — pun raspon,
+simetričan u oba smjera.
+
+**Nije rađeno:** pisma. Poppins i Inter nose samo latinicu, pa arapski i
+kineski padaju na sistemski font. Radi, ali se tipografija razlikuje od
+ostalih jezika — ako smeta, dodaju se Noto Sans Arabic i Noto Sans SC.
 
 ### Popravljeno usput
 
@@ -638,8 +667,6 @@ Gradnja i dalje daje 140 statičkih stranica.
 ## Otvoreno
 
 - **QR kod** na stranici recenzija — čeka pravi `google_place_id` (korak 21).
-- **Tri fajla neprevedena** — `sadrzajSeo.ts` (96), `repo.static.ts` (87), `sadrzajFaq.ts` (46); vidi korak 22.
-- **Nazivi jela u bazi** imaju samo `sl` i `en`; `/chef` još ne nudi ostalih pet jezika.
-- **RTL raspored** za arapski nije prilagođen — `dir` je postavljen, ali stilovi nisu provjereni.
+- **Pisma za arapski i kineski** — padaju na sistemski font; vidi korak 22.
 - **404 bez okvira** — ograničenje Next 16, opisano uz korak 5.
 - **Provjere „tvoje oko"** iz koraka 1, 4, 5, 7, 8 i 9 čekaju korisnika.

@@ -144,7 +144,7 @@ export function MeniInteraktivni({
                 </span>
                 <span className="relative z-10 tracking-wide">{tab.naziv}</span>
                 {aktivna === tab.slug && (
-                  <span className="relative z-10 w-1.5 h-1.5 rounded-full bg-white ml-1 shadow-[0_0_8px_rgba(255,255,255,0.9)]"></span>
+                  <span className="relative z-10 w-1.5 h-1.5 rounded-full bg-white ms-1 shadow-[0_0_8px_rgba(255,255,255,0.9)]"></span>
                 )}
               </button>
             ))}

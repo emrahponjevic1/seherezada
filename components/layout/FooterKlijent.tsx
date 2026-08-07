@@ -215,7 +215,7 @@ function LokalBlok({
 
       <div className="flex items-center gap-3 justify-center">
         <MapPin className="text-shere-red shrink-0" size={20} />
-        <p className="text-muted-foreground leading-tight text-left">
+        <p className="text-muted-foreground leading-tight text-start">
           {lokal.adresa}
         </p>
       </div>

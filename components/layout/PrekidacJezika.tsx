@@ -111,7 +111,7 @@ export function PrekidacJezika({
         je pokazivao na adrese do kojih se ne može doći klikom.
       */}
       <div
-        className={`absolute right-0 top-full mt-2 w-56 z-50 bg-background/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-[0_8px_30px_rgb(0,0,0,0.2)] transition-opacity duration-150 ${
+        className={`absolute end-0 top-full mt-2 w-56 z-50 bg-background/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-[0_8px_30px_rgb(0,0,0,0.2)] transition-opacity duration-150 ${
           otvoren ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden={!otvoren}
@@ -129,7 +129,7 @@ export function PrekidacJezika({
               setOtvoren(false)
               onOdabir?.()
             }}
-            className="w-full text-left px-4 py-2.5 rounded-xl transition-colors flex items-center justify-between gap-3 hover:bg-muted/40"
+            className="w-full text-start px-4 py-2.5 rounded-xl transition-colors flex items-center justify-between gap-3 hover:bg-muted/40"
           >
             <span className="font-bold">{j.naziv}</span>
             {j.kod === lang && (
