@@ -146,8 +146,13 @@ export async function generateMetadata({
    * Ključ je KOD jezika (`bs`), a ne prefiks iz adrese (`ba`) — hreflang
    * traži ISO oznaku, pa bi `ba` Google odbacio kao nepoznatu.
    *
-   * `x-default` pokazuje na slovenski: to je adresa bez prefiksa i ono
-   * što dobije posjetilac čiji jezik nemamo.
+   * `x-default` pokazuje na ENGLESKI, ne na slovenski.
+   *
+   * Ta oznaka ne služi domaćem gostu — njega hvata `hreflang="sl"`. Ona
+   * važi za posjetioca čiji jezik nemamo: Španca, Poljaka, Norvežanina.
+   * Njemu je engleska verzija upotrebljiva, slovenska nije. Ljubljana je
+   * turistički grad i takvih je posjetilaca više nego onih koji govore
+   * bilo koji od preostalih šest jezika.
    */
   const jezicne = Object.fromEntries(
     Object.entries(sveAdrese(slug, ctx)).map(([kod, putanja]) => [
@@ -163,7 +168,7 @@ export async function generateMetadata({
       canonical: kanonska,
       languages: {
         ...jezicne,
-        "x-default": jezicne.sl,
+        "x-default": jezicne.en,
       },
     },
     openGraph: {
