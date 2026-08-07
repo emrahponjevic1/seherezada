@@ -23,14 +23,23 @@ import type {
 //  Slike — zastupne, do pravih fotografija (korak 17)
 // ─────────────────────────────────────────────────────────────
 
+/**
+ * Zastupne slike — jedna po kategoriji, ključ je slug kategorije.
+ *
+ * Ranije su ovdje stajale četiri Unsplash adrese na 23 jela, pa je piće
+ * prikazivalo kebab; uz to je adresa koju je koristilo 12 jela vraćala 404.
+ * Sada su lokalne, u tri veličine, i svaka kategorija ima svoju
+ * (`scripts/zastupne-slike.mjs`). Prave fotografije ih prepisuju kroz /chef.
+ */
 const SLIKA = {
-  kebab:
-    "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&q=80",
-  pica: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80",
-  burger:
-    "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80",
-  ostalo:
-    "https://images.unsplash.com/photo-1593010950930-741fb981f26a?w=800&q=80",
+  kebab: "/jela/kebab",
+  pice: "/jela/pice",
+  burgeri: "/jela/burgeri",
+  falafel: "/jela/falafel",
+  ostalo: "/jela/ostalo",
+  dodatki: "/jela/dodatki",
+  pijaca: "/jela/pijaca",
+  meniji: "/jela/meniji",
 } as const
 
 // ─────────────────────────────────────────────────────────────
@@ -313,7 +322,7 @@ const JELA: Jelo[] = [
           zh: ["番茄酱", "马苏里拉", "罗勒", "橄榄油"],
         },
     alergeni: ["gluten", "laktoza"],
-    slikaUrl: SLIKA.pica,
+    slikaUrl: SLIKA.pice,
     slikaAlt: { sl: "Pica margerita", en: "Margherita pizza", de: "Pizza Margherita", bs: "Pizza margarita", tr: "Margherita pizza", ar: "بيتزا مارغريتا", zh: "玛格丽特披萨" },
     halal: true,
     vegetarijansko: true,
@@ -346,7 +355,7 @@ const JELA: Jelo[] = [
           zh: ["番茄酱", "马苏里拉", "鸡肉火腿", "蘑菇"],
         },
     alergeni: ["gluten", "laktoza"],
-    slikaUrl: SLIKA.pica,
+    slikaUrl: SLIKA.pice,
     slikaAlt: { sl: "Pica capricciosa", en: "Capricciosa pizza", de: "Pizza Capricciosa", bs: "Pizza capricciosa", tr: "Capricciosa pizza", ar: "بيتزا كابريتشوزا", zh: "卡布里乔萨披萨" },
     halal: true,
     vegetarijansko: false,
@@ -379,7 +388,7 @@ const JELA: Jelo[] = [
           zh: ["番茄酱", "马苏里拉", "西葫芦", "甜椒", "茄子"],
         },
     alergeni: ["gluten", "laktoza"],
-    slikaUrl: SLIKA.pica,
+    slikaUrl: SLIKA.pice,
     slikaAlt: { sl: "Vegetarijanska pica", en: "Vegetarian pizza", de: "Vegetarische Pizza", bs: "Vegetarijanska pizza", tr: "Vejetaryen pizza", ar: "بيتزا نباتية", zh: "素食披萨" },
     halal: true,
     vegetarijansko: true,
@@ -412,7 +421,7 @@ const JELA: Jelo[] = [
           zh: ["番茄酱", "马苏里拉", "鸡肉", "辣椒", "红洋葱"],
         },
     alergeni: ["gluten", "laktoza"],
-    slikaUrl: SLIKA.pica,
+    slikaUrl: SLIKA.pice,
     slikaAlt: { sl: "Pikantna piščančja pica", en: "Spicy chicken pizza", de: "Scharfe Hähnchen-Pizza", bs: "Ljuta pileća pizza", tr: "Acılı tavuklu pizza", ar: "بيتزا دجاج حارّة", zh: "香辣鸡肉披萨" },
     halal: true,
     vegetarijansko: false,
@@ -447,7 +456,7 @@ const JELA: Jelo[] = [
           zh: ["牛肉 2×100 克", "焦糖洋葱", "生菜", "本店特调酱"],
         },
     alergeni: ["gluten", "laktoza", "jaja", "gorusica"],
-    slikaUrl: SLIKA.burger,
+    slikaUrl: SLIKA.burgeri,
     slikaAlt: { sl: "Šehere burger z dvojno govedino", en: "Double beef burger", de: "Šehere Burger mit doppeltem Rindfleisch", bs: "Šehere burger s duplom govedinom", tr: "Çift dana köfteli Šehere burger", ar: "برغر شهيري بقطعتَي لحم بقري", zh: "双层牛肉 Šehere 汉堡" },
     halal: true,
     vegetarijansko: false,
@@ -480,7 +489,7 @@ const JELA: Jelo[] = [
           zh: ["牛肉 150 克", "切达芝士", "酸黄瓜", "番茄酱", "芥末"],
         },
     alergeni: ["gluten", "laktoza", "gorusica"],
-    slikaUrl: SLIKA.burger,
+    slikaUrl: SLIKA.burgeri,
     slikaAlt: { sl: "Cheeseburger s čedarjem", en: "Cheeseburger with cheddar", de: "Cheeseburger mit Cheddar", bs: "Cheeseburger s čedarom", tr: "Cheddar'lı cheeseburger", ar: "تشيزبرغر بالشيدر", zh: "切达芝士汉堡" },
     halal: true,
     vegetarijansko: false,
@@ -513,7 +522,7 @@ const JELA: Jelo[] = [
           zh: ["鸡排", "生菜", "番茄", "蛋黄酱"],
         },
     alergeni: ["gluten", "jaja"],
-    slikaUrl: SLIKA.burger,
+    slikaUrl: SLIKA.burgeri,
     slikaAlt: { sl: "Piščančji burger", en: "Chicken burger", de: "Hähnchenburger", bs: "Pileći burger", tr: "Tavuk burger", ar: "برغر دجاج", zh: "鸡肉汉堡" },
     halal: true,
     vegetarijansko: false,
@@ -548,7 +557,7 @@ const JELA: Jelo[] = [
           zh: ["鹰嘴豆", "欧芹", "卷饼皮", "芝麻酱", "生菜"],
         },
     alergeni: ["gluten", "sezam"],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.falafel,
     slikaAlt: { sl: "Falafel v jufki", en: "Falafel in yufka", de: "Falafel im Yufka", bs: "Falafel u jufki", tr: "Yufkada falafel", ar: "فلافل في الرقاق", zh: "卷饼沙拉三明治" },
     halal: true,
     vegetarijansko: true,
@@ -581,7 +590,7 @@ const JELA: Jelo[] = [
           zh: ["沙拉三明治", "鹰嘴豆泥", "时令沙拉", "皮塔饼", "芝麻酱"],
         },
     alergeni: ["gluten", "sezam"],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.falafel,
     slikaAlt: { sl: "Falafel plošča s humusom", en: "Falafel plate with hummus", de: "Falafel-Teller mit Hummus", bs: "Falafel tanjur s humusom", tr: "Humuslu falafel tabağı", ar: "طبق فلافل مع الحمّص", zh: "鹰嘴豆泥沙拉三明治拼盘" },
     halal: true,
     vegetarijansko: true,
@@ -684,7 +693,7 @@ const JELA: Jelo[] = [
           zh: ["土豆", "海盐"],
         },
     alergeni: [],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.dodatki,
     slikaAlt: { sl: "Porcija pomfrija", en: "Portion of fries", de: "Portion Pommes", bs: "Porcija pomfrita", tr: "Patates porsiyonu", ar: "حصة بطاطس مقلية", zh: "一份薯条" },
     halal: true,
     vegetarijansko: true,
@@ -717,7 +726,7 @@ const JELA: Jelo[] = [
           zh: ["面包", "蒜香黄油", "欧芹"],
         },
     alergeni: ["gluten", "laktoza"],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.dodatki,
     slikaAlt: { sl: "Topel česnov kruh", en: "Warm garlic bread", de: "Warmes Knoblauchbrot", bs: "Topli hljeb s češnjakom", tr: "Sıcak sarımsaklı ekmek", ar: "خبز بالثوم دافئ", zh: "温热蒜香面包" },
     halal: true,
     vegetarijansko: true,
@@ -750,7 +759,7 @@ const JELA: Jelo[] = [
           zh: ["生菜", "番茄", "黄瓜", "橄榄油", "柠檬"],
         },
     alergeni: [],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.dodatki,
     slikaAlt: { sl: "Sezonska solata", en: "Seasonal salad", de: "Saisonsalat", bs: "Sezonska salata", tr: "Mevsim salatası", ar: "سلطة الموسم", zh: "时令沙拉" },
     halal: true,
     vegetarijansko: true,
@@ -777,7 +786,7 @@ const JELA: Jelo[] = [
           zh: ["碳酸饮料"],
         },
     alergeni: [],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.pijaca,
     slikaAlt: { sl: "Steklenica Coca-Cole", en: "Bottle of Coca-Cola", de: "Flasche Coca-Cola", bs: "Boca Coca-Cole", tr: "Şişe Coca-Cola", ar: "زجاجة كوكا كولا", zh: "一瓶可口可乐" },
     halal: true,
     vegetarijansko: true,
@@ -810,7 +819,7 @@ const JELA: Jelo[] = [
           zh: ["酸奶", "水", "盐"],
         },
     alergeni: ["laktoza"],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.pijaca,
     slikaAlt: { sl: "Kozarec ayrana", en: "Glass of ayran", de: "Glas Ayran", bs: "Čaša ajrana", tr: "Bir bardak ayran", ar: "كأس عيران", zh: "一杯咸酸奶" },
     halal: true,
     vegetarijansko: true,
@@ -835,7 +844,7 @@ const JELA: Jelo[] = [
           zh: ["泉水"],
         },
     alergeni: [],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.pijaca,
     slikaAlt: { sl: "Steklenica vode", en: "Bottle of water", de: "Flasche Wasser", bs: "Boca vode", tr: "Şişe su", ar: "زجاجة ماء", zh: "一瓶水" },
     halal: true,
     vegetarijansko: true,
@@ -870,7 +879,7 @@ const JELA: Jelo[] = [
           zh: ["自选主菜", "汤", "沙拉", "苹果", "饮料"],
         },
     alergeni: ["gluten", "laktoza"],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.meniji,
     slikaAlt: { sl: "Študentski meni", en: "Student menu", de: "Studentenmenü", bs: "Studentski meni", tr: "Öğrenci menüsü", ar: "قائمة الطلاب", zh: "学生套餐" },
     halal: true,
     vegetarijansko: false,
@@ -902,7 +911,7 @@ const JELA: Jelo[] = [
           zh: ["4× 主菜", "2× 大份配菜", "4× 饮料"],
         },
     alergeni: ["gluten", "laktoza", "sezam"],
-    slikaUrl: SLIKA.ostalo,
+    slikaUrl: SLIKA.meniji,
     slikaAlt: { sl: "Družinski meni za štiri", en: "Family menu for four", de: "Familienmenü für vier", bs: "Porodični meni za četvero", tr: "Dört kişilik aile menüsü", ar: "قائمة عائلية لأربعة أشخاص", zh: "四人家庭套餐" },
     halal: true,
     vegetarijansko: false,

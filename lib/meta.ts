@@ -19,11 +19,18 @@ export const BASE_URL = (
   process.env.NEXT_PUBLIC_BASE_URL ?? "https://seherezada.net"
 ).replace(/\/$/, "")
 
-/** Lokalna slika za dijeljenje — bez dimenzija se pregled često ne prikaže. */
+/**
+ * Lokalna slika za dijeljenje — bez dimenzija se pregled često ne prikaže.
+ *
+ * 1200×630 je odnos koji Facebook, WhatsApp i X očekuju. Ranije je ovdje
+ * stajao kvadrat od 1024×1024 i 899 KB: svaka mreža ga je obrezivala po
+ * svome, pa se nije znalo šta se zapravo vidi. JPEG, a ne WebP — dio
+ * skidača pregleda još uvijek ne čita WebP.
+ */
 export const OG_SLIKA = {
-  url: "/rotisserie_hero.png",
-  width: 1024,
-  height: 1024,
+  url: "/og.jpg",
+  width: 1200,
+  height: 630,
   alt: "Šeherezada — halal kebab in fast food v Ljubljani",
 }
 

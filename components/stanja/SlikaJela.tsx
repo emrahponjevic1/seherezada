@@ -39,10 +39,13 @@ export function SlikaJela({
     )
   }
 
-  // Naše otpremljene slike postoje u tri veličine — preglednik bira
-  // najmanju koja mu treba. Vanjske adrese (zastupne fotografije) nemaju
-  // varijante, pa idu kakve jesu.
-  const nase = slikaUrl.startsWith("/api/slike/")
+  // Naše slike postoje u tri veličine — preglednik bira najmanju koja mu
+  // treba. Dva su izvora, ista konvencija `{osnova}/{400,800,1600}.webp`:
+  // `/api/slike/` su prave fotografije koje vlasnik otprema kroz /chef, a
+  // `/jela/` su zastupne po kategoriji (scripts/zastupne-slike.mjs).
+  // Vanjske adrese nemaju varijante, pa idu kakve jesu.
+  const nase =
+    slikaUrl.startsWith("/api/slike/") || slikaUrl.startsWith("/jela/")
 
   return (
     // Obični <img>: dio slika su vanjske adrese, a next/image bi tražio
