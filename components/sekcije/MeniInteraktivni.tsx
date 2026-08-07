@@ -7,6 +7,8 @@ import { t, ui } from "@/lib/i18n"
 import { ProductCard } from "@/components/ProductCard"
 import { ProductModal } from "@/components/ProductModal"
 
+import { Celija, Traka } from "./Traka"
+
 /**
  * Tabovi i kartice menija.
  *
@@ -38,10 +40,17 @@ export function MeniInteraktivni({
   sekcije,
   lokal,
   lang,
+  varijanta = "puna",
 }: {
   sekcije: MenuSekcija[]
   lokal: Lokal
   lang: Lang
+  /**
+   * `izvod` je sekcija naslovne — jela se prelistavaju vodoravno.
+   * `puna` je stranica `/meni`, gdje se meni pregleda, a ne prelistava,
+   * pa ostaje mreža.
+   */
+  varijanta?: "puna" | "izvod"
 }) {
   const [aktivna, setAktivna] = useState<string>(SVE)
   const [odabrano, setOdabrano] = useState<MenuStavka | null>(null)
@@ -177,22 +186,42 @@ export function MeniInteraktivni({
                 </p>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                {sekcija.stavke.map((stavka) => {
-                  const odmah = redniBroj < 4
-                  redniBroj++
-                  return (
-                    <ProductCard
-                      key={stavka.jelo.id}
-                      stavka={stavka}
-                      lang={lang}
-                      onClick={setOdabrano}
-                      context="menu"
-                      odmah={odmah}
-                    />
-                  )
-                })}
-              </div>
+              {varijanta === "izvod" ? (
+                <Traka>
+                  {sekcija.stavke.map((stavka) => {
+                    const odmah = redniBroj < 4
+                    redniBroj++
+                    return (
+                      <Celija key={stavka.jelo.id}>
+                        <ProductCard
+                          stavka={stavka}
+                          lang={lang}
+                          onClick={setOdabrano}
+                          context="menu"
+                          odmah={odmah}
+                        />
+                      </Celija>
+                    )
+                  })}
+                </Traka>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                  {sekcija.stavke.map((stavka) => {
+                    const odmah = redniBroj < 4
+                    redniBroj++
+                    return (
+                      <ProductCard
+                        key={stavka.jelo.id}
+                        stavka={stavka}
+                        lang={lang}
+                        onClick={setOdabrano}
+                        context="menu"
+                        odmah={odmah}
+                      />
+                    )
+                  })}
+                </div>
+              )}
             </section>
           )
         })}

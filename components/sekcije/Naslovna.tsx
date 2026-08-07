@@ -13,11 +13,18 @@ import { Halal } from "./Halal"
 import { FaqIzvod } from "./FaqIzvod"
 
 /**
- * Naslovna — devet sekcija, tim redom:
+ * Naslovna — osam sekcija, tim redom:
  *
- *   1 Hero                 2 Kartice lokala        3 Priljubljene izbire
- *   4 Naša zgodba          5 Naš meni              6 Halal
- *   7 Recenzije            8 Pogosta vprašanja     9 Podnožje (korak 4)
+ *   1 Hero                 2 Priljubljene izbire   3 Naša zgodba
+ *   4 Naš meni             5 Halal                 6 Recenzije
+ *   7 Pogosta vprašanja    8 Lokali + podnožje
+ *
+ * Kartice lokala su sišle sa druge pozicije na dno: gost bira lokal kad
+ * se odlučio, a ne prije nego je vidio šta se nudi.
+ *
+ * Sekcije 2 i 4 su vodoravne trake. Traka SKROLA, ne uklanja — sve
+ * kartice ostaju u dokumentu, one van ekrana su samo pomjerene. Vidi
+ * `Traka.tsx`.
  *
  * SERVERSKA u cjelini. Klijentski su samo animirani omotači i ono što
  * stvarno zavisi od trenutka ili od klika.
@@ -43,18 +50,11 @@ export async function Naslovna({
     <>
       <Hero lokal={lokal} lang={lang} glavniSlug={glavniSlug} />
 
-      <KarticeLokala
-        lokali={lokali}
-        trenutniSlug={lokalSlug}
-        lang={lang}
-        glavniSlug={glavniSlug}
-      />
-
       <PopularPicks stavke={izdvojena} lokal={lokal} lang={lang} />
 
       <AboutUs lang={lang} glavniSlug={glavniSlug} />
 
-      {/* Sekcija 5 — ista komponenta kao stranica menija, u varijanti 'izvod' */}
+      {/* Ista komponenta kao stranica menija, u varijanti 'izvod' */}
       <Menu
         sekcije={sekcije}
         lokal={lokal}
@@ -68,6 +68,15 @@ export async function Naslovna({
       <Reviews lokal={lokal} lang={lang} glavniSlug={glavniSlug} />
 
       <FaqIzvod lokali={lokali} lang={lang} glavniSlug={glavniSlug} />
+
+      {/* Lokali su na dnu, uz podnožje — gost ih traži kad se odlučio,
+          ne prije nego je uopšte vidio šta nudimo. */}
+      <KarticeLokala
+        lokali={lokali}
+        trenutniSlug={lokalSlug}
+        lang={lang}
+        glavniSlug={glavniSlug}
+      />
     </>
   )
 }

@@ -6,6 +6,8 @@ import type { Lang, Lokal, MenuStavka } from "@/lib/domain"
 import { ProductCard } from "@/components/ProductCard"
 import { ProductModal } from "@/components/ProductModal"
 
+import { Celija, Traka } from "./Traka"
+
 /**
  * Mreža izdvojenih jela + modal.
  *
@@ -25,18 +27,19 @@ export function PopularPicksMreza({
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      <Traka>
         {stavke.map((stavka, i) => (
-          <ProductCard
-            key={stavka.jelo.id}
-            stavka={stavka}
-            lang={lang}
-            onClick={setOdabrano}
-            context="popular"
-            odmah={i < 4}
-          />
+          <Celija key={stavka.jelo.id}>
+            <ProductCard
+              stavka={stavka}
+              lang={lang}
+              onClick={setOdabrano}
+              context="popular"
+              odmah={i < 4}
+            />
+          </Celija>
         ))}
-      </div>
+      </Traka>
 
       <ProductModal
         stavka={odabrano}

@@ -110,7 +110,7 @@ export function Menu({
           )}
         </div>
 
-        <MeniInteraktivni sekcije={sekcije} lokal={lokal} lang={lang} />
+        <MeniInteraktivni sekcije={sekcije} lokal={lokal} lang={lang} varijanta={varijanta} />
 
         {puna ? (
           <div className="flex flex-wrap gap-4 pt-4 border-t border-border">
