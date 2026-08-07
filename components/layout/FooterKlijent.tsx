@@ -226,7 +226,7 @@ function LokalBlok({
           href={`tel:${lokal.telefon.replace(/\s/g, "")}`}
           className="hover:text-shere-red transition text-lg font-black text-foreground"
         >
-          {lokal.telefon}
+          <span dir="ltr">{lokal.telefon}</span>
         </a>
       </div>
 

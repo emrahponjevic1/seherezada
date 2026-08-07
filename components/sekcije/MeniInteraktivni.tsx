@@ -74,16 +74,21 @@ export function MeniInteraktivni({
     }
     setAktivna(slug)
 
-    if (navRef.current) {
-      const cilj = e.currentTarget
-      navRef.current.scrollTo({
-        left:
-          cilj.offsetLeft -
-          navRef.current.offsetWidth / 2 +
-          cilj.offsetWidth / 2,
-        behavior: "smooth",
-      })
-    }
+    /*
+     * `scrollIntoView` umjesto ručnog računa preko `offsetLeft` (korak 23).
+     *
+     * `offsetLeft` je uvijek pozitivan, a `scrollLeft` je u RTL negativan
+     * (0 je na desnom kraju). Stari račun je u arapskom davao pozitivan
+     * broj koji se sabijao na nulu, pa se traka vraćala na početak umjesto
+     * da centrira tab. `inline: "center"` to radi sam i zna za smjer.
+     *
+     * `block: "nearest"` čuva od pomjeranja cijele stranice po visini.
+     */
+    e.currentTarget.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    })
   }
 
   const ukupno = sekcije.reduce((z, s) => z + s.stavke.length, 0)

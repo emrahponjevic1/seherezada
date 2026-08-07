@@ -13,7 +13,7 @@ import {
 } from "framer-motion"
 
 import { useTheme } from "@/providers/ThemeProvider"
-import { ui } from "@/lib/i18n"
+import { smjer, ui } from "@/lib/i18n"
 import { href, type Route, type RouteKontekst } from "@/lib/route"
 import {
   izPutanje,
@@ -68,6 +68,15 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
     lokalSlugi: lokaliUPogonu(lokali).map((l) => l.slug),
     glavniSlug,
   }
+
+  /**
+   * Predznak za pomake po vodoravnoj osi (korak 23).
+   *
+   * CSS logička svojstva okreću raspored, ali framer-motion animira
+   * `x` u pikselima i ne zna za `dir` — stavke mobilnog menija bi u
+   * arapskom ulazile s pogrešne strane, iz smjera u kojem meni nije.
+   */
+  const predznak = smjer(lang) === "rtl" ? -1 : 1
 
   const naslovnaAdresa = adresa({ kind: "lokal-home", lang, lokal: lokalSlug })
 
@@ -130,7 +139,9 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-shere-red to-orange-500 origin-left z-50"
+                // origin-left bi u RTL rastao s pogrešne strane: traka
+                // napretka mora krenuti odande odakle se čita.
+                className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-shere-red to-orange-500 origin-left rtl:origin-right z-50"
                 style={{ scaleX }}
               />
             )}
@@ -191,7 +202,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                       y: podmeniOtvoren ? 0 : -8,
                     }}
                     transition={{ duration: 0.2 }}
-                    className={`absolute left-0 top-full pt-2 w-52 ${
+                    className={`absolute start-0 top-full pt-2 w-52 ${
                       podmeniOtvoren ? "" : "pointer-events-none"
                     }`}
                   >
@@ -256,7 +267,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
               {stavke.map((stavka, i) => (
                 <motion.div
                   key={stavka.adresa + stavka.naziv}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -20 * predznak }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + i * 0.1, duration: 0.4 }}
                 >

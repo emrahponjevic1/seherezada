@@ -650,33 +650,12 @@ jezika. 344 niske × 17 stranica × 6 jezika. Raniji ručni spisak od dvanaest
 sumnjivih fraza je propustio upravo opise; ovaj ih ne može propustiti jer mu
 je izvor isti onaj katalog iz kojeg se stranica gradi.
 
-### RTL za arapski
+### RTL — djelimično (dovršeno u koraku 23)
 
-`dir="rtl"` sam po sebi ne okreće Tailwind klase — `ml-`, `text-left` i
-slične su fizičke. Javne komponente su prebačene na logička svojstva
-(`ms-`, `me-`, `ps-`, `pe-`, `text-start`, `text-end`, `end-0`), kojih
-Tailwind 3.4 ima. Bilo ih je malo — četiri margine, osam poravnanja i dva
-padajuća menija.
-
-`/chef` je namjerno ostao na fizičkim klasama: admin panel je uvijek na
-slovenskom, pa mu RTL ne treba, a prebacivanje bi samo povećalo razliku.
-
-Preostali `right-0` u zaglavlju je par `left-0 right-0` — pun raspon,
-simetričan u oba smjera.
-
-**Nije rađeno:** pisma. Poppins i Inter nose samo latinicu, pa arapski i
-kineski padaju na sistemski font. Radi, ali se tipografija razlikuje od
-ostalih jezika — ako smeta, dodaju se Noto Sans Arabic i Noto Sans SC.
-
-### Popravljeno usput
-
-- `ReviewsKarusel.tsx` je bio jedina komponenta koja je još uvozila `src/data.ts` — demo recenzije
-  su prešle na katalog, sa ključevima umjesto teksta. Prave Google recenzije (korak 21) ostaju na
-  jeziku na kojem su napisane: tuđe riječi se ne prevode, prevodi se samo okvir oko njih.
-- `providers/LanguageProvider.tsx` obrisan — ostao je bez ijednog korisnika.
-- `KRATKI_DAN` je stajao dvaput, u `ZajednickeStranice.tsx` i `FaqIzvod.tsx`, sa različitim
-  skraćenicama. Sad je jedan ključ `danKratko.*`.
-- Nazivi stranica su bili prepisani na tri mjesta; sad su u `lib/naslovi.ts`.
+Da `/ar` ne bi izgledao polomljeno dok se radi 22, prebacio sam javne
+komponente na logička svojstva (`ms-`, `me-`, `ps-`, `pe-`, `text-start`,
+`text-end`). To NIJE bio korak 23 nego samo njegov najlakši dio; ostatak je
+niže.
 
 ### Provjera
 
@@ -687,9 +666,98 @@ Gradnja i dalje daje 140 statičkih stranica.
 
 ---
 
+---
+
+## Korak 23 — arapski i RTL
+
+Plan traži da arapska verzija bude cijela stranica u ogledalu, ne samo
+prijevod. Logička svojstva iz koraka 22 su okrenula raspored; ostalo je sve
+što CSS ne okreće sam.
+
+### Font
+
+`Noto_Naskh_Arabic` iz `next/font/google`, sa **`preload: false`**. To je
+suština zahtjeva „samo na arapskim stranicama": bez toga Next stavlja
+`<link rel="preload">` u svaku stranicu i slovenski gost preuzima font koji
+nikad ne vidi. Ovako `@font-face` stoji u CSS-u, ali ga preglednik dohvati
+tek kad ga neki element zatraži — a traži ga samo `:lang(ar)`.
+
+Razmak redova je 1,8: arapsko pismo je optički niže i na standardnih 1,5 se
+zbija. Poppins i Inter ostaju kao rezerva, jer unutar arapskog teksta ima
+latinice (nazivi jela, „Wolt", cijene).
+
+### Zamka: Tailwind je pojeo pravilo za strelice
+
+Osamnaest `ArrowRight` ikona u RTL pokazuje na pogrešnu stranu. Umjesto
+osamnaest izmjena, jedno pravilo po lucide klasi. Ali pravilo je **nestalo iz
+izgrađenog CSS-a**, tiho.
+
+Uzrok: Tailwind čisti pravila čiji se selektor oslanja na klasu koju ne nađe
+u izvornom kodu, **i to važi i unutar `@layer base`**. Klasu
+`lucide-arrow-right` dodaje sama biblioteka u pregledniku — nikad je nema u
+`.tsx` fajlovima. `:lang(ar)` je preživio jer je pseudo-klasa, a pravilo za
+strelice nije. Rješenje: obično pravilo **izvan** slojeva se ne čisti.
+
+Drugi detalj iste stvari: prevrtanje ide kroz **`scale: -1 1`**, ne
+`transform: scaleX(-1)`. Strelica u heroju nosi `group-hover:translate-x-1`,
+što je Tailwind `transform`; da je pisalo `transform`, hover bi ga pregazio i
+strelica bi se pri prelasku mišem vraćala. Samostalno svojstvo `scale` se s
+`transform` slaže umjesto da ga zamijeni.
+
+### Brojevi, cijene i vrijeme
+
+U arapskom bi „09:00 – 05:00" algoritam za dvosmjerni tekst prikazao kao
+„05:00 – 09:00" — brojevi su slabo LTR, ali crtica između njih pokupi smjer
+okoline i zamijeni im mjesta. Riješeno **na izvoru**, u `formatCijena` i
+`formatRadnoVrijeme`: izlaz se u RTL jezicima omota u LRI/PDI izolate. Dvije
+izmjene pokrivaju svih deset mjesta gdje se cijene i vrijeme ispisuju, a u
+LTR jezicima niska ostaje bajt-u-bajt ista.
+
+Telefoni su podatak, ne prijevod, pa nose `dir="ltr"` na elementu — četiri
+mjesta.
+
+### Karusel kategorija
+
+Centriranje aktivnog taba računalo je `scrollLeft` iz `offsetLeft`.
+`offsetLeft` je uvijek pozitivan, a `scrollLeft` je u RTL negativan (nula je
+na desnom kraju), pa se račun sabijao na nulu i traka se vraćala na početak
+umjesto da centrira. Zamijenjeno sa `scrollIntoView({ inline: "center" })`,
+koji sam zna za smjer — usput i kraći kod.
+
+Povlačenje mišem NIJE dirano: `scrollLeft = pocetak - pomak` radi u oba
+smjera, jer sadržaj prati prst bez obzira na to kako su ose orijentisane.
+
+### Animacije
+
+framer-motion animira `x` u pikselima i ne zna za `dir`. Stavke mobilnog
+menija ulazile bi s pogrešne strane, pa pomak ide kroz `predznak` izveden iz
+`smjer(lang)`. Traka napretka skrolanja dobila je `rtl:origin-right` — inače
+bi rasla odande gdje se ne čita.
+
+`layoutId` pilula aktivne stavke nije dirana: framer-motion mjeri stvarne
+položaje, pa radi u oba smjera sama.
+
+### Šta se NIJE prevrtalo
+
+Značke oko tanjira u heroju. One su simetričan ukras oko kruga, a plan
+izričito kaže da se logo i ikone hrane ne prevrću. `/chef` je takođe ostao na
+fizičkim klasama — admin panel je uvijek slovenski.
+
+### Provjera
+
+Deset od dvanaest tačaka iz plana prošlo automatski: `dir` po ruti · font se
+ne preloada na ostalim jezicima · bidi izolacija postoji na `/ar` a nema je na
+`/sl` · telefon `dir="ltr"` · podmeni `start-0` · nema fizičkih `text-left`
+ni `ml-` · 119 stranica × 7 jezika vraća 200 · nema curenja slovenskog.
+
+Dvije tačke **ne mogu se provjeriti alatom** i čekaju tebe: izgled na
+fizičkom telefonu (spajanje slova i prelamanje) i pregled od izvornog
+govornika.
+
 ## Otvoreno
 
 - **QR kod** na stranici recenzija — čeka pravi `google_place_id` (korak 21).
-- **Pisma za arapski i kineski** — padaju na sistemski font; vidi korak 22.
+- **Kinesko pismo** pada na sistemski font; arapski je riješen u koraku 23.
+- **Provjera arapskog** na fizičkom telefonu i od izvornog govornika — čeka korisnika.
 - **404 bez okvira** — ograničenje Next 16, opisano uz korak 5.
 - **Provjere „tvoje oko"** iz koraka 1, 4, 5, 7, 8 i 9 čekaju korisnika.

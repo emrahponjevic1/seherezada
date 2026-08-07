@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Poppins, Inter } from "next/font/google"
+import { Poppins, Inter, Noto_Naskh_Arabic } from "next/font/google"
 import "./globals.css"
 
 import { JEZICI } from "@/lib/domain"
@@ -21,6 +21,26 @@ const inter = Inter({
   weight: ["400", "500", "600"],
   display: "swap",
   variable: "--font-inter",
+})
+
+/**
+ * Arapsko pismo (korak 23).
+ *
+ * `preload: false` je namjeran: bez njega Next stavlja `<link rel="preload">`
+ * u SVAKU stranicu, pa bi slovenski i engleski gost preuzimali arapski font
+ * koji nikad ne vide. Ovako `@font-face` stoji u CSS-u, ali ga preglednik
+ * dohvati tek kad ga neki element zatraži — a traži ga samo `:lang(ar)`
+ * u globals.css. Tako je font stvarno „samo na arapskim stranicama".
+ *
+ * Poppins i Inter ne sadrže arapske glife; bez ovoga se slova ne spajaju
+ * i tekst je nečitljiv.
+ */
+const notoArabic = Noto_Naskh_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+  preload: false,
+  variable: "--font-arabic",
 })
 
 export const metadata: Metadata = {
@@ -93,7 +113,7 @@ export default function RootLayout({
       lang="sl"
       dir="ltr"
       suppressHydrationWarning
-      className={`${poppins.variable} ${inter.variable}`}
+      className={`${poppins.variable} ${inter.variable} ${notoArabic.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: temaSkripta }} />

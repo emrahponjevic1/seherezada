@@ -131,7 +131,7 @@ export function SeoStranica({
                 href={`tel:${lokal.telefon.replace(/\s/g, "")}`}
                 className="text-shere-red hover:underline text-sm"
               >
-                {lokal.telefon}
+                <span dir="ltr">{lokal.telefon}</span>
               </a>
             </li>
           ))}

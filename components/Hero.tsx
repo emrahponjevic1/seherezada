@@ -135,7 +135,7 @@ export function Hero({
                 {ui("akcija.prikaziMeni", lang)}
                 <ArrowRight
                   size={20}
-                  className="group-hover:translate-x-1 transition-transform opacity-70"
+                  className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform opacity-70"
                 />
               </span>
             </Link>
@@ -150,7 +150,7 @@ export function Hero({
                   size={20}
                   className="text-shere-red group-hover:text-white animate-pulse group-hover:scale-110 transition-all duration-300"
                 />
-                {lokal.telefon}
+                <span dir="ltr">{lokal.telefon}</span>
               </span>
             </a>
           </Pojava>

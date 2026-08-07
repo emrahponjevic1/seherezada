@@ -138,7 +138,7 @@ export function Menu({
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm font-bold hover:scale-105 active:scale-95 transition-transform"
             >
               <Phone size={18} />
-              {lokal.telefon}
+              <span dir="ltr">{lokal.telefon}</span>
             </a>
           </div>
         ) : (

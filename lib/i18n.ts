@@ -151,11 +151,29 @@ export function prefiks(lang: Lang): string | null {
 /** Jezici koji kao decimalni znak koriste tačku. */
 const DECIMALNA_TACKA: Lang[] = ["en", "zh"]
 
+/**
+ * Nevidljivi bidi znakovi koji dio teksta drže slijeva nadesno (korak 23).
+ *
+ * U arapskom bi „09:00 – 05:00" algoritam za dvosmjerni tekst prikazao kao
+ * „05:00 – 09:00" — brojevi su slabo LTR, ali crtica između njih pokupi
+ * smjer okoline i zamijeni im mjesta. Isto vrijedi za „8,50 €".
+ *
+ * LRI/PDI su ISOLATE, ne samo override: okolni arapski tekst se prelama
+ * normalno oko njih. Ne ispisuju se i ne mijenjaju dužinu vidljivog teksta.
+ */
+const LRI = "⁦"
+const PDI = "⁩"
+
+/** Omotava samo kad treba — u LTR jezicima niska ostaje bajt-u-bajt ista. */
+function uspravno(tekst: string, lang: Lang): string {
+  return smjer(lang) === "rtl" ? `${LRI}${tekst}${PDI}` : tekst
+}
+
 /** 8.5 → "8,50 €" (sl) · "8.50 €" (en). Cijena je uvijek tekst, nikad slika. */
 export function formatCijena(cijena: number, lang: Lang): string {
   const fiksno = cijena.toFixed(2)
   const broj = DECIMALNA_TACKA.includes(lang) ? fiksno : fiksno.replace(".", ",")
-  return `${broj} €`
+  return uspravno(`${broj} €`, lang)
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -235,7 +253,8 @@ export function formatRadnoVrijeme(
 ): string {
   const termin = rv.redovno[dan]
   if (!termin) return ui("stanje.zaprto", lang)
-  return `${termin.od} – ${termin.do}`
+  // Bez izolacije bi arapski prikazao „05:00 – 09:00" — vidi uspravno().
+  return uspravno(`${termin.od} – ${termin.do}`, lang)
 }
 
 /** Do kada je otvoreno danas — za značku „Odprto do 05:00". */
