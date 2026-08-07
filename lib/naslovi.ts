@@ -19,6 +19,8 @@ export const KLJUC_ZAJEDNICKE: Record<SharedPage, string> = {
   "o-nas": "nav.oNas",
   halal: "nav.halal",
   galerija: "nav.galerija",
+  blog: "nav.blog",
+  kontakt: "nav.kontakt",
   "pogosta-vprasanja": "nav.faq",
   zasebnost: "stranica.zasebnost",
   pogoji: "stranica.pogoji",
@@ -26,6 +28,7 @@ export const KLJUC_ZAJEDNICKE: Record<SharedPage, string> = {
 
 export const KLJUC_SEO: Record<SeoPage, string> = {
   "kebab-ljubljana": "jelo.kebab",
+  "doner-ljubljana": "jelo.doner",
   "pizza-ljubljana": "jelo.pizza",
   "burger-ljubljana": "jelo.burgeri",
   "falafel-ljubljana": "jelo.falafel",

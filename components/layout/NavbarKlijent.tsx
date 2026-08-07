@@ -14,7 +14,8 @@ import {
 
 import { useTheme } from "@/providers/ThemeProvider"
 import { smjer, ui } from "@/lib/i18n"
-import { href, type Route, type RouteKontekst } from "@/lib/route"
+import { href, SEO_PAGES, type Route, type RouteKontekst } from "@/lib/route"
+import { KLJUC_SEO } from "@/lib/naslovi"
 import {
   izPutanje,
   lokaliUPogonu,
@@ -28,7 +29,8 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
   const { theme, setTheme } = useTheme()
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [podmeniOtvoren, setPodmeniOtvoren] = useState(false)
+  // Koji je podmeni otvoren — sada ih ima dva, pa zastavica nije dovoljna.
+  const [otvoreniPodmeni, setOtvoreniPodmeni] = useState<string | null>(null)
 
   const pathname = usePathname()
   // Jezik i lokal se čitaju IZ ADRESE (pravilo 4), ne iz stanja.
@@ -44,23 +46,59 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
     page: "meni",
   })
 
+  const naslovnaAdresa = adresa({ kind: "lokal-home", lang, lokal: lokalSlug })
+
   // Natpisi dolaze iz `ui()` sa jezikom IZ ADRESE. Ranije su dolazili iz
   // `useLanguage()`, koji je jezik držao u klijentskom stanju — pa je na
   // /en zaglavlje ostajalo slovensko dok je sadržaj bio engleski.
-  const podmeni = [
-    { adresa: adresa({ kind: "seo", lang, page: "kebab-ljubljana" }), naziv: ui("jelo.kebab", lang) },
-    { adresa: adresa({ kind: "seo", lang, page: "pizza-ljubljana" }), naziv: ui("jelo.pizza", lang) },
-    { adresa: adresa({ kind: "seo", lang, page: "burger-ljubljana" }), naziv: ui("jelo.burgeri", lang) },
-    { adresa: adresa({ kind: "seo", lang, page: "falafel-ljubljana" }), naziv: ui("jelo.falafel", lang) },
-    { adresa: meniAdresa, naziv: ui("nav.celMeni", lang) },
-  ]
-
-  const stavke = [
-    { adresa: meniAdresa, naziv: ui("nav.meni", lang), imaPodmeni: true },
-    { adresa: adresa({ kind: "shared", lang, page: "halal" }), naziv: ui("nav.halal", lang), imaPodmeni: false },
-    { adresa: adresa({ kind: "shared", lang, page: "o-nas" }), naziv: ui("nav.oNas", lang), imaPodmeni: false },
-    { adresa: adresa({ kind: "shared", lang, page: "galerija" }), naziv: ui("nav.galerija", lang), imaPodmeni: false },
-    { adresa: adresa({ kind: "shared", lang, page: "pogosta-vprasanja" }), naziv: ui("nav.vprasanja", lang), imaPodmeni: false },
+  /**
+   * Šest stavki, dvije sa podmenijem.
+   *
+   * „Blog" okuplja ciljane stranice po jelu — one žive u korijenu
+   * (`/doner-ljubljana`), a ne pod `/blog/`, jer se javne adrese poslije
+   * objave ne mijenjaju. Naziv u navigaciji i adresa ne moraju biti ista
+   * stvar.
+   *
+   * Halal je pod „O nama": u traženom rasporedu nema svoje stavke, a
+   * stranica je previše važna da bi se do nje dolazilo samo iz podnožja.
+   */
+  const stavke: {
+    adresa: string
+    naziv: string
+    podmeni?: { adresa: string; naziv: string }[]
+  }[] = [
+    { adresa: naslovnaAdresa, naziv: ui("akcija.domov", lang) },
+    { adresa: meniAdresa, naziv: ui("nav.meni", lang) },
+    {
+      adresa: adresa({ kind: "shared", lang, page: "galerija" }),
+      naziv: ui("nav.galerija", lang),
+    },
+    {
+      adresa: adresa({ kind: "shared", lang, page: "o-nas" }),
+      naziv: ui("nav.oNas", lang),
+      podmeni: [
+        { adresa: adresa({ kind: "shared", lang, page: "o-nas" }), naziv: ui("nav.oNas", lang) },
+        { adresa: adresa({ kind: "shared", lang, page: "halal" }), naziv: ui("nav.halal", lang) },
+        { adresa: adresa({ kind: "shared", lang, page: "pogosta-vprasanja" }), naziv: ui("nav.vprasanja", lang) },
+        { adresa: adresa({ kind: "shared", lang, page: "zasebnost" }), naziv: ui("stranica.zasebnost", lang) },
+        { adresa: adresa({ kind: "shared", lang, page: "pogoji" }), naziv: ui("stranica.pogoji", lang) },
+      ],
+    },
+    {
+      adresa: adresa({ kind: "shared", lang, page: "blog" }),
+      naziv: ui("nav.blog", lang),
+      podmeni: [
+        ...SEO_PAGES.map((p) => ({
+          adresa: adresa({ kind: "seo", lang, page: p }),
+          naziv: ui(KLJUC_SEO[p], lang),
+        })),
+        { adresa: adresa({ kind: "shared", lang, page: "blog" }), naziv: ui("nav.vsiClanki", lang) },
+      ],
+    },
+    {
+      adresa: adresa({ kind: "shared", lang, page: "kontakt" }),
+      naziv: ui("nav.kontakt", lang),
+    },
   ]
 
   // Prekidaču jezika treba isti kontekst koji koristi resolveRoute.
@@ -77,8 +115,6 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
    * arapskom ulazile s pogrešne strane, iz smjera u kojem meni nije.
    */
   const predznak = smjer(lang) === "rtl" ? -1 : 1
-
-  const naslovnaAdresa = adresa({ kind: "lokal-home", lang, lokal: lokalSlug })
 
   const { scrollY, scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, {
@@ -167,8 +203,12 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
               <div
                 key={stavka.adresa + stavka.naziv}
                 className="relative"
-                onMouseEnter={() => stavka.imaPodmeni && setPodmeniOtvoren(true)}
-                onMouseLeave={() => stavka.imaPodmeni && setPodmeniOtvoren(false)}
+                onMouseEnter={() =>
+                  stavka.podmeni && setOtvoreniPodmeni(stavka.naziv)
+                }
+                onMouseLeave={() =>
+                  stavka.podmeni && setOtvoreniPodmeni(null)
+                }
               >
                 <Link
                   href={stavka.adresa}
@@ -179,7 +219,7 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                   }`}
                 >
                   <span className="relative z-10">{stavka.naziv}</span>
-                  {stavka.imaPodmeni && (
+                  {stavka.podmeni && (
                     <ChevronDown size={14} className="relative z-10" />
                   )}
                   {jeAktivna(stavka.adresa) && (
@@ -194,20 +234,22 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
 
                 {/* Podmeni je UVIJEK u dokumentu, samo se skriva stilom —
                     da mu linkovi ostanu u izvornom HTML-u. */}
-                {stavka.imaPodmeni && (
+                {stavka.podmeni && (
                   <motion.div
                     initial={false}
                     animate={{
-                      opacity: podmeniOtvoren ? 1 : 0,
-                      y: podmeniOtvoren ? 0 : -8,
+                      opacity: otvoreniPodmeni === stavka.naziv ? 1 : 0,
+                      y: otvoreniPodmeni === stavka.naziv ? 0 : -8,
                     }}
                     transition={{ duration: 0.2 }}
-                    className={`absolute start-0 top-full pt-2 w-52 ${
-                      podmeniOtvoren ? "" : "pointer-events-none"
+                    className={`absolute start-0 top-full pt-2 w-56 ${
+                      otvoreniPodmeni === stavka.naziv
+                        ? ""
+                        : "pointer-events-none"
                     }`}
                   >
                     <div className="bg-background/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
-                      {podmeni.map((p) => (
+                      {stavka.podmeni.map((p) => (
                         <Link
                           key={p.adresa + p.naziv}
                           href={p.adresa}
@@ -278,6 +320,25 @@ export function NavbarKlijent({ lokali, glavniSlug }: OkvirPodaci) {
                   >
                     {stavka.naziv}
                   </Link>
+
+                  {/* Podstavke su na mobitelu ISPISANE, ne sakrivene iza
+                      drugog dodira. Da se ne iscrtavaju, do Halala i do
+                      devet ciljanih stranica se sa telefona ne bi moglo
+                      doći iz menija — a većina gostiju dolazi telefonom. */}
+                  {stavka.podmeni && (
+                    <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+                      {stavka.podmeni.map((p) => (
+                        <Link
+                          key={p.adresa + p.naziv}
+                          href={p.adresa}
+                          onClick={() => setIsMobileOpen(false)}
+                          className="text-lg font-semibold text-muted-foreground hover:text-shere-red transition-colors"
+                        >
+                          {p.naziv}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </nav>

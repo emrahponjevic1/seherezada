@@ -30,6 +30,8 @@ export const SHARED_PAGES = [
   "o-nas",
   "halal",
   "galerija",
+  "blog",
+  "kontakt",
   "pogosta-vprasanja",
   "zasebnost",
   "pogoji",
@@ -39,6 +41,7 @@ export type SharedPage = (typeof SHARED_PAGES)[number]
 /** Ciljane stranice za pretragu. */
 export const SEO_PAGES = [
   "kebab-ljubljana",
+  "doner-ljubljana",
   "pizza-ljubljana",
   "burger-ljubljana",
   "falafel-ljubljana",

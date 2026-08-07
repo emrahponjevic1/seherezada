@@ -68,6 +68,8 @@ const ZAJEDNICKA: Record<SharedPage, { naziv: string; opis: string }> = {
   "o-nas": { naziv: "nav.oNas", opis: "meta.oNasOpis" },
   halal: { naziv: "nav.halal", opis: "meta.halalOpis" },
   galerija: { naziv: "nav.galerija", opis: "meta.galerijaOpis" },
+  blog: { naziv: "nav.blog", opis: "meta.blogOpis" },
+  kontakt: { naziv: "nav.kontakt", opis: "meta.kontaktOpis" },
   "pogosta-vprasanja": { naziv: "nav.faq", opis: "meta.faqOpis" },
   zasebnost: { naziv: "stranica.zasebnost", opis: "meta.zasebnostOpis" },
   pogoji: { naziv: "stranica.pogojiUporabe", opis: "meta.pogojiOpis" },
@@ -75,6 +77,7 @@ const ZAJEDNICKA: Record<SharedPage, { naziv: string; opis: string }> = {
 
 const SEO: Record<SeoPage, { naziv: string; opis: string }> = {
   "kebab-ljubljana": { naziv: "seo.kebabLjubljana", opis: "meta.kebabOpis" },
+  "doner-ljubljana": { naziv: "seo.donerLjubljana", opis: "meta.donerOpis" },
   "pizza-ljubljana": { naziv: "seo.pizzaLjubljana", opis: "meta.pizzaOpis" },
   "burger-ljubljana": { naziv: "seo.burgerLjubljana", opis: "meta.burgerOpis" },
   "falafel-ljubljana": { naziv: "seo.falafelLjubljana", opis: "meta.falafelOpis" },

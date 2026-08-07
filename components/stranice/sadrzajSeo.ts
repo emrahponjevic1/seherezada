@@ -44,7 +44,26 @@ export const SADRZAJ_SEO: Record<SeoPage, SadrzajSeo> = {
       { pitanje: "seoK.q2p", odgovor: "seoK.q2o" },
       { pitanje: "seoK.q3p", odgovor: "seoK.q3o" },
     ],
-    srodne: ["halal-hrana-ljubljana", "nocna-hrana-ljubljana", "falafel-ljubljana"],
+    srodne: ["doner-ljubljana", "halal-hrana-ljubljana", "nocna-hrana-ljubljana"],
+  },
+
+  // ───────────────────────────────────────────────────────────
+  //  Döner je zasebna pretraga od „kebab", iako oba jela stoje u istoj
+  //  kategoriji. Ko traži „döner Ljubljana" traži baš pripremu s
+  //  vertikalnog ražnja — zato stranica govori o razlici, a ne ponavlja
+  //  tekst sa /kebab-ljubljana.
+  "doner-ljubljana": {
+    naslov: "seo.donerLjubljana",
+    uvod: "seoDo.uvod",
+    blok3: { naslov: "seoDo.b3n", tekst: "seoDo.b3t" },
+    blok4: { naslov: "seoDo.b4n", tekst: "seoDo.b4t" },
+    kategorija: "kebab",
+    pitanja: [
+      { pitanje: "seoDo.q1p", odgovor: "seoDo.q1o" },
+      { pitanje: "seoDo.q2p", odgovor: "seoDo.q2o" },
+      { pitanje: "seoDo.q3p", odgovor: "seoDo.q3o" },
+    ],
+    srodne: ["kebab-ljubljana", "halal-hrana-ljubljana", "nocna-hrana-ljubljana"],
   },
 
   // ───────────────────────────────────────────────────────────

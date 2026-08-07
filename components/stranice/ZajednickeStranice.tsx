@@ -2,7 +2,7 @@ import type { Lang, Lokal } from "@/lib/domain"
 import { formatRadnoVrijeme, ui } from "@/lib/i18n"
 import { s } from "@/lib/sadrzaj"
 import type { Dan } from "@/lib/domain"
-import { href, type SharedPage } from "@/lib/route"
+import { href, SEO_PAGES, type SharedPage } from "@/lib/route"
 
 import {
   Dugmad,
@@ -14,6 +14,8 @@ import {
   type Mrvica,
 } from "./dijelovi"
 import { GalerijaFilter } from "./GalerijaFilter"
+import { Zemljevid } from "./Zemljevid"
+import { SADRZAJ_SEO } from "./sadrzajSeo"
 import {
   CAS_IN_LOKACIJA,
   HALAL_I_SASTOJCI,
@@ -228,15 +230,18 @@ export function ZajednickaStranica({
 
     // ── Galerija ─────────────────────────────────────────────
     case "galerija": {
+      // Lokalne zastupne slike, ne Unsplash adrese. Dvije od ranijih
+      // osam pokazivale su na fotografiju koja je u međuvremenu skinuta
+      // i vraćala je 404 — galerija je imala dvije prazne pločice.
       const slike = [
-        { grupa: "hrana", url: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&q=80", opis: "galerija.slika1" },
-        { grupa: "hrana", url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80", opis: "galerija.slika2" },
-        { grupa: "hrana", url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80", opis: "galerija.slika3" },
-        { grupa: "hrana", url: "https://images.unsplash.com/photo-1593010950930-741fb981f26a?w=800&q=80", opis: "galerija.slika4" },
+        { grupa: "hrana", url: "/jela/kebab/800.webp", opis: "galerija.slika1" },
+        { grupa: "hrana", url: "/jela/pice/800.webp", opis: "galerija.slika2" },
+        { grupa: "hrana", url: "/jela/burgeri/800.webp", opis: "galerija.slika3" },
+        { grupa: "hrana", url: "/jela/falafel/800.webp", opis: "galerija.slika4" },
         { grupa: "lokal", url: "/rotisserie_hero.webp", opis: "galerija.slika5" },
-        { grupa: "lokal", url: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&q=80", opis: "galerija.slika6" },
-        { grupa: "ekipa", url: "https://images.unsplash.com/photo-1593010950930-741fb981f26a?w=800&q=80", opis: "galerija.slika7" },
-        { grupa: "ekipa", url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80", opis: "galerija.slika8" },
+        { grupa: "lokal", url: "/jela/meniji/800.webp", opis: "galerija.slika6" },
+        { grupa: "ekipa", url: "/jela/dodatki/800.webp", opis: "galerija.slika7" },
+        { grupa: "ekipa", url: "/jela/ostalo/800.webp", opis: "galerija.slika8" },
       ]
 
       return (
@@ -342,6 +347,143 @@ export function ZajednickaStranica({
         </OkvirStranice>
       )
     }
+
+    // ── Kontakt ──────────────────────────────────────────────
+    //  Ovo je stranica koju Google najpažljivije upoređuje sa Business
+    //  profilom. Zato adresa, telefon i radno vrijeme moraju biti TEKST
+    //  u serverskom HTML-u — ne samo u ugrađenoj mapi i ne kao slika.
+    case "kontakt":
+      return (
+        <OkvirStranice
+          mrvice={mrvice(ui("nav.kontakt", lang))}
+          naslov={ui("nav.kontakt", lang)}
+          uvod={s("kontakt.uvod", lang)}
+        >
+          <section className="space-y-8">
+            <h2 className="text-2xl md:text-3xl font-black font-poppins tracking-tight">
+              {ui("kontakt.nasiLokali", lang)}
+            </h2>
+
+            {uPogonu.map((lokal) => (
+              <div
+                key={lokal.id}
+                className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 space-y-4"
+              >
+                <h3 className="text-xl font-black font-poppins">{lokal.naziv}</h3>
+
+                <dl className="space-y-2 text-muted-foreground">
+                  <div>
+                    <dt className="sr-only">{ui("nav.lokal", lang)}</dt>
+                    <dd className="text-foreground">{lokal.adresa}</dd>
+                  </div>
+                  <div>
+                    <dt className="sr-only">{ui("akcija.poklici", lang)}</dt>
+                    <dd>
+                      <a
+                        href={`tel:${lokal.telefon.replace(/\s/g, "")}`}
+                        dir="ltr"
+                        className="font-semibold text-shere-red hover:underline"
+                      >
+                        {lokal.telefon}
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="sr-only">{ui("stanje.odprto", lang)}</dt>
+                    <dd>{sazetakVremena(lokal, lang)}</dd>
+                  </div>
+                </dl>
+
+                <Dugmad
+                  stavke={[
+                    ...(lokal.woltUrl
+                      ? [{ naziv: ui("akcija.narociWolt", lang), adresa: lokal.woltUrl, vanjski: true }]
+                      : []),
+                    ...(lokal.glovoUrl
+                      ? [{ naziv: ui("akcija.narociGlovo", lang), adresa: lokal.glovoUrl, vanjski: true }]
+                      : []),
+                    {
+                      naziv: ui("akcija.navodila", lang),
+                      adresa:
+                        lokal.lat && lokal.lng
+                          ? `https://maps.google.com/?q=${lokal.lat},${lokal.lng}`
+                          : `https://maps.google.com/?q=${encodeURIComponent(lokal.adresa)}`,
+                      vanjski: true,
+                    },
+                  ]}
+                />
+
+                <Zemljevid
+                  naziv={lokal.naziv}
+                  adresa={lokal.adresa}
+                  lat={lokal.lat}
+                  lng={lokal.lng}
+                  natpis={ui("kontakt.zemljevid", lang)}
+                />
+              </div>
+            ))}
+          </section>
+
+          <Odjeljak naslov={s("kontakt.potN", lang)}>
+            <p>{s("kontakt.potT", lang)}</p>
+          </Odjeljak>
+
+          <Odjeljak naslov={s("kontakt.parkingN", lang)}>
+            <p>{s("kontakt.parkingT", lang)}</p>
+          </Odjeljak>
+
+          <Odjeljak naslov={s("kontakt.placiloN", lang)}>
+            <p>{s("kontakt.placiloT", lang)}</p>
+          </Odjeljak>
+
+          <Srodne
+            naslov={ui("naslov.poglejteSe", lang)}
+            stavke={[
+              { naziv: ui("nav.celMeni", lang), adresa: a.meni },
+              { naziv: ui("nav.faq", lang), adresa: a.faq },
+              { naziv: ui("seo.dostava", lang), adresa: a.dostava },
+            ]}
+          />
+        </OkvirStranice>
+      )
+
+    // ── Blog ─────────────────────────────────────────────────
+    //  Ovo je i čvorište internih linkova: odavde snaga naslovne teče na
+    //  devet ciljanih stranica. Bez njega su one dostupne samo iz
+    //  podnožja i iz srodnih linkova.
+    case "blog":
+      return (
+        <OkvirStranice
+          mrvice={mrvice(ui("nav.blog", lang))}
+          naslov={ui("nav.blog", lang)}
+          uvod={s("blog.uvod", lang)}
+        >
+          <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))] max-w-none">
+            {SEO_PAGES.map((stranicaSeo) => (
+              <a
+                key={stranicaSeo}
+                href={href({ kind: "seo", lang, page: stranicaSeo }, glavniSlug)}
+                className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 hover:border-shere-red/30 transition-colors group"
+              >
+                <h2 className="text-xl font-black font-poppins group-hover:text-shere-red transition-colors">
+                  {ui(SADRZAJ_SEO[stranicaSeo].naslov, lang)}
+                </h2>
+                <p className="mt-2 text-muted-foreground leading-relaxed line-clamp-3">
+                  {s(SADRZAJ_SEO[stranicaSeo].uvod, lang)}
+                </p>
+              </a>
+            ))}
+          </div>
+
+          <Srodne
+            naslov={ui("naslov.poglejteSe", lang)}
+            stavke={[
+              { naziv: ui("nav.celMeni", lang), adresa: a.meni },
+              { naziv: ui("nav.halal", lang), adresa: a.halal },
+            ]}
+          />
+        </OkvirStranice>
+      )
 
     // ── Zasebnost ────────────────────────────────────────────
     case "zasebnost":

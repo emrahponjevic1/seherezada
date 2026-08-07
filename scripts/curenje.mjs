@@ -19,11 +19,15 @@ const JEZICI = [
   { prefiks: "zh", kod: "zh" },
 ]
 
+// Spisak mora pratiti SHARED_PAGES i SEO_PAGES iz lib/route.ts. Nova
+// stranica koja se ovdje ne doda ne biva provjerena, a skener i dalje
+// javlja „čisto" — pa izgleda kao da je sve u redu.
 const PUTEVI = [
   "", "/meni", "/recenzije", "/o-nas", "/halal", "/galerija",
+  "/blog", "/kontakt",
   "/pogosta-vprasanja", "/zasebnost", "/pogoji",
-  "/kebab-ljubljana", "/pizza-ljubljana", "/burger-ljubljana",
-  "/falafel-ljubljana", "/halal-hrana-ljubljana",
+  "/kebab-ljubljana", "/doner-ljubljana", "/pizza-ljubljana",
+  "/burger-ljubljana", "/falafel-ljubljana", "/halal-hrana-ljubljana",
   "/nocna-hrana-ljubljana", "/dostava-ljubljana",
   "/studentski-meni-ljubljana",
 ]
