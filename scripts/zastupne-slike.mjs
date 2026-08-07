@@ -23,11 +23,16 @@ import { mkdir, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import sharp from "sharp"
 
-// Svaka je pregledana okom prije nego je ušla ovdje — kategorija mora
+// SVAKA je pregledana okom prije nego je ušla ovdje — kategorija mora
 // odgovarati onome što se stvarno vidi, i ništa ne smije prikazivati
 // alkohol ni svinjetinu.
+//
+// Naučeno na svoju štetu: `1529692236671-f1f6cf9683ba` je stajao u kodu kao
+// slika kebaba i vraćao je HTTP 200, pa je prošao bez pogleda. Na njemu je
+// narezana pečenica sa viljuškom — nikakav kebab. Status 200 ne znači da je
+// slika tačna; mora se otvoriti i pogledati.
 const KATEGORIJE = {
-  kebab: { foto: "1529692236671-f1f6cf9683ba", opis: "meso s ražnja" },
+  kebab: { foto: "1599487488170-d11ec9c172f0", opis: "meso na ražnjićima" },
   pice: { foto: "1513104890138-7c749659a591", opis: "pica iz krušne peći" },
   burgeri: { foto: "1568901346375-23c9450c58cd", opis: "burger s povrćem" },
   falafel: { foto: "1626700051175-6818013e1d4f", opis: "zavitak presječen na pola" },

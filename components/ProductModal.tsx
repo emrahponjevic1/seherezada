@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import type { MouseEvent } from "react"
 import {
   motion,
@@ -91,14 +92,30 @@ export function ProductModal({
     }
   }, [stavka])
 
-  if (!stavka) return null
+  /**
+   * Modal se mora iscrtati u `document.body`, ne tamo gdje stoji u stablu.
+   *
+   * Renderuje se iz `MeniInteraktivni` i `PopularPicksMreza`, a obje sjede
+   * unutar sekcije sa `relative z-10`. Time cijeli modal upada u kontekst
+   * slaganja te sekcije, pa se njegov `z-[100]` takmiči SAMO unutar nje —
+   * a navbar je vani, na `z-50`, i pobjeđuje. Posljedica: navbar stoji
+   * preko modala, krug sa slikom je odsječen, a značka sa cijenom (koja
+   * viri iznad kruga) uopšte se ne vidi.
+   *
+   * Portal vadi modal iz tog konteksta. Podizanje broja ne bi pomoglo —
+   * problem nije vrijednost nego kontekst.
+   */
+  const [montiran, setMontiran] = useState(false)
+  useEffect(() => setMontiran(true), [])
+
+  if (!stavka || !montiran) return null
 
   const { jelo } = stavka
   const naziv = t(jelo.naziv, lang)
   const opisSlike = t(jelo.slikaAlt, lang) || naziv
   const sastojci = tList(jelo.sastojci, lang)
 
-  return (
+  return createPortal(
     <AnimatePresence>
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 lg:p-12 perspective-[2000px]">
         <motion.div
@@ -311,6 +328,7 @@ export function ProductModal({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }
