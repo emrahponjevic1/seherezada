@@ -5,6 +5,7 @@ import { ArrowRight, ChevronDown } from "lucide-react"
 import { formatRadnoVrijeme, ui } from "@/lib/i18n"
 import type { Dan, Lang, Lokal } from "@/lib/domain"
 import { href } from "@/lib/route"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Sekcija 8 — Pogosta vprašanja. NOVA.
@@ -85,8 +86,8 @@ export function FaqIzvod({
   const uPogonu = lokali.filter((l) => l.stanje === "radi")
 
   return (
-    <section className="w-full py-20 md:py-24">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+    <section className={`w-full ${SEKCIJA}`}>
+      <div className={KONTEJNER}>
         <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-10 text-center md:text-start">
           {ui("nav.faq", lang)}
         </h2>

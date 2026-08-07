@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { ui } from "@/lib/i18n"
 import type { Lang } from "@/lib/domain"
 import { href } from "@/lib/route"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Sekcija 6 — Halal. NOVA.
@@ -23,8 +24,8 @@ export function Halal({
   const halalStranica = href({ kind: "shared", lang, page: "halal" }, glavniSlug)
 
   return (
-    <section className="w-full py-20 md:py-24 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+    <section className={`w-full ${SEKCIJA} overflow-hidden`}>
+      <div className={KONTEJNER}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="relative w-full h-[320px] sm:h-[420px] rounded-[3rem] overflow-hidden shadow-2xl border border-white/5 dark:border-white/10 group order-last lg:order-first">
             <img

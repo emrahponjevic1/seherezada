@@ -5,6 +5,7 @@ import { useEffect } from "react"
 
 import { ui } from "@/lib/i18n"
 import { DEFAULT_LANG } from "@/lib/domain"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Neuhvaćena greška unutar okvira.
@@ -28,7 +29,7 @@ export default function Greska({
   }, [error])
 
   return (
-    <section className="max-w-[1440px] mx-auto px-4 md:px-8 py-20 min-h-[60vh] flex flex-col items-center justify-center text-center">
+    <section className={`${KONTEJNER} ${SEKCIJA} min-h-[60vh] flex flex-col items-center justify-center text-center`}>
       <h1 className="text-4xl md:text-5xl font-black font-poppins tracking-tight">
         {ui("napaka.naslov", lang)}
       </h1>

@@ -8,6 +8,7 @@ import { href } from "@/lib/route"
 import { PraznMeni } from "@/components/stanja/PraznoStanje"
 
 import { MeniInteraktivni } from "./sekcije/MeniInteraktivni"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Meni — JEDNA komponenta, dva prikaza.
@@ -46,9 +47,9 @@ export function Menu({
     return (
       <section
         id="menu"
-        className="py-16 md:py-24 px-4 md:px-8 lg:px-12 w-full relative"
+        className={`${SEKCIJA} w-full relative`}
       >
-        <div className="max-w-[1440px] mx-auto w-full relative z-10">
+        <div className={`${KONTEJNER} w-full relative z-10`}>
           {puna && (
             <h1 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-8">
               {s2("meni.naslovLokala", lang, { ulica: lokal.ulica })}
@@ -81,12 +82,12 @@ export function Menu({
   return (
     <section
       id="menu"
-      className="py-16 md:py-24 px-4 md:px-8 lg:px-12 w-full relative"
+      className={`${SEKCIJA} w-full relative`}
     >
       <div className="absolute top-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-shere-red/5 blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-[20%] right-[10%] w-[300px] h-[300px] rounded-full bg-orange-500/5 blur-[100px] pointer-events-none"></div>
 
-      <div className="max-w-[1440px] mx-auto w-full flex flex-col gap-8 md:gap-12 relative z-10">
+      <div className={`${KONTEJNER} w-full flex flex-col gap-8 md:gap-12 relative z-10`}>
         <div>
           {puna ? (
             <>

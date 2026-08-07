@@ -7,6 +7,7 @@ import { href } from "@/lib/route"
 
 import { DanasnjeVrijeme } from "./StanjeOtvorenosti"
 import { GeoNajblizi, OznakaUdaljenosti } from "./GeoNajblizi"
+import { KONTEJNER } from "@/lib/stil"
 
 /**
  * Sekcija 2 — kartice lokala.
@@ -36,7 +37,7 @@ export function KarticeLokala({
   const vidljivi = lokali.filter((l) => l.stanje !== "zatvoren")
 
   return (
-    <section className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 mt-16 md:mt-24">
+    <section className={`relative z-10 w-full ${KONTEJNER} mt-16 md:mt-24`}>
       <h2 className="sr-only">
         {ui("naslov.nasiLokali", lang)}
       </h2>

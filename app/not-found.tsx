@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ui } from "@/lib/i18n"
 import { DEFAULT_LANG } from "@/lib/domain"
 import { href } from "@/lib/route"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * 404 u dizajnu sajta, ne Next.js zadana.
@@ -29,7 +30,7 @@ export default function NijeNadjeno() {
   )
 
   return (
-    <section className="max-w-[1440px] mx-auto px-4 md:px-8 py-20 min-h-[60vh] flex flex-col items-center justify-center text-center">
+    <section className={`${KONTEJNER} ${SEKCIJA} min-h-[60vh] flex flex-col items-center justify-center text-center`}>
       <p className="text-8xl md:text-9xl font-black font-poppins tracking-tight text-shere-red/20 leading-none">
         404
       </p>

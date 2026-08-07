@@ -2,6 +2,7 @@ import { ui } from "@/lib/i18n"
 import type { Lang, Lokal, MenuStavka } from "@/lib/domain"
 
 import { PopularPicksMreza } from "./sekcije/PopularPicksMreza"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Sekcija 3 — Priljubljene izbire.
@@ -21,8 +22,8 @@ export function PopularPicks({
   if (stavke.length === 0) return null
 
   return (
-    <section id="popular" className="py-20 w-full overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+    <section id="popular" className={`${SEKCIJA} w-full overflow-hidden`}>
+      <div className={KONTEJNER}>
         <div className="mb-10 text-center md:text-start">
           <h2 className="text-4xl md:text-5xl font-black font-poppins mb-3 tracking-tight">
             {ui("recenzije.priljubljeneIzbire", lang)}

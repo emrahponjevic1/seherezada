@@ -7,6 +7,7 @@ import type { Lang } from "@/lib/domain"
 import { href } from "@/lib/route"
 
 import { AboutUsAnimacija } from "./sekcije/AboutUsAnimacija"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Sekcija 4 — Naša zgodba.
@@ -33,7 +34,7 @@ export function AboutUs({
   return (
     <AboutUsAnimacija
       id="about"
-      className="relative w-full py-24 md:py-32 overflow-hidden bg-background border-y border-shere-red/25 mt-12 md:mt-24"
+      className={`relative w-full ${SEKCIJA} overflow-hidden bg-background border-y border-shere-red/25 mt-12 md:mt-24`}
     >
       <div className="absolute top-1/2 -translate-y-1/2 left-0 w-[200vw] z-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none overflow-hidden flex items-center">
         <div className="bg-text text-[20vw] font-black whitespace-nowrap text-foreground uppercase leading-none font-poppins">
@@ -41,7 +42,7 @@ export function AboutUs({
         </div>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
+      <div className={`${KONTEJNER} relative z-10`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div className="relative w-full h-[450px] sm:h-[550px] lg:h-[700px] rounded-[3rem] overflow-hidden shadow-2xl border border-white/5 dark:border-white/10 group">
             <div className="parallax-img absolute w-full h-[130%] -top-[15%] left-0">

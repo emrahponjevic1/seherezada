@@ -6,6 +6,7 @@ import type { Lang, Lokal } from "@/lib/domain"
 import { href } from "@/lib/route"
 
 import { ReviewsKarusel } from "./sekcije/ReviewsKarusel"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Sekcija 7 — recenzije.
@@ -30,11 +31,11 @@ export function Reviews({
   return (
     <section
       id="reviews"
-      className="py-24 bg-shere-red text-white overflow-hidden relative"
+      className={`${SEKCIJA} bg-shere-red text-white overflow-hidden relative`}
     >
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent" />
 
-      <div className="container mx-auto px-4 text-center relative z-10">
+      <div className={`${KONTEJNER} text-center relative z-10`}>
         <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-8">
           {ui("recenzije.naslov", lang)}
         </h2>

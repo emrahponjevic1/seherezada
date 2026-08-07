@@ -3,6 +3,7 @@ import { s } from "@/lib/sadrzaj"
 import { ChevronDown } from "lucide-react"
 
 import type { Lang } from "@/lib/domain"
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 
 /**
  * Zajednički dijelovi podstranica: mrvice, okvir, naslovi i accordion.
@@ -57,7 +58,7 @@ export function OkvirStranice({
   children: React.ReactNode
 }) {
   return (
-    <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-16 md:py-24">
+    <div className={`${KONTEJNER} ${SEKCIJA}`}>
       <Mrvice stavke={mrvice} />
 
       <h1 className="text-4xl md:text-5xl font-black font-poppins tracking-tight">

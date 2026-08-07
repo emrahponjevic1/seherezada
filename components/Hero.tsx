@@ -9,6 +9,7 @@ import { href } from "@/lib/route"
 import { Pojava } from "./sekcije/Pojava"
 import { HeroTanjir } from "./sekcije/HeroTanjir"
 import { ZnackaOtvoreno } from "./sekcije/StanjeOtvorenosti"
+import { KONTEJNER } from "@/lib/stil"
 
 /**
  * Sekcija 1 — hero.
@@ -64,7 +65,7 @@ export function Hero({
         <div className="absolute inset-0 bg-shere-charcoal/20 mix-blend-multiply hidden md:block"></div>
       </div>
 
-      <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className={`relative z-10 ${KONTEJNER} w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center`}>
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start space-y-6 md:space-y-8">
           <Pojava delay={0.2} y={-20}>
             <ZnackaOtvoreno

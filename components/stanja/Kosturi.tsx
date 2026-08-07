@@ -1,3 +1,4 @@
+import { KONTEJNER, SEKCIJA } from "@/lib/stil"
 /**
  * Kosturi koji stoje umjesto sadržaja dok se učitava.
  *
@@ -22,7 +23,7 @@ export function KosturKartice() {
 
 export function KosturSekcije({ kartica = 4 }: { kartica?: number }) {
   return (
-    <section className="max-w-[1440px] mx-auto px-4 md:px-8 py-20">
+    <section className={`${KONTEJNER} ${SEKCIJA}`}>
       <div className="h-10 w-64 rounded-xl bg-muted/40 animate-pulse mb-4" />
       <div className="h-5 w-96 max-w-full rounded-lg bg-muted/40 animate-pulse mb-10" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
