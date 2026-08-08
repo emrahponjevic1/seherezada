@@ -117,7 +117,7 @@ export function PrekidacLokala({
                       : "bg-muted/60 text-foreground"
                 }`}
               >
-                {l.ulica.toUpperCase()}
+                {l.naziv.toUpperCase()}
               </button>
             )
           })}
@@ -134,9 +134,15 @@ export function PrekidacLokala({
         className="flex px-3 py-2.5 rounded-xl bg-muted/40 hover:bg-muted/80 border border-white/5 transition-all items-center gap-2 text-xs font-black tracking-wider text-foreground/80"
         title={ui("nav.lokal", lang)}
       >
-        <MapPin size={16} />
-        <span className="hidden xl:inline">
-          {(izabrani?.ulica ?? "").toUpperCase()}
+        <MapPin size={16} className="shrink-0" />
+        {/*
+          Naziv lokala, ne ulica. `truncate` sa gornjom granicom širine
+          je tu jer naziv nije ograničen — „Šeherezada Bežigrad" je već
+          dvostruko duži od „Šeherezada" i bez toga bi razvukao traku.
+          Puni naziv ostaje u spisku ispod i u `title`.
+        */}
+        <span className="hidden xl:inline truncate max-w-[11rem]">
+          {(izabrani?.naziv ?? "").toUpperCase()}
         </span>
       </button>
 
