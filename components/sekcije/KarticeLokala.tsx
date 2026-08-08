@@ -37,7 +37,20 @@ export function KarticeLokala({
   const vidljivi = lokali.filter((l) => l.stanje !== "zatvoren")
 
   return (
-    <section className={`relative z-10 w-full ${KONTEJNER} mt-16 md:mt-24`}>
+    /*
+      Negativna margina na desktopu nije ukras nego ispravka.
+
+      Hero je `min-h-screen` sa centriranim sadržajem: kad je prozor viši
+      od sadržaja, razlika ostaje kao prazan pojas ispod dugmadi. Na to se
+      dodavala još i `mt-24` ovdje, pa je između heroja i kartica zjapilo
+      blizu dvjesta piksela.
+
+      Zato se kartice na `lg` uvlače u taj pojas umjesto da ga produžavaju.
+      Ispod `lg` hero nema toliki višak, pa tamo ostaje obična margina.
+    */
+    <section
+      className={`relative z-10 w-full ${KONTEJNER} mt-10 lg:-mt-24`}
+    >
       <h2 className="sr-only">
         {ui("naslov.nasiLokali", lang)}
       </h2>
