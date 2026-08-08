@@ -20,8 +20,32 @@ commit po koraku.
 | Stack | Next 16 · React 19 · Tailwind 3 · **čisti PostgreSQL** (`pg`), ne Supabase |
 | Prijava | vlastita (`lib/auth.ts`, `lib/sesija.ts`) |
 | Slike | vlastita obrada (`sharp`), `podaci/slike/` + `/api/slike` |
-| Gradnja | 145 statičkih stranica, bez grešaka |
+| Gradnja | **166** statičkih stranica, bez grešaka |
+| Jezici | 7, katalozi potpuni (169 + 254 ključa), nula curenja |
 | Lokali | 2 rade + 1 „uskoro"; broj **raste** — ništa se ne smije ukucati |
+| GitHub | usklađen sa `main` <br>(do koraka 25 je cijela izrada postojala **samo lokalno**) |
+
+### Šta je urađeno izvan numerisanih koraka
+
+Poslije koraka 25 je išao niz ispravki po tvom oku. Zapisane su da se ne
+ponove i da se zna zašto stvari stoje kako stoje:
+
+| Šta | Uzrok, ukratko |
+|---|---|
+| **Zastupne slike po kategoriji** | 23 jela dijelila su četiri Unsplash adrese, a jedna od njih — na 12 jela — vraćala je **404**. Sada osam lokalnih, WebP, tri veličine |
+| **Slika kebaba** | Bila je narezana pečenica. Naslijeđeni ID je prošao jer je vraćao 200 — **status 200 ne znači da je slika tačna** |
+| **Jedna mjera kontejnera** (`lib/stil.ts`) | Sekcije su nosile tri različita `px`; lijeva ivica je skakala pri skrolanju. Nije nastalo migracijom — bilo je i u Vite verziji |
+| **Modal ispod navbara** | Nije bio broj `z-index` nego **kontekst slaganja**: modal je sjedio u sekciji sa `relative z-10`. Riješeno portalom u `document.body` |
+| **Odsijecanje slike na hover** | Tanjir viri 48 px iznad kartice, a `overflow-x: auto` po CSS-u povlači i `overflow-y: auto`. Riješeno sa `pt-10 -mt-10` |
+| **Karuseli** | Strelice u zaglavlju; meni ima **jednu** traku, ne jednu po kategoriji |
+| **Podnožje** | Bilo centrirano u cjelini; lokali uzak visok stub pored tri niska. Sada 12 kolona, poravnato uz početak reda od `md` |
+| **`x-default`** | Pokazivao na slovenski; sada na engleski — ta oznaka služi posjetiocu čijim jezikom sajt ne govori |
+| **`scripts/curenje.mjs`** | Imao **ukucan port 3000**, pa je provjeravao dev server umjesto gradnje. Javljao je curenje kojeg nema — i mogao prećutati ono koje ima |
+
+> **Pravilo koje je iz ovoga izašlo:** provjera koja dijeli pretpostavku sa
+> onim što provjerava ne provjerava ništa. Skener na pogrešnom portu, regex
+> koji traži isti oblik koji je i upisao, `200` kao dokaz da je slika tačna —
+> sve tri su izgledale kao zelena provjera.
 
 ### Odstupanja od plana koja su se pokazala ispravnim
 
@@ -43,8 +67,10 @@ nas. Ono što se izgubilo, a mora se nadoknaditi u koraku 27:
 | Recenzije | Google **samo ako je besplatno**; inače ručni unos. Rješava korak 26 — radi u oba slučaja |
 | Navigacija | Naslovna · Meni · Galerija · O nama ▾ · Blog ▾ · Kontakt |
 | SEO stranice | Idu **pod „Blog"**, ali adrese ostaju u korijenu. Dodaje se `/doner-ljubljana` — `burger-ljubljana` **ostaje** |
-| Naslovna | 7 sekcija + lokali/podnožje; „Priljubljene izbire" i „Meni" postaju **vodoravni karuseli** |
-| Kartice lokala | Sele sa pozicije 2 dolje, uz podnožje |
+| Naslovna | Hero · **Kartice lokala** · Priljubljene · Zgodba · Meni · Halal · Recenzije · FAQ |
+| Karuseli | „Priljubljene izbire" i „Meni" su vodoravne trake sa strelicama u zaglavlju. Meni ima **jednu** traku: na „Vse" sve, inače samo odabrana kategorija |
+| Kartice lokala | Ostaju na **poziciji 2**. Probano na dnu, pa vraćeno |
+| Prekidač lokala | Prikazuje **naziv** lokala, ne ulicu |
 | Jezici | Ostaje `{kod:'bs', prefiks:'ba'}` — **već je tačno u kodu**, ne dira se |
 
 ### Dvije nove stranice
