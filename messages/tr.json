@@ -161,5 +161,11 @@
   "kontakt.zemljevid": "Haritayı göster",
   "meta.donerOpis": "Dikey şişten gerçek Türk döneri, helal et, siparişe göre taze kesilir. Ljubljana merkezinde, hafta sonları sabah beşe kadar. Menü ve fiyatlara bakın.",
   "meta.kontaktOpis": "Ljubljana'daki her iki Šeherezada şubesinin adresi, telefonu ve çalışma saatleri. Yürüyerek, otobüsle veya arabayla ulaşım, park ve sipariş.",
-  "meta.blogOpis": "Ljubljana'da helal yemek hakkında her şey tek yerde — kebap, döner, falafel, pizza, gece yemeği ve teslimat. Hangi yemek nedir, nereden bulunur."
+  "meta.blogOpis": "Ljubljana'da helal yemek hakkında her şey tek yerde — kebap, döner, falafel, pizza, gece yemeği ve teslimat. Hangi yemek nedir, nereden bulunur.",
+  "akcija.nazaj": "Önceki",
+  "akcija.naprej": "Sonraki",
+  "halal.znacka": "%100 helal",
+  "halal.tocka1": "Sertifikalı et",
+  "halal.tocka2": "Domuz eti yok",
+  "halal.tocka3": "Alkol yok"
 }

@@ -161,5 +161,11 @@
   "kontakt.zemljevid": "Prikaži mapu",
   "meta.donerOpis": "Pravi turski döner s vertikalnog ražnja, halal meso, svježe rezano po narudžbi. Centar Ljubljane, vikendom do pet ujutro. Pogledajte ponudu i cijene.",
   "meta.kontaktOpis": "Adresa, telefon i radno vrijeme oba lokala Šeherezade u Ljubljani. Kako do nas pješke, autobusom ili autom, gdje parkirati i kako naručiti.",
-  "meta.blogOpis": "Sve o halal hrani u Ljubljani na jednom mjestu — kebab, döner, falafel, pizza, noćna hrana i dostava. Šta je koje jelo i gdje ga možete dobiti."
+  "meta.blogOpis": "Sve o halal hrani u Ljubljani na jednom mjestu — kebab, döner, falafel, pizza, noćna hrana i dostava. Šta je koje jelo i gdje ga možete dobiti.",
+  "akcija.nazaj": "Nazad",
+  "akcija.naprej": "Naprijed",
+  "halal.znacka": "100 % halal",
+  "halal.tocka1": "Certificirano meso",
+  "halal.tocka2": "Bez svinjetine",
+  "halal.tocka3": "Bez alkohola"
 }

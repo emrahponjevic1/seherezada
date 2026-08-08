@@ -41,10 +41,15 @@ export function MeniInteraktivni({
   lokal,
   lang,
   varijanta = "puna",
+  naslov,
+  podnaslov,
 }: {
   sekcije: MenuSekcija[]
   lokal: Lokal
   lang: Lang
+  /** Naslov sekcije u varijanti `izvod` — stoji uz strelice trake. */
+  naslov?: string
+  podnaslov?: string
   /**
    * `izvod` je sekcija naslovne — jela se prelistavaju vodoravno.
    * `puna` je stranica `/meni`, gdje se meni pregleda, a ne prelistava,
@@ -118,9 +123,8 @@ export function MeniInteraktivni({
   // Prve četiri kartice na stranici se učitavaju odmah, ostale tek kad zatrebaju.
   let redniBroj = 0
 
-  return (
-    <>
-      <div className="w-full">
+  const tabovBlok = (
+    <div className="w-full">
         <div className="flex justify-end mb-2">
           <div className="text-sm font-black text-shere-red bg-shere-red/10 px-5 py-2.5 rounded-2xl border border-shere-red/20 w-fit flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-shere-red animate-pulse"></span>
@@ -164,47 +168,86 @@ export function MeniInteraktivni({
             ))}
           </div>
         </div>
-      </div>
+    </div>
+  )
 
-      <div className="flex-1 space-y-12">
-        {sekcije.map((sekcija) => {
-          const skriveno = aktivna !== SVE && aktivna !== sekcija.kategorija.slug
+  return (
+    <>
+      {varijanta === "puna" && tabovBlok}
 
-          return (
-            <section
-              key={sekcija.kategorija.id}
-              data-kat={sekcija.kategorija.slug}
-              // `hidden` je display:none — sadržaj OSTAJE u dokumentu.
-              className={skriveno ? "hidden" : ""}
-            >
-              <h2 className="text-3xl md:text-4xl font-black font-poppins tracking-tight mb-2">
-                {t(sekcija.kategorija.naziv, lang)}
-              </h2>
-              {sekcija.kategorija.opis && (
-                <p className="text-muted-foreground mb-6">
-                  {t(sekcija.kategorija.opis, lang)}
-                </p>
-              )}
+      {varijanta === "izvod" ? (
+        /*
+         * JEDNA traka za cijeli meni, ne jedna po kategoriji.
+         *
+         * Na „Vse" se prelistavaju sva jela odjednom; kad se odabere
+         * kategorija, ostale ćelije dobiju `hidden` i traka pokazuje samo
+         * nju. `hidden` je `display:none` — jelo nestaje iz rasporeda, ali
+         * ostaje u izvornom HTML-u, pa ga Google i Ctrl+F i dalje nalaze.
+         *
+         * Naslovi kategorija ovdje ne stoje: uz jednu traku nemaju gdje.
+         * Ostaju na `/meni`, gdje je prikaz mreža.
+         */
+        <Traka
+          lang={lang}
+          zaglavlje={
+            naslov ? (
+              <>
+                <h2 className="text-4xl md:text-5xl font-black font-poppins mb-3 tracking-tight">
+                  {naslov}
+                </h2>
+                {podnaslov && (
+                  <p className="text-muted-foreground text-lg">{podnaslov}</p>
+                )}
+              </>
+            ) : undefined
+          }
+          izmedju={tabovBlok}
+        >
+          {sekcije.flatMap((sekcija) =>
+            sekcija.stavke.map((stavka) => {
+              const odmah = redniBroj < 4
+              redniBroj++
+              return (
+                <Celija
+                  key={stavka.jelo.id}
+                  skriveno={
+                    aktivna !== SVE && aktivna !== sekcija.kategorija.slug
+                  }
+                >
+                  <ProductCard
+                    stavka={stavka}
+                    lang={lang}
+                    onClick={setOdabrano}
+                    context="menu"
+                    odmah={odmah}
+                  />
+                </Celija>
+              )
+            }),
+          )}
+        </Traka>
+      ) : (
+        <div className="flex-1 space-y-12">
+          {sekcije.map((sekcija) => {
+            const skriveno =
+              aktivna !== SVE && aktivna !== sekcija.kategorija.slug
 
-              {varijanta === "izvod" ? (
-                <Traka>
-                  {sekcija.stavke.map((stavka) => {
-                    const odmah = redniBroj < 4
-                    redniBroj++
-                    return (
-                      <Celija key={stavka.jelo.id}>
-                        <ProductCard
-                          stavka={stavka}
-                          lang={lang}
-                          onClick={setOdabrano}
-                          context="menu"
-                          odmah={odmah}
-                        />
-                      </Celija>
-                    )
-                  })}
-                </Traka>
-              ) : (
+            return (
+              <section
+                key={sekcija.kategorija.id}
+                data-kat={sekcija.kategorija.slug}
+                // `hidden` je display:none — sadržaj OSTAJE u dokumentu.
+                className={skriveno ? "hidden" : ""}
+              >
+                <h2 className="text-3xl md:text-4xl font-black font-poppins tracking-tight mb-2">
+                  {t(sekcija.kategorija.naziv, lang)}
+                </h2>
+                {sekcija.kategorija.opis && (
+                  <p className="text-muted-foreground mb-6">
+                    {t(sekcija.kategorija.opis, lang)}
+                  </p>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
                   {sekcija.stavke.map((stavka) => {
                     const odmah = redniBroj < 4
@@ -221,11 +264,11 @@ export function MeniInteraktivni({
                     )
                   })}
                 </div>
-              )}
-            </section>
-          )
-        })}
-      </div>
+              </section>
+            )
+          })}
+        </div>
+      )}
 
       <ProductModal
         stavka={odabrano}

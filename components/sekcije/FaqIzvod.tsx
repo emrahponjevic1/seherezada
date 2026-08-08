@@ -88,11 +88,13 @@ export function FaqIzvod({
   return (
     <section className={`w-full ${SEKCIJA}`}>
       <div className={KONTEJNER}>
-        <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-10 text-center md:text-start">
+        <h2 className="text-4xl md:text-5xl font-black font-poppins tracking-tight mb-10 text-center">
           {ui("nav.faq", lang)}
         </h2>
 
-        <div className="space-y-4 max-w-3xl">
+        {/* Centrirano: pitanja su uzak stub nasred sekcije, ne uz lijevu
+            ivicu širine 1440 px, gdje bi na desktopu visjela u praznini. */}
+        <div className="space-y-4 max-w-3xl mx-auto">
           <Pitanje
             pitanje={s("faq.halal.pitanje", lang)}
           >
@@ -127,7 +129,7 @@ export function FaqIzvod({
           </Pitanje>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10 flex justify-center">
           <Link
             href={svaVprasanja}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm font-bold hover:scale-105 active:scale-95 transition-transform"

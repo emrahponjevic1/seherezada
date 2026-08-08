@@ -1,4 +1,3 @@
-import { ui } from "@/lib/i18n"
 import type { Lang, Lokal, MenuStavka } from "@/lib/domain"
 
 import { PopularPicksMreza } from "./sekcije/PopularPicksMreza"
@@ -24,15 +23,8 @@ export function PopularPicks({
   return (
     <section id="popular" className={`${SEKCIJA} w-full overflow-hidden`}>
       <div className={KONTEJNER}>
-        <div className="mb-10 text-center md:text-start">
-          <h2 className="text-4xl md:text-5xl font-black font-poppins mb-3 tracking-tight">
-            {ui("recenzije.priljubljeneIzbire", lang)}
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            {ui("recenzije.najboljeOcenjene", lang)}
-          </p>
-        </div>
-
+        {/* Naslov je unutar trake: strelice moraju stajati u istom redu
+            s njim, a njima treba pristup traci — dakle klijentsko stanje. */}
         <PopularPicksMreza stavke={stavke} lokal={lokal} lang={lang} />
       </div>
     </section>

@@ -88,29 +88,27 @@ export function Menu({
       <div className="absolute bottom-[20%] right-[10%] w-[300px] h-[300px] rounded-full bg-orange-500/5 blur-[100px] pointer-events-none"></div>
 
       <div className={`${KONTEJNER} w-full flex flex-col gap-8 md:gap-12 relative z-10`}>
-        <div>
-          {puna ? (
-            <>
-              <h1 className="text-4xl md:text-5xl font-black font-poppins mb-4 tracking-tight">
-                {s2("meni.naslovLokala", lang, { ulica: lokal.ulica })}
-              </h1>
-              <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed">
-                {s2("meni.uvodLokala", lang, { adresa: lokal.adresa })}
-              </p>
-            </>
-          ) : (
-            <>
-              <h2 className="text-4xl md:text-5xl font-black font-poppins mb-3 tracking-tight">
-                {ui("meni.nasMeni", lang)}
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                {ui("meni.izberiNajljubso", lang)}
-              </p>
-            </>
-          )}
-        </div>
+        {/* U varijanti `izvod` naslov ide UNUTAR trake, jer strelice
+            moraju stajati u istom redu s njim. */}
+        {puna && (
+          <div>
+            <h1 className="text-4xl md:text-5xl font-black font-poppins mb-4 tracking-tight">
+              {s2("meni.naslovLokala", lang, { ulica: lokal.ulica })}
+            </h1>
+            <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed">
+              {s2("meni.uvodLokala", lang, { adresa: lokal.adresa })}
+            </p>
+          </div>
+        )}
 
-        <MeniInteraktivni sekcije={sekcije} lokal={lokal} lang={lang} varijanta={varijanta} />
+        <MeniInteraktivni
+          sekcije={sekcije}
+          lokal={lokal}
+          lang={lang}
+          varijanta={varijanta}
+          naslov={puna ? undefined : ui("meni.nasMeni", lang)}
+          podnaslov={puna ? undefined : ui("meni.izberiNajljubso", lang)}
+        />
 
         {puna ? (
           <div className="flex flex-wrap gap-4 pt-4 border-t border-border">

@@ -58,6 +58,20 @@ function parovi(kod) {
   return [...new Set(izlaz)].filter((sl) => sl.length >= 12)
 }
 
+/**
+ * Koji server se provjerava.
+ *
+ * Bio je ukucan `localhost:3000`, a to je port na kojem obično stoji
+ * `next dev`. Skener je tako provjeravao razvojni server umjesto gradnje
+ * koja se upravo pravi — i znao je javiti curenje koje u gradnji ne
+ * postoji, ili prećutati ono koje postoji. Rezultat je izgledao
+ * mjerodavno, a nije bio.
+ *
+ *   PORT=3100 npm run curenje
+ */
+const PORT = process.env.PORT ?? "3000"
+const OSNOVA = `http://localhost:${PORT}`
+
 let ukupnoCurenja = 0
 
 for (const jezik of JEZICI) {
@@ -65,7 +79,14 @@ for (const jezik of JEZICI) {
   const nadjeno = new Map()
 
   for (const put of PUTEVI) {
-    const odgovor = await fetch(`http://localhost:3000/${jezik.prefiks}${put}`)
+    const odgovor = await fetch(`${OSNOVA}/${jezik.prefiks}${put}`)
+    if (!odgovor.ok) {
+      console.error(
+        `  ✗ ${OSNOVA}/${jezik.prefiks}${put} → HTTP ${odgovor.status}`,
+      )
+      process.exitCode = 1
+      continue
+    }
     let html = await odgovor.text()
 
     // Skripte nose serijalizovane propse — nisu vidljiv tekst.
